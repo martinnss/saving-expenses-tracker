@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #fafafa;
+  color: #333;
+}
+h1,h2,h3,h4 {
+  font-family: DM Serif Display;
+}
+h1 {
+  font-size: 2.2rem;
+}
+
+p, ul, li, form, input, textarea, button , span{
+  box-sizing: border-box;
+  font-family: DM Sans;
+}
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.btn {
+  display: inline-block;
+  padding: 15px 35px;
+  background-color: #5a8c72;
+  color: #fafafa;
+  text-decoration: none;
+  font-size: 1.12rem;
+  border-radius: 30px;
+  border: #fafafa;
+}
+.btn-sm {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #5a8c72;
+  color: #fafafa;
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 30px;
+  border: #fafafa;
+}
+.btn2-sm {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #fafafa;
+  color: #5a8c72;
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 30px;
+  border: 1px solid #5a8c72;
+}
+.none{
+  display: 'none';
+}
