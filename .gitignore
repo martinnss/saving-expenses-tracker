@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+*.jpg
+*.jpeg
+*.png
+¡.gif
+
 # testing
 /coverage
 

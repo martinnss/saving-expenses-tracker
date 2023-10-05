@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom"
 import '../Styles/login.css';
-import { auth } from '../config/firebase'; 
-import { createUserWithEmailAndPassword} from 'firebase/auth'
+import { auth , provider} from '../config/firebase'; 
+import { createUserWithEmailAndPassword , signInWithPopup} from 'firebase/auth'
+
+
+
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate()
 
   const signIn = async (e) => {
     e.preventDefault();
@@ -14,12 +20,24 @@ function Login() {
       // Sign in the user using Firebase authentication
       await createUserWithEmailAndPassword(auth,email, password);
       // If successful, you can redirect the user or perform other actions here
-      console.log('User signed in successfully');
+      navigate("/Tracker")
     } catch (error) {
       // Handle authentication errors here (e.g., display an error message)
       console.error('Error signed in:', error);
     }
   };
+
+  const signInWithGoogle = async () => {
+    const results = await signInWithPopup(auth, provider)
+    const authInfo = {
+      userID: results.user.uid,
+      name: results.user.displayName,
+      profilePhoto: results.user.photoURL,
+      isAuth: true,
+    }
+    localStorage.setItem("auth", JSON.stringify( authInfo))
+    navigate("/Tracker")
+  }
 
   return (
     <div className="login-container">
@@ -46,6 +64,7 @@ function Login() {
           />
         </div>
         <button type="submit" onClick={signIn}>Sign In</button>
+        <button className='login-with-google-btn' onClick={signInWithGoogle}> Sign in With Google </button>
       </form>
     </div>
   );
