@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom"
 import '../Styles/login.css';
 import { auth , provider} from '../config/firebase'; 
-import { createUserWithEmailAndPassword , signInWithPopup} from 'firebase/auth'
-
+import { createUserWithEmailAndPassword , signInWithPopup, updateProfile } from 'firebase/auth'
+import { useAddUser } from '../Hooks/useAddUser';
 
 
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const { addUser } = useAddUser();
 
   const navigate = useNavigate()
 
@@ -18,8 +20,15 @@ function Login() {
     
     try {
       // Sign in the user using Firebase authentication
-      await createUserWithEmailAndPassword(auth,email, password);
-      // If successful, you can redirect the user or perform other actions here
+      const userCredential = await createUserWithEmailAndPassword(auth,email, password);
+      
+      // Actualiza el nombre del usuario
+      await updateProfile(userCredential.user, {
+        displayName: displayName,
+      });
+      //add user
+      await addUser()
+
       navigate("/Tracker")
     } catch (error) {
       // Handle authentication errors here (e.g., display an error message)
@@ -60,6 +69,16 @@ function Login() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
             required
           />
         </div>
