@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom"
 import '../Styles/login.css';
 import { auth , provider} from '../config/firebase'; 
 import { createUserWithEmailAndPassword , signInWithPopup, updateProfile } from 'firebase/auth'
+
 import { useAddUser } from '../Hooks/useAddUser';
 
 
@@ -11,30 +12,28 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
-  const { addUser } = useAddUser();
+  const { addUser, error } = useAddUser(); // Usa el hook/ Pass userCredentials as an argument
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const signIn = async (e) => {
     e.preventDefault();
-    
+
     try {
       // Sign in the user using Firebase authentication
-      const userCredential = await createUserWithEmailAndPassword(auth,email, password);
-      
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       // Actualiza el nombre del usuario
       await updateProfile(userCredential.user, {
         displayName: displayName,
       });
-      //add user
-      await addUser()
 
-      navigate("/Tracker")
+      addUser(userCredential.user.uid, email, displayName);
+      navigate('/Tracker');
     } catch (error) {
       // Handle authentication errors here (e.g., display an error message)
       console.error('Error signed in:', error);
     }
-  };
+  }
 
   const signInWithGoogle = async () => {
     const results = await signInWithPopup(auth, provider)
@@ -44,14 +43,16 @@ function Login() {
       profilePhoto: results.user.photoURL,
       isAuth: true,
     }
+    console.log(results)
     localStorage.setItem("auth", JSON.stringify( authInfo))
+    addUser(results.user.uid, results.user.email, results.user.displayName);
     navigate("/Tracker")
   }
 
   return (
     <div className="login-container">
       <h1>Login</h1>
-      <form >
+      <form id='signup-form' >
         <div className="form-group">
           <label>Email</label>
           <input

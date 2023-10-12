@@ -1,30 +1,28 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../config/firebase";
-import { useGetUserInfo } from "./useGetUserInfo";
+import { useState } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../config/firebase'; // Importa la instancia de Firebase
 
 export const useAddUser = () => {
-    const userCollectionRef = collection(db, 'users'); // Colección de usuarios en Firestore
-    const userInfo = useGetUserInfo();
+  const [error, setError] = useState(null);
 
-    const addUser = async () => {
-        try {
-            if (userInfo && userInfo.uid) {
-                // Verifica que userInfo y userInfo.uid sean válidos antes de usarlos.
-                await addDoc(userCollectionRef, {
-                    uid: userInfo.uid,
-                    name: userInfo.displayName,
-                    email: userInfo.email,
-                    createdAt: serverTimestamp()
-                });
-                console.log("Usuario agregado correctamente a Firestore.");
-            } else {
-                console.error("El usuario no está autenticado o no tiene un UID válido.");
-            }
-        } catch (error) {
-            console.error("Error al agregar usuario a Firestore:", error);
-            throw error; // Puedes manejar el error según tus necesidades.
-        }
-    };
+  const addUser = async (uid, email, name) => {
+    try {
+      const usersRef = collection(db, 'users');
+      const santiagoTimeZone = 'America/Santiago'; // Zona horaria de Santiago de Chile
+        const horaActualSantiago = new Date().toLocaleString('es-CL', { timeZone: santiagoTimeZone });
 
-    return { addUser };
+      // Agregar el usuario a la colección "users" con UID como identificador
+      await addDoc(usersRef, {
+        uid: uid,
+        email: email,
+        name: name,
+        createdAt:horaActualSantiago
+      });
+    } catch (error) {
+      console.error('Error al agregar usuario a Firebase:', error);
+      setError('Error al agregar usuario');
+    }
+  };
+
+  return { addUser, error };
 };
