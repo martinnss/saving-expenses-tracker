@@ -20,7 +20,7 @@ export const useGetUserInfo = () => {
         });
       } else {
         // El usuario no está autenticado, establece userInfo a null o toma alguna otra acción.
-        navigate('/login')
+        navigate('/signup')
       }
     });
 

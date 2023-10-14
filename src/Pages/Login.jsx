@@ -1,93 +1,68 @@
 import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom"
-import '../Styles/login.css';
+import {useNavigate} from "react-router-dom";
 import { auth , provider} from '../config/firebase'; 
-import { createUserWithEmailAndPassword , signInWithPopup, updateProfile } from 'firebase/auth'
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
-import { useAddUser } from '../Hooks/useAddUser';
+import '../Styles/login.css'
 
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
+    const login = async (e) => {
+        e.preventDefault()
 
-function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const { addUser, error } = useAddUser(); // Usa el hook/ Pass userCredentials as an argument
+        try{
+            await signInWithEmailAndPassword(auth, email, password)
 
-  const navigate = useNavigate();
-
-  const signIn = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Sign in the user using Firebase authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      // Actualiza el nombre del usuario
-      await updateProfile(userCredential.user, {
-        displayName: displayName,
-      });
-
-      addUser(userCredential.user.uid, email, displayName);
-      navigate('/Tracker');
-    } catch (error) {
-      // Handle authentication errors here (e.g., display an error message)
-      console.error('Error signed in:', error);
+            navigate('/Tracker');
+        } catch (error) {
+            console.log("login error:", error)
+        }
     }
-  }
 
-  const signInWithGoogle = async () => {
-    const results = await signInWithPopup(auth, provider)
-    const authInfo = {
-      userID: results.user.uid,
-      name: results.user.displayName,
-      profilePhoto: results.user.photoURL,
-      isAuth: true,
-    }
-    console.log(results)
-    localStorage.setItem("auth", JSON.stringify( authInfo))
-    addUser(results.user.uid, results.user.email, results.user.displayName);
-    navigate("/Tracker")
-  }
+    
+    const loginWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, provider)
 
-  return (
+            navigate("/Tracker")   
+        } catch (error){
+            console.log("google login error:")
+        }
+      }
+return (
     <div className="login-container">
-      <h1>Login</h1>
-      <form id='signup-form' >
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className="login-box">
+            <h2>Iniciar Sesión</h2>
+            <form>
+            <div className="form-group">
+                <label htmlFor="username">Correo Electronico</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="password">Contraseña</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            <button type="submit" onClick={login}>Ingresar</button>
+            <button type="button" onClick={loginWithGoogle}>Iniciar Sesión con Google</button>
+            </form>
         </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            placeholder="Enter your name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" onClick={signIn}>Sign In</button>
-        <button className='login-with-google-btn' onClick={signInWithGoogle}> Sign in With Google </button>
-      </form>
     </div>
-  );
-}
+);
+};
 
 export default Login;
