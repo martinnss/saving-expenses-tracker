@@ -103,6 +103,10 @@ const Tracker = () => {
                 </svg>
                 Expense History
               </p>
+              <p className='menu-item'>
+                Spending Forecasts
+                <p className='coming-soon'>Coming Soon</p>
+              </p>
             </nav>
           </div>
         </div>

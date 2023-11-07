@@ -10,7 +10,7 @@
   .sidebar {
     border-right: 1px solid #ccc;
     background: #f0f0f0;
-    padding: 1rem;
+    padding: 0.5rem;
     height: 100%;
     overflow: auto;
   }
@@ -32,7 +32,7 @@
   }
   
   .menu {
-    padding: 1rem;
+    padding: 0.7rem;
     margin-top: 2rem;
   }
   
@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     text-decoration: none;
     color: #333;
     transition: color 0.3s;
@@ -49,4 +49,13 @@
   .menu-item:hover {
     color: #007bff; /* Change the color to your preference */
   }
+  .coming-soon {
+    background-color: #dbdbdb; /* Background color for the rounded box */
+    border-radius: 20px; /* Adjust the radius as needed */
+    font-weight: bold;
+    padding: 2px 5px;
+    color: #565656; /* Text color for "Coming Soon" */
+    font-size: 0.6rem;
+}
+
   
