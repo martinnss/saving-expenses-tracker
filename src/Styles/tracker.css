@@ -5,57 +5,60 @@
     grid-template-rows: auto;
     height: 100vh;
     overflow: hidden;
+    z-index: 1;
   }
   
-  .sidebar {
-    border-right: 1px solid #ccc;
-    background: #f0f0f0;
-    padding: 0.5rem;
-    height: 100%;
-    overflow: auto;
+
+/* Add this to your existing styles or create a new stylesheet */
+.hamburger-icon {
+  display: none; /* Hide by default on larger screens */
+  cursor: pointer;
+}
+
+.mobile-header {
+  display: none;
+}
+
+/* Add styling for the icon, for example */
+.hamburger-icon svg {
+  fill: #fff;
+  width: 30px;
+  height: 30px;
+}
+
+/* Adjust the breakpoint based on your design needs */
+@media only screen and (max-width: 768px) {
+  .mobile-header {
+    display: block;
   }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+  .menu-sidebar {
+    display: none; /* Hide the sidebar on smaller screens */
+  }
+  .sidebar-mobile{
+    display: block;
   }
 
-  .logo > a {
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 1.25rem;
+  .container{
+    grid-template-columns: auto;
+    grid-template-rows: 3rem auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-  .logo > a:visited {
-    color: inherit
+  .hamburger-icon {
+    display: block; /* Display the hamburger icon on smaller screens */
   }
-  
-  .menu {
-    padding: 0.7rem;
-    margin-top: 2rem;
+
+  /* Add any additional styling for the mobile menu */
+  /* For example, you might want to position the icon at the top-right corner */
+  .hamburger-icon {
+    position: fixed;
+    top: 15px;
+    right: 30px;
   }
-  
-  .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s;
+  .hamburger-menu-icon{
+    height: 3rem;
   }
-  
-  .menu-item:hover {
-    color: #007bff; /* Change the color to your preference */
-  }
-  .coming-soon {
-    background-color: #dbdbdb; /* Background color for the rounded box */
-    border-radius: 20px; /* Adjust the radius as needed */
-    font-weight: bold;
-    padding: 2px 5px;
-    color: #565656; /* Text color for "Coming Soon" */
-    font-size: 0.6rem;
 }
+
 
   

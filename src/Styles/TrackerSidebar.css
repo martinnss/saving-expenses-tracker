@@ -1,0 +1,70 @@
+.sidebar-container{
+    height: 100%;
+}
+
+.sidebar {
+    border-right: 1px solid #ccc;
+    background: #f0f0f0;
+    padding: 0.5rem;
+    height: 100%;
+    overflow: auto;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .logo > a {
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.25rem;
+  }
+  .logo > a:visited {
+    color: inherit
+  }
+  
+  .menu {
+    padding: 0.7rem;
+    margin-top: 2rem;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+  }
+  
+  .menu-item:hover {
+    color: #007bff; /* Change the color to your preference */
+  }
+  .coming-soon {
+    background-color: #dbdbdb; /* Background color for the rounded box */
+    border-radius: 20px; /* Adjust the radius as needed */
+    font-weight: bold;
+    padding: 2px 5px;
+    color: #565656; /* Text color for "Coming Soon" */
+    font-size: 0.6rem;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .sidebar-container{
+        position: fixed;
+        right: 1px;
+        top: 4rem;
+        height: 25rem;
+        z-index: 0;
+        border: 1px solid #777777 ;
+    }
+    .sidebar{
+        height: 24rem;
+    }
+
+}
