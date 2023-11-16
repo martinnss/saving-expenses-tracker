@@ -1,7 +1,10 @@
 import React from 'react'
+import useAddTransactions from '../Hooks/useAddTransactions.jsx'
+
 import '../Styles/FileUpload.css'
 
 const FileUpload = () => {
+    const {jsonData, handleFileChange } = useAddTransactions()
   return (
     <div className="content">
         <div className="fileupload-header">
@@ -34,7 +37,12 @@ const FileUpload = () => {
                 type="file"
                 className="file-input"
                 accept=".xlsx"
+                onChange={handleFileChange}
                 />
+                {console.log(jsonData)}
+                {jsonData && (
+                    <pre>{JSON.stringify(jsonData, null, 2)}</pre>
+                )}
             </div>
             <div className="expenses-table">
                 <table className="expenses-table">
