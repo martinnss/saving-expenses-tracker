@@ -50,6 +50,7 @@ function Signup() {
       localStorage.setItem("auth", JSON.stringify( authInfo))
       addUser(results.user.uid, results.user.email, results.user.displayName);
       navigate("/Tracker")
+      
     } catch(error){
       console.error('Error google sign in:', error);
     }

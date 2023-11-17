@@ -39,10 +39,6 @@ const FileUpload = () => {
                 accept=".xlsx"
                 onChange={handleFileChange}
                 />
-                {console.log(jsonData)}
-                {jsonData && (
-                    <pre>{JSON.stringify(jsonData, null, 2)}</pre>
-                )}
             </div>
             <div className="expenses-table">
                 <table className="expenses-table">
