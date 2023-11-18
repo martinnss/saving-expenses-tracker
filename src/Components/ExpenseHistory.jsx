@@ -1,8 +1,74 @@
 import React from 'react'
+import useGetExpenses from '../Hooks/useGetExpenses.jsx'
+import BasicDatePicker from './BasicDatePicker.jsx'
+
+import '../Styles/ExpenseHistory.css'
 
 const ExpenseHistory = () => {
+
+  const expenses = useGetExpenses();
+  const latestExpenses = expenses.slice(0, 5);
+  console.log(latestExpenses)
+
   return (
-    <div>ExpenseHistory</div>
+    <div className='content'>
+      <div className="content-header">
+          <div className="content-header-content">
+              <span className="page-title">Dashboard</span>
+              <span className="back-button">
+              <div class="icon-container">
+                  <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="back-icon"
+                  >
+                      <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+              </div>
+                  <span className="back-text">Expense History</span>
+              </span>
+          </div>
+      </div>
+      <div className="main-content">
+      <span className='content-title'>Expense History</span>
+        <div>
+          <BasicDatePicker />
+        </div>
+        <div className="expenses-table">
+            <table className="expenses-table">
+                <caption className="table-caption">
+                    Recent Expenses
+                </caption>
+                <thead>
+                    <tr className="table-row">
+                    <th className="table-header">Date</th>
+                    <th className="table-header">Description</th>
+                    <th className="table-header">Amount</th>
+                    <th className="table-header">Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        latestExpenses.map((expense) => (
+                            <tr key={expense.transaction_id} className='table-row'>
+                                <td className='table-data'>{expense.date}</td>
+                                <td className='table-data'>{expense.details}</td>
+                                <td className='table-data'>{expense.amount}</td>
+                                <td className='table-data'>{expense.type}</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
   )
 }
 
