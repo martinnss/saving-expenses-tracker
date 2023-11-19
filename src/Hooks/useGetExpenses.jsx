@@ -3,7 +3,23 @@ import { db } from "../config/firebase";
 import {collection, getDocs, where, query} from "firebase/firestore"
 import { useGetUserInfo } from "./useGetUserInfo";
 
-const useGetExpenses = () => {
+const useGetExpenses = ({startDateFilter,endDateFilter}) => {
+
+    if (startDateFilter !== null) {
+
+    } else {
+      startDateFilter = new Date('2022-01-01');
+    }
+
+
+
+    if (endDateFilter !== null) {
+
+    } else {
+      endDateFilter =  new Date();
+    }
+
+
     const userInfo = useGetUserInfo()
 
     const [expenses, setExpenses] = useState([]);
@@ -20,7 +36,21 @@ const useGetExpenses = () => {
     
             const querySnapshot = await getDocs(q);
             const expensesData = querySnapshot.docs.map((doc) => doc.data());
-            setExpenses(expensesData);
+
+
+            const fixedExpensesData =expensesData.map(objeto => {
+
+              const timestamp=objeto.date;
+              const fechaEnMilisegundos = timestamp.seconds * 1000;
+              // Convierte la cadena de fecha a un objeto Date.
+              const fechaTransformada = new Date(fechaEnMilisegundos);
+            
+              //Formato deseado
+              return { ...objeto, date: fechaTransformada };
+            });
+
+
+            setExpenses(fixedExpensesData);
           } catch (error) {
             // Handle any errors here
             console.error("Error fetching expenses:", error);
@@ -30,7 +60,7 @@ const useGetExpenses = () => {
         if (userInfo) {
           getExpenses();
         }
-      }, [userInfo]);
+      }, [userInfo, expenses]);
     
     
     return expenses

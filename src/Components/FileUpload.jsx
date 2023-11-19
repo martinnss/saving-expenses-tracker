@@ -7,7 +7,10 @@ import '../Styles/FileUpload.css'
 const FileUpload = () => {
     const {jsonData, handleFileChange } = useAddTransactions()
     
-    const expenses = useGetExpenses();
+
+    const expenses = useGetExpenses({startDateFilter: null, endDateFilter: null}); //////////////////////////////////////////
+
+
     const latestExpenses = expenses.slice(0, 5);
 
     return (
@@ -62,7 +65,7 @@ const FileUpload = () => {
                             {
                                 latestExpenses.map((expense) => (
                                     <tr key={expense.transaction_id} className='table-row'>
-                                        <td className='table-data'>{expense.date.toLocaleString('es-ES')}</td>
+                                        <td className='table-data'>{expense.date.toISOString().split('T')[0]}</td>
                                         <td className='table-data'>{expense.details}</td>
                                         <td className='table-data'>{expense.amount}</td>
                                         <td className='table-data'>{expense.type}</td>

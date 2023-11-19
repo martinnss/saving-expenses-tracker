@@ -5,23 +5,27 @@ import BasicDatePicker from './BasicDatePicker.jsx'
 import '../Styles/ExpenseHistory.css'
 
 const ExpenseHistory = () => {
-
-  const expenses = useGetExpenses();
-  const latestExpenses = expenses.slice(0, 5);
-
+  
   const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
 
   const handleStartDateChange = (newValue) => {
     setStartDate(newValue)
+
     const startDate=newValue
 
   };
 
   const handleEndDateChange = (newValue) => {
-    const endDate=newValue
+    setEndDate(newValue)
 
+    const endDate=newValue
   };
+
+
+  const expenses = useGetExpenses({startDateFilter: startDate, endDateFilter: endDate});           //////////////////////////////////////////
+  const latestExpenses = expenses.slice(0, 5);
 
   return (
     <div className='content'>

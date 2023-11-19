@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import * as XLSX from 'xlsx'
 import { useGetUserInfo } from "./useGetUserInfo";
-import {addDoc, collection, serverTimestamp} from "firebase/firestore"
+import {addDoc, collection, serverTimestamp, Timestamp} from "firebase/firestore"
 import { db } from "../config/firebase";
 
 
@@ -21,13 +21,9 @@ const useAddTransactions = () => {
         
         const resultDate=new Date(dateInMilliseconds)
 
-        const year = resultDate.getFullYear();
-        const month = (resultDate.getMonth() + 1).toString().padStart(2, '0'); // Zero-padding for single-digit months
-        const day = resultDate.getDate().toString().padStart(2, '0'); // Zero-padding for single-digit days
+        const resultTimeStamp = Timestamp.fromDate(resultDate)
 
-        const resultString = year + '-' + month + '-' + day;
-
-        return resultString
+        return resultTimeStamp
     }
     const handleFileChange = (e) => {
 
@@ -52,16 +48,16 @@ const useAddTransactions = () => {
                         transaction_id: generateUniqueId(),
                         uid: userInfo.uid,
                         uploadedAt: serverTimestamp(),
-                        date: row[0] ? convertExcelSerialDateToJSDate(row[0]) : null,
-                        type: row[1] ? row[1] : null,
-                        details: row[2] ? row[2] : null,
-                        amount: row[3] ? row[3] : null,
+                        date: row[0] ? convertExcelSerialDateToJSDate(row[0]) : serverTimestamp(),
+                        type: row[1] ? row[1] : "TBD",
+                        details: row[2] ? row[2] : "TBD",
+                        amount: row[3] ? row[3] : 0,
                     };
                 });
 
                 // Print each element
                 jsonDataArray.forEach((element, index) => {
-                    console.log("subida a firebase comentada para hacer pruebas")/*
+                    console.log("subida a firebase comentada para hacer pruebas")
                     addDoc(transactionCollectionRef, {
                         transaction_id: element.transaction_id,
                         uid: element.uid,
@@ -70,7 +66,7 @@ const useAddTransactions = () => {
                         type: element.type,
                         details: element.details,
                         amount: element.amount,
-                    })*/
+                    })
                 });
 
                 // Set the JSON data state
@@ -81,7 +77,7 @@ const useAddTransactions = () => {
         }
     };
 
-    console.log(jsonData);
+
 
     return {
         jsonData,
