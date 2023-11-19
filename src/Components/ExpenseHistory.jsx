@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import BasicDatePicker from './BasicDatePicker.jsx'
 
@@ -8,7 +8,20 @@ const ExpenseHistory = () => {
 
   const expenses = useGetExpenses();
   const latestExpenses = expenses.slice(0, 5);
-  console.log(latestExpenses)
+
+  const [startDate, setStartDate] = useState(null);
+
+
+  const handleStartDateChange = (newValue) => {
+    setStartDate(newValue)
+    const startDate=newValue
+
+  };
+
+  const handleEndDateChange = (newValue) => {
+    const endDate=newValue
+
+  };
 
   return (
     <div className='content'>
@@ -37,8 +50,15 @@ const ExpenseHistory = () => {
       </div>
       <div className="main-content">
       <span className='content-title'>Expense History</span>
-        <div>
-          <BasicDatePicker />
+        <div className="time-picker-container">
+          <div className="time-picker-component">
+            <p className='subtitle'>From:</p>
+            <BasicDatePicker onChangeDate={handleStartDateChange} />
+          </div>
+          <div className="time-picker-component">
+            <p className='subtitle'>To:</p>
+            <BasicDatePicker onChangeDate={handleEndDateChange} isEnd={true} isStartDate={startDate} />
+          </div>
         </div>
         <div className="expenses-table">
             <table className="expenses-table">

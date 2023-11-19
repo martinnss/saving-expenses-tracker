@@ -38,6 +38,27 @@
     font-size: 0.8rem;
   }
 
-  .react-datepicker-popper {
-    background-color: aquamarine;
+  .time-picker-container{
+    margin: 2rem 3rem;
+    display: flex;
+    justify-content: space-around;
   }
+
+
+@media only screen and (max-width: 768px) {
+
+}
+
+@media only screen and (max-width: 500px) {
+  .time-picker-container{
+    margin-top: 1rem;
+    margin-left: 0px;
+    margin-bottom: 3rem;
+    width: 15rem;
+    display: block;
+  }
+  .time-picker-component{
+    display: block;
+    margin-top: 2rem;
+  }
+}

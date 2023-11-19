@@ -66,3 +66,8 @@ nav ul li a {
 .none{
   display: 'none';
 }
+
+.subtitle{
+  font-size: 1rem;
+  font-weight: bold;
+}
