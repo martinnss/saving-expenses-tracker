@@ -62,7 +62,7 @@ const FileUpload = () => {
                             {
                                 latestExpenses.map((expense) => (
                                     <tr key={expense.transaction_id} className='table-row'>
-                                        <td className='table-data'>{expense.date}</td>
+                                        <td className='table-data'>{expense.date.toLocaleString('es-ES')}</td>
                                         <td className='table-data'>{expense.details}</td>
                                         <td className='table-data'>{expense.amount}</td>
                                         <td className='table-data'>{expense.type}</td>
