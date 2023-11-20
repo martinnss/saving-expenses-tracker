@@ -1,22 +1,32 @@
 import React ,{useEffect, useState } from 'react'
 import { db } from "../config/firebase";
-import {collection, getDocs, where, query} from "firebase/firestore"
+import {collection, getDocs, where, orderBy,query, Timestamp} from "firebase/firestore"
 import { useGetUserInfo } from "./useGetUserInfo";
 
 const useGetExpenses = ({startDateFilter,endDateFilter}) => {
-
+  
     if (startDateFilter !== null) {
+      const newStartDateFilter =startDateFilter.$d
 
+      startDateFilter = Timestamp.fromDate(newStartDateFilter)
+      
     } else {
-      startDateFilter = new Date('2022-01-01');
+      const defaultStartDate =new Date('2022-01-01');
+
+      startDateFilter = Timestamp.fromDate(defaultStartDate)
     }
 
 
 
     if (endDateFilter !== null) {
+      const newEndDateFilter = endDateFilter.$d
+
+      endDateFilter=Timestamp.fromDate(newEndDateFilter)
 
     } else {
-      endDateFilter =  new Date();
+      const defaultEndDate =new Date();
+
+      endDateFilter =  Timestamp.fromDate(defaultEndDate)
     }
 
 
@@ -29,9 +39,13 @@ const useGetExpenses = ({startDateFilter,endDateFilter}) => {
 
         const getExpenses = async () => {
           try {
+
             const q = query(
               transactionCollectionRef,
-              where('uid', '==', userInfo.uid)
+              where('uid', '==', userInfo.uid),
+              where('date', '>=', startDateFilter),
+              where('date', '<=', endDateFilter),
+              orderBy('date', 'desc')
             );
     
             const querySnapshot = await getDocs(q);

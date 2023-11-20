@@ -25,7 +25,10 @@ const ExpenseHistory = () => {
 
 
   const expenses = useGetExpenses({startDateFilter: startDate, endDateFilter: endDate});           //////////////////////////////////////////
-  const latestExpenses = expenses.slice(0, 5);
+
+  const latestExpenses =  expenses.slice(0, 5) 
+
+
 
   return (
     <div className='content'>
