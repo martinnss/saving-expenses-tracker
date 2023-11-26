@@ -1,6 +1,6 @@
 import React ,{useEffect, useState } from 'react'
 import { db } from "../config/firebase";
-import {collection, getDocs, where, orderBy,query, Timestamp} from "firebase/firestore"
+import {collection, getDocs, updateDoc, where, orderBy,query, Timestamp} from "firebase/firestore"
 import { useGetUserInfo } from "./useGetUserInfo";
 
 const useGetExpenses = ({startDateFilter,endDateFilter}) => {
@@ -75,9 +75,29 @@ const useGetExpenses = ({startDateFilter,endDateFilter}) => {
           getExpenses();
         }
       }, [userInfo, expenses]);
+
+
+      const updateExpenseType = async (transactionId, newType) => {
+        try {
+          const transactionDocRef = collection(db, 'transactions', transactionId);
+    
+          await updateDoc(transactionDocRef, { type: newType });
+    
+          // Actualiza el estado con la nueva información
+          setExpenses((prevExpenses) =>
+            prevExpenses.map((expense) =>
+              expense.transaction_id === transactionId
+                ? { ...expense, type: newType }
+                : expense
+            )
+          );
+        } catch (error) {
+          console.error("Error updating expense type:", error);
+        }
+      };
     
     
-    return expenses
+      return { expenses, updateExpenseType };
 }
 
 export default useGetExpenses
