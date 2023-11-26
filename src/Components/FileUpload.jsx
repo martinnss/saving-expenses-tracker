@@ -8,7 +8,11 @@ const FileUpload = () => {
     const {jsonData, handleFileChange } = useAddTransactions()
     
 
-    const expenses = useGetExpenses({startDateFilter: null, endDateFilter: null}); //////////////////////////////////////////
+    const { expenses, updateExpenseType } = useGetExpenses({
+        startDateFilter: null,
+        endDateFilter: null,
+    });
+    
 
 
     const latestExpenses = expenses.slice(0, 5);
