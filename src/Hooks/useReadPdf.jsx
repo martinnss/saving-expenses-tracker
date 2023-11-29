@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { pdfjs } from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -29,6 +29,7 @@ const useReadPdf = ({ pdfUrl }) => {
     handleTextExtraction();
   }, [pdfUrl]);
 
+  console.log(pdfExtracted)
   return pdfExtracted;
 };
 

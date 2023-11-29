@@ -3,8 +3,9 @@ import { db } from "../config/firebase";
 import {collection, getDocs, updateDoc, where, orderBy,query, Timestamp} from "firebase/firestore"
 import { useGetUserInfo } from "./useGetUserInfo";
 
-const useGetExpenses = ({startDateFilter,endDateFilter}) => {
+const useGetExpenses = ({startDateFilter, endDateFilter, updatedCacheFlag, setUpdatedCacheFlag}) => {
   
+
     if (startDateFilter !== null) {
       const newStartDateFilter =startDateFilter.$d
 
@@ -70,9 +71,17 @@ const useGetExpenses = ({startDateFilter,endDateFilter}) => {
             console.error("Error fetching expenses:", error);
           }
         };
-    
+        
         if (userInfo) {
-          getExpenses();
+          // si hay cachpe y está actualizado, entonces que lea el caché y no corra getExpenses(), si no hay caché o no está actualizado, entonces que corra getExpenses()
+          if (updatedCacheFlag === true){
+            //Que se lea el cache
+          } else {
+            //si updatedCacheFlag es false entonces que cree un getExpenses y actualice el cache
+            setUpdatedCacheFlag(true)
+            getExpenses();
+            // que get expenses actualice el caché
+          }
         }
       }, [userInfo, expenses]);
 
@@ -96,7 +105,7 @@ const useGetExpenses = ({startDateFilter,endDateFilter}) => {
         }
       };
     
-    
+
       return { expenses, updateExpenseType };
 }
 

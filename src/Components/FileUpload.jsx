@@ -1,17 +1,28 @@
-import React from 'react'
+import React,{useState} from 'react'
 import useAddTransactions from '../Hooks/useAddTransactions.jsx'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 
 import '../Styles/FileUpload.css'
 
 const FileUpload = () => {
-    const {jsonData, handleFileChange } = useAddTransactions()
-    
+    const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
+
+    console.log('pre write:', updatedCacheFlag)
+
+    const {jsonData, handleFileChange } = useAddTransactions({
+        updatedCacheFlag: updatedCacheFlag,
+        setUpdatedCacheFlag: setUpdatedCacheFlag
+    })
+    console.log('post write:', updatedCacheFlag) // si se subió archivo, entonces debería ser false
 
     const { expenses, updateExpenseType } = useGetExpenses({
         startDateFilter: null,
         endDateFilter: null,
+        updatedCacheFlag: updatedCacheFlag,
+        setUpdatedCacheFlag: setUpdatedCacheFlag
     });
+
+    console.log('post get:', updatedCacheFlag)
     
 
 

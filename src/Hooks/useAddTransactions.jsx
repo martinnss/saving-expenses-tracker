@@ -6,7 +6,7 @@ import {addDoc, collection, serverTimestamp, Timestamp} from "firebase/firestore
 import { db } from "../config/firebase";
 
 
-const useAddTransactions = () => {
+const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag}) => {
     const [jsonData, setJsonData] = useState(null);
 
     const transactionCollectionRef = collection(db, 'transactions') //db a la que queremos enviar la data
@@ -74,6 +74,7 @@ const useAddTransactions = () => {
             };
 
             reader.readAsArrayBuffer(file);
+            setUpdatedCacheFlag(false)
         }
     };
 
@@ -82,6 +83,7 @@ const useAddTransactions = () => {
     return {
         jsonData,
         handleFileChange,
+        updatedCacheFlag
     };
 };
 
