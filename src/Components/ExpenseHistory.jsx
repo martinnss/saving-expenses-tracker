@@ -25,16 +25,11 @@ const ExpenseHistory = () => {
 
 
 
-//no aparece pq updatedcacheflag es false
-
-
-
-
 
   const { expenses, updateExpenseType } = useGetExpenses({
     startDateFilter: startDate,
     endDateFilter: endDate,
-    updatedCacheFlag:true
+    dataUpToDate:true
   });      
 
   const handleTypeChange = async (transactionId, newType) => {

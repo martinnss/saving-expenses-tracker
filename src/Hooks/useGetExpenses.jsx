@@ -2,8 +2,10 @@ import React ,{useEffect, useState } from 'react'
 import { db } from "../config/firebase";
 import {collection, getDocs, updateDoc, where, orderBy,query, Timestamp} from "firebase/firestore"
 import { useGetUserInfo } from "./useGetUserInfo";
+import useLocalCache from '../Hooks/useLocalCache';
 
-const useGetExpenses = ({startDateFilter, endDateFilter, updatedCacheFlag, setUpdatedCacheFlag}) => {
+
+const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
   
 
     if (startDateFilter !== null) {
@@ -35,55 +37,82 @@ const useGetExpenses = ({startDateFilter, endDateFilter, updatedCacheFlag, setUp
 
     const [expenses, setExpenses] = useState([]);
 
-    useEffect(() => {
-        const transactionCollectionRef = collection(db, 'transactions') //db a la que le queremos hacer un get
-
-        const getExpenses = async () => {
-          try {
-
-            const q = query(
-              transactionCollectionRef,
-              where('uid', '==', userInfo.uid),
-              where('date', '>=', startDateFilter),
-              where('date', '<=', endDateFilter),
-              orderBy('date', 'desc')
-            );
-    
-            const querySnapshot = await getDocs(q);
-            const expensesData = querySnapshot.docs.map((doc) => doc.data());
 
 
-            const fixedExpensesData =expensesData.map(objeto => {
+    const transactionCollectionRef = collection(db, 'transactions') //db a la que le queremos hacer un get
+    const getExpenses = async () => {
+      try {
 
-              const timestamp=objeto.date;
-              const fechaEnMilisegundos = timestamp.seconds * 1000;
-              // Convierte la cadena de fecha a un objeto Date.
-              const fechaTransformada = new Date(fechaEnMilisegundos);
-            
-              //Formato deseado
-              return { ...objeto, date: fechaTransformada };
-            });
+        const q = query(
+          transactionCollectionRef,
+          where('uid', '==', userInfo.uid),
+          where('date', '>=', startDateFilter),
+          where('date', '<=', endDateFilter),
+          orderBy('date', 'desc')
+        );
+
+        const querySnapshot = await getDocs(q);
+        const expensesData = querySnapshot.docs.map((doc) => doc.data());
 
 
-            setExpenses(fixedExpensesData);
-          } catch (error) {
-            // Handle any errors here
-            console.error("Error fetching expenses:", error);
-          }
-        };
+        const fixedExpensesData =expensesData.map(objeto => {
+
+          const timestamp=objeto.date;
+          const fechaEnMilisegundos = timestamp.seconds * 1000;
+          // Convierte la cadena de fecha a un objeto Date.
+          const fechaTransformada = new Date(fechaEnMilisegundos);
         
-        if (userInfo) {
-          // si hay cachpe y está actualizado, entonces que lea el caché y no corra getExpenses(), si no hay caché o no está actualizado, entonces que corra getExpenses()
-          if (updatedCacheFlag === true){
-            //Que se lea el cache
-          } else {
-            //si updatedCacheFlag es false entonces que cree un getExpenses y actualice el cache
-            setUpdatedCacheFlag(true)
-            getExpenses();
-            // que get expenses actualice el caché
-          }
-        }
-      }, [userInfo, expenses]);
+          //Formato deseado
+          return { ...objeto, date: fechaTransformada };
+        });
+
+
+        setExpenses(fixedExpensesData);
+        return fixedExpensesData
+
+      } catch (error) {
+        // Handle any errors here
+        console.error("Error fetching expenses:", error);
+      }
+    };
+
+
+    const [myData, setMyData] = useLocalCache('miClave', {});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (userInfo) {
+                const cacheData = localStorage.getItem('miClave');
+                console.log(dataUpToDate)
+                if (dataUpToDate===false){
+                  console.log('actualizando por datos nuevos');
+
+                  const newExpenses = await getExpenses();
+
+                  setMyData(newExpenses);
+
+                } else if (Object.keys(cacheData).length > 2) {
+                    console.log('leyendo cache');
+                    setExpenses(myData)
+                } else {
+                    console.log('leyendo firebase');
+    
+                    // Suponiendo que getExpenses es una función asincrónica
+                    const newExpenses = await getExpenses();
+
+                    setMyData(newExpenses);
+                }
+            }
+        };
+    
+        fetchData();
+    }, [userInfo, dataUpToDate]); // Dependencia actualizada
+    
+    // Agregamos un efecto para observar cambios en myData
+    useEffect(() => {
+        console.log('myData actualizado:', myData);
+    }, [myData]);
+    
 
 
       const updateExpenseType = async (transactionId, newType) => {

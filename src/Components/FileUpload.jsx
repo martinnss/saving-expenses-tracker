@@ -5,6 +5,8 @@ import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import '../Styles/FileUpload.css'
 
 const FileUpload = () => {
+
+    
     const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
 
     console.log('pre write:', updatedCacheFlag)
@@ -13,13 +15,13 @@ const FileUpload = () => {
         updatedCacheFlag: updatedCacheFlag,
         setUpdatedCacheFlag: setUpdatedCacheFlag
     })
+    
     console.log('post write:', updatedCacheFlag) // si se subió archivo, entonces debería ser false
 
     const { expenses, updateExpenseType } = useGetExpenses({
         startDateFilter: null,
         endDateFilter: null,
-        updatedCacheFlag: updatedCacheFlag,
-        setUpdatedCacheFlag: setUpdatedCacheFlag
+        dataUpToDate: updatedCacheFlag,
     });
 
     console.log('post get:', updatedCacheFlag)
@@ -80,7 +82,7 @@ const FileUpload = () => {
                             {
                                 latestExpenses.map((expense) => (
                                     <tr key={expense.transaction_id} className='table-row'>
-                                        <td className='table-data'>{expense.date.toISOString().split('T')[0]}</td>
+                                        <td className='table-data'>{expense.date.toLocaleString()}</td>
                                         <td className='table-data'>{expense.details}</td>
                                         <td className='table-data'>{expense.amount}</td>
                                         <td className='table-data'>{expense.type}</td>
