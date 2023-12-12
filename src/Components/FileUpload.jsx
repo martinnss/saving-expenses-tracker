@@ -1,12 +1,13 @@
 import React,{useState} from 'react'
 import useAddTransactions from '../Hooks/useAddTransactions.jsx'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
+import { useGetUserInfo } from "../Hooks/useGetUserInfo";
 
 import '../Styles/FileUpload.css'
 
 const FileUpload = () => {
 
-    
+    const userInfo = useGetUserInfo()
     const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
 
     console.log('pre write:', updatedCacheFlag)
@@ -21,7 +22,7 @@ const FileUpload = () => {
     const { expenses, updateExpenseType } = useGetExpenses({
         startDateFilter: null,
         endDateFilter: null,
-        dataUpToDate: updatedCacheFlag,
+        dataUpToDate: updatedCacheFlag
     });
 
     console.log('post get:', updatedCacheFlag)
@@ -80,14 +81,21 @@ const FileUpload = () => {
                         </thead>
                         <tbody>
                             {
-                                latestExpenses.map((expense) => (
-                                    <tr key={expense.transaction_id} className='table-row'>
-                                        <td className='table-data'>{expense.date.toLocaleString()}</td>
-                                        <td className='table-data'>{expense.details}</td>
-                                        <td className='table-data'>{expense.amount}</td>
-                                        <td className='table-data'>{expense.type}</td>
-                                    </tr>
-                                ))
+                                latestExpenses.map((expense) => {
+                                    if (expense.uid === userInfo.uid) {
+                                      return (
+                                        <tr key={expense.transaction_id} className='table-row'>
+                                          <td className='table-data'>{expense.date.toLocaleString()}</td>
+                                          <td className='table-data'>{expense.details}</td>
+                                          <td className='table-data'>{expense.amount}</td>
+                                          <td className='table-data'>{expense.type}</td>
+                                        </tr>
+                                      );
+                                    } else {
+                                      return null; // Omitir las filas que no cumplen con la condición
+                                    }
+                                  }
+                                )
                             }
                         </tbody>
                     </table>

@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import BasicDatePicker from './BasicDatePicker.jsx'
+import { useGetUserInfo } from "../Hooks/useGetUserInfo";
 
 import '../Styles/ExpenseHistory.css'
 
@@ -24,12 +25,12 @@ const ExpenseHistory = () => {
   };
 
 
-
+  const userInfo = useGetUserInfo()
 
   const { expenses, updateExpenseType } = useGetExpenses({
     startDateFilter: startDate,
     endDateFilter: endDate,
-    dataUpToDate:true
+    dataUpToDate:true,
   });      
 
   const handleTypeChange = async (transactionId, newType) => {
@@ -89,16 +90,22 @@ const ExpenseHistory = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        expenses.map((expense) => (
-                            <tr key={expense.transaction_id} className='table-row'>
-                                <td className='table-data'>{expense.date.toLocaleString()}</td>
-                                <td className='table-data'>{expense.details}</td>
-                                <td className='table-data'>{expense.amount}</td>
-                                <td className='table-data'>{expense.type}</td>
-                            </tr>
-                        ))
+                {
+                  expenses.map((expense) => {
+                    if (expense.uid === userInfo.uid) {
+                      return (
+                        <tr key={expense.transaction_id} className='table-row'>
+                          <td className='table-data'>{expense.date.toLocaleString()}</td>
+                          <td className='table-data'>{expense.details}</td>
+                          <td className='table-data'>{expense.amount}</td>
+                          <td className='table-data'>{expense.type}</td>
+                        </tr>
+                      );
+                    } else {
+                      return null; // Omitir las filas que no cumplen con la condición
                     }
+                  })
+                }
                 </tbody>
             </table>
         </div>

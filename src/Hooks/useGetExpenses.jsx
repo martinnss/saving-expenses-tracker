@@ -77,6 +77,8 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
     };
 
 
+    
+
     const [myData, setMyData] = useLocalCache('miClave', {});
 
     useEffect(() => {
