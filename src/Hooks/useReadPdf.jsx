@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { pdfjs } from 'react-pdf';
+import jsonFromText from '../functions/jsonFromText'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -19,7 +20,10 @@ const useReadPdf = ({ pdfUrl }) => {
           fullText += pageText + '\n';
         }
 
+
+
         setPdfExtracted(fullText);
+
       } catch (error) {
         console.error('Error extracting text:', error);
         setPdfExtracted('');
@@ -29,7 +33,7 @@ const useReadPdf = ({ pdfUrl }) => {
     handleTextExtraction();
   }, [pdfUrl]);
 
-  console.log(pdfExtracted)
+
   return pdfExtracted;
 };
 

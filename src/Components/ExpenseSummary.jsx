@@ -21,15 +21,14 @@ const ExpenseSummary = () => {
     pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
   });
   
-  // al text ser un hook, este se actualiza cada vez que le pasa algo a selected file, no es necesario agregar un hanlde
-  //crear otro hook que sea algo como useReadTextToJson, y que lea el text de useReadPdf para que se 
+
 
 
   
   return (
     <div>
       <input type="file" accept=".pdf" onChange={handleFileChange} />
-
+      <p>{text ? text : "no hay text"}</p>
     </div>
   );
 };
