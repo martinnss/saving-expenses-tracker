@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { pdfjs } from 'react-pdf';
 import jsonFromText from '../functions/jsonFromText'
+import verifySaleOrigin from '../functions/verifySaleOrigin';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -27,21 +28,44 @@ const useReadPdf = ({ pdfUrl , banco}) => {
   function procesarLista(strings) {
     const resultado = [];
   
-    strings.forEach((cadena) => {
-      const cadenaSinEspacio = cadena.replace(/\$ /g, '$');
-      const [fecha, montoOrigen, montoTotal, desc1, valorCuota, numCuota, desc2] = cadenaSinEspacio.split(/\s+/);
-  
-      const objetoJson = {
-        fecha,
-        'monto origen': montoOrigen,
-        'monto total': montoTotal,
-        descripcion1: desc1,
-        'valor cuota': valorCuota,
-        'numero cuota': numCuota,
-        descripcion2: desc2,
-      };
-  
-      resultado.push(objetoJson);
+    strings.forEach((string) => {
+      const stringCleanOne = string.replace(/\$ /g, '$');
+      const stringCleanTwo = stringCleanOne.replace(/\s*\*\s*/g, '*');
+      const isDeferredPayment = / \d{2}\/\d{2} /.test(stringCleanTwo);
+      console.log(isDeferredPayment)
+      if (isDeferredPayment){
+        console.log(stringCleanTwo.split(/\s+/),stringCleanTwo.split(/\s+/).length)
+        const [fecha, montoOrigen, montoTotal, desc1, valorCuota, numCuota, desc2] = stringCleanTwo.split(/\s+/);
+
+        const objetoJson = {
+          fecha,
+          'monto origen': montoOrigen,
+          'monto total': montoTotal,
+          descripcion1: desc1,
+          'valor cuota': valorCuota,
+          'numero cuota': numCuota,
+          descripcion2: desc2,
+        } 
+    
+        resultado.push(objetoJson);
+
+      } else {
+        const stringCleanThree=verifySaleOrigin(stringCleanTwo)
+
+        const [fecha, montoOrigen, montoTotal, desc1, valorCuota] = stringCleanThree;
+
+        const objetoJson = {
+          fecha,
+          montoOrigen,
+          montoTotal,
+          desc1,
+          valorCuota,
+          numCuota:null,
+          desc2:null,
+        }
+        resultado.push(objetoJson); 
+      }
+
     });
   
     return resultado;
@@ -85,6 +109,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
               return fechas[indexModifed] + ' ' + sublista.trim();
           });
           const test=procesarLista(resultado)
+
           console.log(resultado)
           console.log(test)
           setPdfExtracted(test.toString());
