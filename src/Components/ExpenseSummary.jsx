@@ -19,9 +19,9 @@ const ExpenseSummary = () => {
   
   const text = useReadPdf({
     pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
+    banco: 'Santander'
   });
   
-
 
 
   
