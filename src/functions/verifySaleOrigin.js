@@ -18,10 +18,18 @@ function verifySaleOrigin(inputString){
         
         resultString = resultString.replace(somethingBetween, somethingBetweenConcatenated);
     }
+    
     // concatenate everything after the cost
-    resultString = resultString.split(/\s+/)
 
-    return resultString
+    const wordsArray = resultString.split(/\s+/);
+
+    // Find the index of the element containing '$'
+    const indexOfDollar = wordsArray.indexOf(wordsArray.find(element => element.includes('$')));
+
+    // Concatenate the strings after the element with '$'
+    const result = wordsArray.slice(0, indexOfDollar + 1).concat(wordsArray.slice(indexOfDollar + 1).join(' '));
+
+    return result
 }
 
 export default verifySaleOrigin
