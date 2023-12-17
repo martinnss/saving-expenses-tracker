@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { pdfjs } from 'react-pdf';
-import jsonFromText from '../functions/jsonFromText'
-import verifySaleOrigin from '../functions/verifySaleOrigin';
+
+import verifySaleOriginSantander from '../functions/verifySaleOriginSantander';
+import verifySaleOriginDeferredSantander from '../functions/verifySaleOriginDeferredSantander';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -34,8 +35,13 @@ const useReadPdf = ({ pdfUrl , banco}) => {
       const isDeferredPayment = / \d{2}\/\d{2} /.test(stringCleanTwo);
 
       if (isDeferredPayment){
+        const listOfStrings = verifySaleOriginDeferredSantander(stringCleanTwo)
+
+        console.log('final:',listOfStrings)
 
         const [fecha, lugarOperacion, montoTotal, desc1, valorCuota, numCuota, desc2] = stringCleanTwo.split(/\s+/);
+
+        // unificar desc 1 y 2
 
         const objetoJson = {
           fecha,
@@ -50,7 +56,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
         resultado.push(objetoJson);
 
       } else {
-        const listOfStrings=verifySaleOrigin(stringCleanTwo)
+        const listOfStrings=verifySaleOriginSantander(stringCleanTwo)
 
         if(listOfStrings.length ===4) {
           const [fecha, lugarOperacion, montoTotal, desc1] = listOfStrings;
@@ -112,7 +118,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
           const stringsArray= resultado.slice(1);
           const test=procesarLista(stringsArray)
 
-          console.log(test)
+          //console.log(test)
           
           setPdfExtracted(test.toString());
         }

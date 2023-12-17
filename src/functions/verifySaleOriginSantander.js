@@ -1,4 +1,4 @@
-function verifySaleOrigin(inputString){
+function verifySaleOriginSantander(inputString){
     // Define regular expressions for date and cost patterns
     const datePattern = /\d{2}\/\d{2}\/\d{2}/;
     const costPattern = /\$\d+(\.\d{3})*(\,\d{2})?/;
@@ -32,4 +32,4 @@ function verifySaleOrigin(inputString){
     return result
 }
 
-export default verifySaleOrigin
+export default verifySaleOriginSantander
