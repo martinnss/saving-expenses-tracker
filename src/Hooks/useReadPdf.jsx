@@ -37,20 +37,19 @@ const useReadPdf = ({ pdfUrl , banco}) => {
       if (isDeferredPayment){
         const listOfStrings = verifySaleOriginDeferredSantander(stringCleanTwo)
 
-        console.log('final:',listOfStrings)
 
-        const [fecha, lugarOperacion, montoTotal, desc1, valorCuota, numCuota, desc2] = stringCleanTwo.split(/\s+/);
+        const [fecha, lugarOperacion, montoTotal, desc1, valorCuota, numCuota, desc2] = listOfStrings
 
         // unificar desc 1 y 2
+        const description = desc1.concat(desc2)
 
         const objetoJson = {
           fecha,
-          lugarOperacion,
+          lugarOperacion:"Pago en Cuotas",
           montoTotal,
-          desc1,
+          description,
           valorCuota,
           numCuota,
-          desc2,
         } 
     
         resultado.push(objetoJson);
@@ -59,15 +58,14 @@ const useReadPdf = ({ pdfUrl , banco}) => {
         const listOfStrings=verifySaleOriginSantander(stringCleanTwo)
 
         if(listOfStrings.length ===4) {
-          const [fecha, lugarOperacion, montoTotal, desc1] = listOfStrings;
+          const [fecha, lugarOperacion, montoTotal, description] = listOfStrings;
           const objetoJson = {
             fecha,
             lugarOperacion,
             montoTotal,
-            desc1,
+            description,
             valorCuota:"NA",
             numCuota:"NA",
-            desc2:"NA",
           }
           resultado.push(objetoJson); 
         }
@@ -116,11 +114,11 @@ const useReadPdf = ({ pdfUrl , banco}) => {
               return fechas[indexModifed] + ' ' + sublista.trim();
           });
           const stringsArray= resultado.slice(1);
-          const test=procesarLista(stringsArray)
+          const transactionList=procesarLista(stringsArray)
+          console.log(transactionList)
 
-          //console.log(test)
           
-          setPdfExtracted(test.toString());
+          setPdfExtracted(transactionList.toString());
         }
 
 
