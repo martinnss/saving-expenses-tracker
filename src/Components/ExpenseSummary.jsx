@@ -3,7 +3,7 @@ import useReadPdf from '../Hooks/useReadPdf';
 
 import jsonFromText from '../functions/jsonFromText';
 import readPdf from '../functions/readPdf';
-
+import runGPT from '../functions/runGPT';
 
 
 
@@ -22,7 +22,7 @@ const ExpenseSummary = () => {
     banco: 'Santander'
   });
   
-
+  console.log(runGPT())
 
   
   return (
