@@ -22,7 +22,7 @@ const ExpenseSummary = () => {
     banco: 'Santander'
   });
   
-  console.log(runGPT())
+  //runGPT()
 
   
   return (

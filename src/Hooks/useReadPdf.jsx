@@ -145,6 +145,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
   }, [pdfUrl]);
 
 
+
   return pdfExtracted;
 };
 
