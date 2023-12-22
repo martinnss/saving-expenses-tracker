@@ -2,6 +2,9 @@ import React,{useState} from 'react'
 import useAddTransactions from '../Hooks/useAddTransactions.jsx'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import { useGetUserInfo } from "../Hooks/useGetUserInfo";
+import FileInput from "./FileInput.jsx"
+import useReadPdf from '../Hooks/useReadPdf.jsx'
+
 
 import '../Styles/FileUpload.css'
 
@@ -9,25 +12,32 @@ const FileUpload = () => {
 
     const userInfo = useGetUserInfo()
     const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
+    const [selectedFile, setSelectedFile] = useState(null);
 
-    console.log('pre write:', updatedCacheFlag)
 
-    const {jsonData, handleFileChange } = useAddTransactions({
+    const handleFileChange = (file) => {
+        setSelectedFile(file);
+    };
+
+  // Llama a useReadPdf solo cuando selectedFile cambia ojala lograrlo
+    const jsonWithoutCategories = useReadPdf({
+        pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
+        banco: 'Santander',
+    });
+
+    // Llama a useAddTransactions solo cuando selectedFile cambia
+    /*const { jsonData, handleFileChange: handleFileChangeHook } = useAddTransactions({
         updatedCacheFlag: updatedCacheFlag,
-        setUpdatedCacheFlag: setUpdatedCacheFlag
-    })
+        setUpdatedCacheFlag: setUpdatedCacheFlag,
+        pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
+    });*/
     
-    console.log('post write:', updatedCacheFlag) // si se subió archivo, entonces debería ser false
-
+    
     const { expenses, updateExpenseType } = useGetExpenses({
         startDateFilter: null,
         endDateFilter: null,
         dataUpToDate: updatedCacheFlag
     });
-
-    console.log('post get:', updatedCacheFlag)
-    
-
 
     const latestExpenses = expenses.slice(0, 5);
 
@@ -59,12 +69,7 @@ const FileUpload = () => {
             <div className="main-content">
                 <span className='fileupload-title'>File Upload</span>
                 <div className="file-upload">
-                    <input
-                    type="file"
-                    className="file-input"
-                    accept=".xlsx"
-                    onChange={handleFileChange}
-                    />
+                    <FileInput onFileChange={handleFileChange} />
                 </div>
                 <div className="expenses-table">
                     <table className="expenses-table">

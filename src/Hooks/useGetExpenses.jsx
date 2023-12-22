@@ -80,6 +80,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
     
 
     const [myData, setMyData] = useLocalCache('miClave', {});
+    const [categories, setCategories] = useLocalCache('categories',{})
 
     useEffect(() => {
         const fetchData = async () => {

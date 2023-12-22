@@ -7,7 +7,7 @@ import verifySaleOriginDeferredSantander from '../functions/verifySaleOriginDefe
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const useReadPdf = ({ pdfUrl , banco}) => {
-  const [pdfExtracted, setPdfExtracted] = useState('');
+  const [pdfExtracted, setPdfExtracted] = useState([]);
 
   async function concatenatePdfText(pdfDoc) {
     // Initialize variable to store concatenated text
@@ -24,7 +24,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
     // Return the concatenated text
     return fullText;
   }
-
+  console.log(banco)
 
   function procesarLista(strings) {
     const resultado = [];
@@ -82,7 +82,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
 
     const handleTextExtraction = async () => {
       if (!pdfUrl) {
-        setPdfExtracted('');
+        setPdfExtracted([]);
         return;
       }
       try {
@@ -118,7 +118,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
           console.log(transactionList)
 
           
-          setPdfExtracted(transactionList.toString());
+          setPdfExtracted(transactionList);
         }
 
 
@@ -142,7 +142,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
       }
     };
   
-  }, [pdfUrl]);
+  }, []);
 
 
 
