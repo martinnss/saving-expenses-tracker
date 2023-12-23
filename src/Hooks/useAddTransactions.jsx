@@ -9,21 +9,16 @@ import { db } from "../config/firebase";
 
 
 
-const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData}) => {
+const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData, jsonInput}) => {
     const [jsonData, setJsonData] = useState(null);
 
     const transactionCollectionRef = collection(db, 'transactions') //db a la que queremos enviar la data
 
     const userInfo = useGetUserInfo()
 
-
-    //const jsonWithCategories = categorizerGPT(jsonWithoutCategories)
-
-    //console.log("objectssssssssssssssssssssssssssssssssssssssssssssssssssssssss", jsonWithCategories)
-
-    //categorizer
-
-  
+    console.log("json input",jsonInput)
+    
+  if (hasInputData){
 
     const generateUniqueId = () => {
         return uuidv4();
@@ -75,6 +70,8 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
 
 
     console.log("jsonData:", jsonData)
+  }
+
 
 
     return {

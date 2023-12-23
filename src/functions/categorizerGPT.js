@@ -7,6 +7,19 @@ const openai = new OpenAI({
 	dangerouslyAllowBrowser: true
 });
 
+// Function to add categories to transactions
+function addCategoriesToTransactions(transactions, categoryObject) {
+  return transactions.map(transaction => {
+    const sellerName = transaction.desc;
+    const category = categoryObject[sellerName];
+    if (category===undefined) {
+      return { ...transaction, category: "To be defined" };
+    } else {
+      return { ...transaction, category };
+    }
+  });
+}
+
 async function categorizerGPT(listOfObjects) {
 
   const listOfSellers = listOfObjects
@@ -17,7 +30,6 @@ async function categorizerGPT(listOfObjects) {
   // Usa el método join para unir las descripciones con comas
   const textOfSellers = descriptions.join(', ');
 
-  console.log("desc", textOfSellers)
   /*
   const completion = await openai.chat.completions.create({
     messages: [{"role": "system", "content": 'Identify the precise business category associated with a given seller name, with a specific emphasis on establishments located in Chile. If the provided name appears to be a personal name, classify it as a "small business." Generate ajson ready to parse in javascript containing "seller" : "category" for every single seller'},
@@ -34,25 +46,18 @@ async function categorizerGPT(listOfObjects) {
   const jsonString = gptOutput.slice(8, -4);
 
   // Log the extracted JSON string for debugging
-  console.log("Extracted JSON String:", jsonString);
 
   // Parse JSON
   const jsonOutput = JSON.parse(jsonString);
 
-  console.log("json",jsonOutput);
 
   // hacer un joint porporla desc y las categories como sale abajo
 
+  const transactionsWithCategories = addCategoriesToTransactions(listOfSellers, jsonOutput);
 
-
-  // Accessing values by keys
-  const value1 = jsonOutput["TRES CUOTAS PREC MP*MERCADO LIBRE"];
-  const value2 = jsonOutput["Spotify P26C38BB67"];
-
-  console.log("Value 1:", value1);
-  console.log("Value 2:", value2);
   
- return textOfSellers
+
+ return transactionsWithCategories
 }
 
 export default categorizerGPT

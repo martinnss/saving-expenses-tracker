@@ -90,9 +90,8 @@ const useReadPdf = ({ pdfUrl , bank}) => {
 
     const resultWithCategories=categorizerGPT(resultado)
 
-    console.log(resultWithCategories)
 
-    return resultado;
+    return resultWithCategories;
   }
 
 
@@ -134,10 +133,12 @@ const useReadPdf = ({ pdfUrl , bank}) => {
           });
           const stringsArray= resultado.slice(1);
           const transactionList=procesarLista(stringsArray)
-          console.log(transactionList)
 
+          transactionList.then(result =>{
+            setPdfExtracted(JSON.stringify(result));
+          })
           
-          setPdfExtracted(JSON.stringify(transactionList));
+          
         }
 
 
@@ -162,7 +163,6 @@ const useReadPdf = ({ pdfUrl , bank}) => {
     };
   
   }, [pdfUrl]);
-
 
 
   return pdfExtracted;

@@ -20,22 +20,20 @@ const FileUpload = () => {
         setSelectedFile(file);
     };
 
-  // Llama a useReadPdf solo cuando selectedFile cambia ojala lograrlo
-    const text = useReadPdf({
+    //read and category the pdf
+    const transactionsWithCategories = useReadPdf({
         pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
         bank: 'Santander'
     });
 
-    // Llama a useAddTransactions solo cuando selectedFile cambia
-    /*const { jsonData, handleFileChange: handleFileChangeHook } = useAddTransactions({
+
+    //add the transactions to firestore
+    const { jsonData, handleFileChange: handleFileChangeHook } = useAddTransactions({
         updatedCacheFlag: updatedCacheFlag,
         setUpdatedCacheFlag: setUpdatedCacheFlag,
-        pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
-    });*/
-    
-    
-
-
+        hasInputData: false,
+        jsonInput: transactionsWithCategories
+    });
 
 
 
