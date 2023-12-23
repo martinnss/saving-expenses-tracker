@@ -4,10 +4,12 @@ import { pdfjs } from 'react-pdf';
 import verifySaleOriginSantander from '../functions/verifySaleOriginSantander';
 import verifySaleOriginDeferredSantander from '../functions/verifySaleOriginDeferredSantander';
 
+import categorizerGPT from '../functions/categorizerGPT';
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const useReadPdf = ({ pdfUrl , banco}) => {
-  const [pdfExtracted, setPdfExtracted] = useState([]);
+const useReadPdf = ({ pdfUrl , bank}) => {
+  const [pdfExtracted, setPdfExtracted] = useState('');
 
   async function concatenatePdfText(pdfDoc) {
     // Initialize variable to store concatenated text
@@ -24,7 +26,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
     // Return the concatenated text
     return fullText;
   }
-  console.log(banco)
+
 
   function procesarLista(strings) {
     const resultado = [];
@@ -41,17 +43,24 @@ const useReadPdf = ({ pdfUrl , banco}) => {
         const [fecha, lugarOperacion, montoTotal, desc1, valorCuota, numCuota, desc2] = listOfStrings
 
         // unificar desc 1 y 2
-        const description = desc1.concat(desc2)
+        const description = desc2.concat(" ",desc1)
+
+        let desc = description
+
+        if(description.length >=20){
+          desc = description.substring(0, 50);
+        } 
 
         const objetoJson = {
           fecha,
           lugarOperacion:"Pago en Cuotas",
           montoTotal,
-          description,
+          desc,
           valorCuota,
           numCuota,
         } 
-    
+        
+        
         resultado.push(objetoJson);
 
       } else {
@@ -59,11 +68,17 @@ const useReadPdf = ({ pdfUrl , banco}) => {
 
         if(listOfStrings.length ===4) {
           const [fecha, lugarOperacion, montoTotal, description] = listOfStrings;
+
+          let desc = description
+
+          if(description.length >=20){
+            desc = description.substring(0, 25);
+          } 
           const objetoJson = {
             fecha,
             lugarOperacion,
             montoTotal,
-            description,
+            desc,
             valorCuota:"NA",
             numCuota:"NA",
           }
@@ -72,6 +87,10 @@ const useReadPdf = ({ pdfUrl , banco}) => {
       }
 
     });
+
+    const resultWithCategories=categorizerGPT(resultado)
+
+    console.log(resultWithCategories)
 
     return resultado;
   }
@@ -82,7 +101,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
 
     const handleTextExtraction = async () => {
       if (!pdfUrl) {
-        setPdfExtracted([]);
+        setPdfExtracted('');
         return;
       }
       try {
@@ -91,7 +110,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
         const fullText = await concatenatePdfText(pdfDoc);
 
 
-          if (banco==='Santander') {
+          if (bank==='Santander') {
           // Step 2: Identify the start and end indices of the table
           const startIndex = fullText.indexOf('2.PERÍODO ACTUAL');
           const endIndex = fullText.indexOf('3. CARGOS, COMISIONES, IMPUESTOS Y ABONOS');
@@ -118,11 +137,11 @@ const useReadPdf = ({ pdfUrl , banco}) => {
           console.log(transactionList)
 
           
-          setPdfExtracted(transactionList);
+          setPdfExtracted(JSON.stringify(transactionList));
         }
 
 
-        else if (banco==='BancoDeChile'){
+        else if (bank==='BancoDeChile'){
           console.log('chile')
         }
 
@@ -142,7 +161,7 @@ const useReadPdf = ({ pdfUrl , banco}) => {
       }
     };
   
-  }, []);
+  }, [pdfUrl]);
 
 
 

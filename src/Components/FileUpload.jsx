@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import useAddTransactions from '../Hooks/useAddTransactions.jsx'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import { useGetUserInfo } from "../Hooks/useGetUserInfo";
-import FileInput from "./FileInput.jsx"
+
 import useReadPdf from '../Hooks/useReadPdf.jsx'
 
 
@@ -15,14 +15,15 @@ const FileUpload = () => {
     const [selectedFile, setSelectedFile] = useState(null);
 
 
-    const handleFileChange = (file) => {
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
         setSelectedFile(file);
     };
 
   // Llama a useReadPdf solo cuando selectedFile cambia ojala lograrlo
-    const jsonWithoutCategories = useReadPdf({
+    const text = useReadPdf({
         pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
-        banco: 'Santander',
+        bank: 'Santander'
     });
 
     // Llama a useAddTransactions solo cuando selectedFile cambia
@@ -33,6 +34,12 @@ const FileUpload = () => {
     });*/
     
     
+
+
+
+
+
+
     const { expenses, updateExpenseType } = useGetExpenses({
         startDateFilter: null,
         endDateFilter: null,
@@ -69,7 +76,7 @@ const FileUpload = () => {
             <div className="main-content">
                 <span className='fileupload-title'>File Upload</span>
                 <div className="file-upload">
-                    <FileInput onFileChange={handleFileChange} />
+                    <input type="file" accept=".pdf" onChange={handleFileChange} />
                 </div>
                 <div className="expenses-table">
                     <table className="expenses-table">

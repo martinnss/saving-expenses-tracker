@@ -9,19 +9,13 @@ import { db } from "../config/firebase";
 
 
 
-const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, pdfUrl}) => {
+const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData}) => {
     const [jsonData, setJsonData] = useState(null);
 
     const transactionCollectionRef = collection(db, 'transactions') //db a la que queremos enviar la data
 
     const userInfo = useGetUserInfo()
 
-    const jsonWithoutCategories = useReadPdf({
-        pdfUrl: pdfUrl,
-        banco: 'Santander'
-      });
-
-    console.log("json in addTrxs:",jsonWithoutCategories)
 
     //const jsonWithCategories = categorizerGPT(jsonWithoutCategories)
 
