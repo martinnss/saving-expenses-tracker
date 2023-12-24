@@ -42,6 +42,10 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
 
         const [fecha, lugarOperacion, montoTotal, desc1, valorCuota, numCuota, desc2] = listOfStrings
 
+        const [day, month, year] = fecha.split('/');
+        // Create a new Date object using the components
+        const dateObject = new Date(`${year}-${month}-${day}`);
+
         // unificar desc 1 y 2
         const description = desc2.concat(" ",desc1)
 
@@ -52,7 +56,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         } 
 
         const objetoJson = {
-          fecha,
+          dateObject,
           lugarOperacion:"Pago en Cuotas",
           montoTotal,
           desc,
@@ -69,13 +73,17 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         if(listOfStrings.length ===4) {
           const [fecha, lugarOperacion, montoTotal, description] = listOfStrings;
 
+          const [day, month, year] = fecha.split('/');
+          // Create a new Date object using the components
+          const dateObject = new Date(`${year}-${month}-${day}`);
+
           let desc = description
 
           if(description.length >=20){
             desc = description.substring(0, 25);
           } 
           const objetoJson = {
-            fecha,
+            dateObject,
             lugarOperacion,
             montoTotal,
             desc,

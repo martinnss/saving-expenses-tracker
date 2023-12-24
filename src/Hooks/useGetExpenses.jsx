@@ -40,6 +40,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
 
 
     const transactionCollectionRef = collection(db, 'transactions') //db a la que le queremos hacer un get
+
     const getExpenses = async () => {
       try {
 
@@ -54,9 +55,10 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
         const querySnapshot = await getDocs(q);
         const expensesData = querySnapshot.docs.map((doc) => doc.data());
 
-
+        console.log("fixed", expensesData)
+        
         const fixedExpensesData =expensesData.map(objeto => {
-
+          
           const timestamp=objeto.date;
           const fechaEnMilisegundos = timestamp.seconds * 1000;
           // Convierte la cadena de fecha a un objeto Date.
@@ -93,6 +95,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
                   const newExpenses = await getExpenses();
 
                   setMyData(newExpenses);
+                  console.log("expenses seteadas",newExpenses)
 
                 } else if (Object.keys(cacheData).length > 2) {
                     console.log('leyendo cache');

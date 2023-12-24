@@ -43,7 +43,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         category: row.category ? row.category : "TBD",
                     };
                 });
-                console.log("jsondata", transactionJSON)
+
                 // upload to firestore
                 jsonDataArray.forEach((element, index) => {
 
@@ -58,6 +58,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         num_installments: element.num_installments,
                         installment_amount: element.installment_amount,
                         category: element.category ,
+                        date: element.date
                     })*/
                 });
 
