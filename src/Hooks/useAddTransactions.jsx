@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import * as XLSX from 'xlsx'
 import { useGetUserInfo } from "./useGetUserInfo";
@@ -16,61 +16,58 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
 
     const userInfo = useGetUserInfo()
 
-    console.log("json input",jsonInput)
-    
-  if (hasInputData){
+    useEffect(() => {
+        if (jsonInput !== ""){
 
-    const generateUniqueId = () => {
-        return uuidv4();
-    };
-
-
-
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-        const data = new Uint8Array(event.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        const result = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-        const jsonDataArray = result.slice(1).map((row) => {
-            return {
-                transaction_id: generateUniqueId(),
-                uid: userInfo.uid,
-                uploadedAt: serverTimestamp(),
-                date: row[0] ? row[0] : serverTimestamp(),
-                type: row[1] ? row[1] : "TBD",
-                details: row[2] ? row[2] : "TBD",
-                amount: row[3] ? row[3] : 0,
+            const generateUniqueId = () => {
+                return uuidv4();
             };
-        });
-        // antes de acá debo tener el json correcto de usereadpdf
-        // Print each element
-        jsonDataArray.forEach((element, index) => {
-            console.log("subida a firebase activada")
-            /*addDoc(transactionCollectionRef, {
-                transaction_id: element.transaction_id,
-                uid: element.uid,
-                uploadedAt: element.uploadedAt,
-                date: element.date,
-                type: element.type,
-                details: element.details,
-                amount: element.amount,
-            })*/
-        });
 
-        // Set the JSON data state
-        setJsonData(jsonDataArray);
-    };
-
-    setUpdatedCacheFlag(false)
+            const transactionJSON =JSON.parse(jsonInput)
 
 
+            if (transactionJSON.length > 0) {
 
-    console.log("jsonData:", jsonData)
-  }
+
+                const jsonDataArray = transactionJSON.slice(1).map((row) => {
+                    return {
+                        transaction_id: generateUniqueId(),
+                        uid: userInfo.uid,
+                        uploadedAt: serverTimestamp(),
+                        date: row.fecha ? row.fecha : serverTimestamp(),
+                        transaction_location: row.lugarOperacion ? row.lugarOperacion : "TBD",
+                        seller: row.desc ? row.desc : "TBD",
+                        amount: row.montoTotal ? row.montoTotal : 0,
+                        num_installments: row.numCuota ? row.numCuota : "NA" ,
+                        installment_amount: row.valorCuota ? row.valorCuota : "NA" ,
+                        category: row.category ? row.category : "TBD",
+                    };
+                });
+                console.log("jsondata", transactionJSON)
+                // upload to firestore
+                jsonDataArray.forEach((element, index) => {
+
+                    console.log("subida a firebase desactivada")
+                    /*addDoc(transactionCollectionRef, {
+                        transaction_id: element.transaction_id,
+                        uid: element.uid,
+                        uploadedAt: element.uploadedAt,
+                        transaction_location: element.transaction_location,
+                        seller: element.seller,
+                        amount: element.amount,
+                        num_installments: element.num_installments,
+                        installment_amount: element.installment_amount,
+                        category: element.category ,
+                    })*/
+                });
+
+                // Set the JSON data state
+                setJsonData(jsonDataArray);
+            };
+
+            setUpdatedCacheFlag(false)
+        }
+    }, [jsonInput, setUpdatedCacheFlag]);
 
 
 

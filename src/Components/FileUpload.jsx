@@ -13,6 +13,7 @@ const FileUpload = () => {
     const userInfo = useGetUserInfo()
     const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [jsonTransactions, setJsonTransactions] = useState("")
 
 
     const handleFileChange = (event) => {
@@ -23,18 +24,20 @@ const FileUpload = () => {
     //read and category the pdf
     const transactionsWithCategories = useReadPdf({
         pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
-        bank: 'Santander'
+        bank: 'Santander',
+        setJsonTransactions: setJsonTransactions,
+        jsonTransactions:jsonTransactions
     });
 
 
+    
     //add the transactions to firestore
     const { jsonData, handleFileChange: handleFileChangeHook } = useAddTransactions({
         updatedCacheFlag: updatedCacheFlag,
         setUpdatedCacheFlag: setUpdatedCacheFlag,
-        hasInputData: false,
         jsonInput: transactionsWithCategories
     });
-
+    
 
 
 

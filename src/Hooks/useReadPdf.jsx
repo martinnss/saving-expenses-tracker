@@ -8,7 +8,7 @@ import categorizerGPT from '../functions/categorizerGPT';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const useReadPdf = ({ pdfUrl , bank}) => {
+const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => {
   const [pdfExtracted, setPdfExtracted] = useState('');
 
   async function concatenatePdfText(pdfDoc) {
@@ -101,6 +101,7 @@ const useReadPdf = ({ pdfUrl , bank}) => {
     const handleTextExtraction = async () => {
       if (!pdfUrl) {
         setPdfExtracted('');
+        setJsonTransactions("")
         return;
       }
       try {
@@ -136,6 +137,7 @@ const useReadPdf = ({ pdfUrl , bank}) => {
 
           transactionList.then(result =>{
             setPdfExtracted(JSON.stringify(result));
+            setJsonTransactions(JSON.stringify(result))
           })
           
           
@@ -165,7 +167,7 @@ const useReadPdf = ({ pdfUrl , bank}) => {
   }, [pdfUrl]);
 
 
-  return pdfExtracted;
+  return jsonTransactions;
 };
 
 export default useReadPdf;
