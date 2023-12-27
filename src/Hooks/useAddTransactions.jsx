@@ -30,6 +30,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
 
 
                 const jsonDataArray = transactionJSON.slice(1).map((row) => {
+                    console.log(row)
                     return {
                         transaction_id: generateUniqueId(),
                         uid: userInfo.uid,
@@ -48,7 +49,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                 jsonDataArray.forEach((element, index) => {
 
                     console.log("subida a firebase desactivada")
-                    /*addDoc(transactionCollectionRef, {
+                    addDoc(transactionCollectionRef, {
                         transaction_id: element.transaction_id,
                         uid: element.uid,
                         uploadedAt: element.uploadedAt,
@@ -59,7 +60,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         installment_amount: element.installment_amount,
                         category: element.category ,
                         date: element.date
-                    })*/
+                    })
                 });
 
                 // Set the JSON data state

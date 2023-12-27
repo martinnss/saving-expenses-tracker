@@ -96,9 +96,9 @@ const ExpenseHistory = () => {
                       return (
                         <tr key={expense.transaction_id} className='table-row'>
                           <td className='table-data'>{expense.date.toLocaleString()}</td>
-                          <td className='table-data'>{expense.details}</td>
+                          <td className='table-data'>{expense.seller}</td>
                           <td className='table-data'>{expense.amount}</td>
-                          <td className='table-data'>{expense.type}</td>
+                          <td className='table-data'>{expense.category}</td>
                         </tr>
                       );
                     } else {
