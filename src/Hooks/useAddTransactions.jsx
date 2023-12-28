@@ -35,7 +35,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         transaction_id: generateUniqueId(),
                         uid: userInfo.uid,
                         uploadedAt: serverTimestamp(),
-                        date: row.fecha ? row.fecha : serverTimestamp(),
+                        date: row.dateObject ? new Date(row.dateObject) : serverTimestamp(),
                         transaction_location: row.lugarOperacion ? row.lugarOperacion : "TBD",
                         seller: row.desc ? row.desc : "TBD",
                         amount: row.montoTotal ? row.montoTotal : 0,
@@ -48,7 +48,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                 // upload to firestore
                 jsonDataArray.forEach((element, index) => {
 
-                    console.log("subida a firebase desactivada")
+                    console.log("subida a firebase desactivada")/*
                     addDoc(transactionCollectionRef, {
                         transaction_id: element.transaction_id,
                         uid: element.uid,
@@ -60,7 +60,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         installment_amount: element.installment_amount,
                         category: element.category ,
                         date: element.date
-                    })
+                    }) */
                 });
 
                 // Set the JSON data state

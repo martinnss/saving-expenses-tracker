@@ -5,6 +5,7 @@ import verifySaleOriginSantander from '../functions/verifySaleOriginSantander';
 import verifySaleOriginDeferredSantander from '../functions/verifySaleOriginDeferredSantander';
 
 import categorizerGPT from '../functions/categorizerGPT';
+import convertCurrencyStringToInt from '../functions/convertCurrencyStringToInt'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -28,6 +29,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
   }
 
 
+
   function procesarLista(strings) {
     const resultado = [];
   
@@ -40,14 +42,22 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         const listOfStrings = verifySaleOriginDeferredSantander(stringCleanTwo)
 
 
-        const [fecha, lugarOperacion, montoTotal, desc1, valorCuota, numCuota, desc2] = listOfStrings
+        const [fecha, lugarOperacion, monto, desc1, preciocuota, numCuota, desc2] = listOfStrings
 
         const [day, month, year] = fecha.split('/');
-        // Create a new Date object using the components
-        const dateObject = new Date(`${year}-${month}-${day}`);
 
-        // unificar desc 1 y 2
-        const description = desc2.concat(" ",desc1)
+        let actualYear=parseInt(year)
+        if (year <100){
+          actualYear= actualYear+2000
+        } 
+        // Create a new Date object using the components
+        const dateObject = new Date(`${actualYear}-${month}-${day}`);
+
+        const montoTotal = convertCurrencyStringToInt(monto)
+        const valorCuota = convertCurrencyStringToInt(preciocuota)
+        
+
+        const description = desc2
 
         let desc = description
 
@@ -71,17 +81,26 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         const listOfStrings=verifySaleOriginSantander(stringCleanTwo)
 
         if(listOfStrings.length ===4) {
-          const [fecha, lugarOperacion, montoTotal, description] = listOfStrings;
+          const [fecha, lugarOperacion, monto, description] = listOfStrings;
 
           const [day, month, year] = fecha.split('/');
+
+          let actualYear=parseInt(year)
+          if (year <100){
+            actualYear= actualYear+2000
+          } 
           // Create a new Date object using the components
-          const dateObject = new Date(`${year}-${month}-${day}`);
+          const dateObject = new Date(`${actualYear}-${month}-${day}`);
 
           let desc = description
 
           if(description.length >=20){
             desc = description.substring(0, 25);
           } 
+
+          const montoTotal = convertCurrencyStringToInt(monto)
+
+
           const objetoJson = {
             dateObject,
             lugarOperacion,
@@ -144,6 +163,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
           const transactionList=procesarLista(stringsArray)
 
           transactionList.then(result =>{
+
             setPdfExtracted(JSON.stringify(result));
             setJsonTransactions(JSON.stringify(result))
           })
@@ -160,7 +180,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         console.error('Error extracting text:', error);
       } finally {
         // Clean up the object URL
-        URL.revokeObjectURL(pdfUrl);
+        //URL.revokeObjectURL(pdfUrl);
       }
     };
 
@@ -168,7 +188,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
     // Cleanup function when component unmounts or when pdfUrl changes
     return () => {
       if (pdfUrl) {
-        URL.revokeObjectURL(pdfUrl);
+        //URL.revokeObjectURL(pdfUrl);
       }
     };
   

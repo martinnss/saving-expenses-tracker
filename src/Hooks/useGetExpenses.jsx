@@ -55,7 +55,6 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
         const querySnapshot = await getDocs(q);
         const expensesData = querySnapshot.docs.map((doc) => doc.data());
 
-        console.log("fixed", expensesData)
         
         const fixedExpensesData =expensesData.map(objeto => {
           
@@ -68,7 +67,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
           return { ...objeto, date: fechaTransformada };
         });
 
-
+        console.log("fixed", fixedExpensesData)
         setExpenses(fixedExpensesData);
         return fixedExpensesData
 

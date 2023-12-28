@@ -48,7 +48,6 @@ const FileUpload = () => {
     });
 
     const latestExpenses = expenses.slice(0, 5);
-    console.log(latestExpenses)
 
     return (
         <div className="content">
@@ -99,7 +98,7 @@ const FileUpload = () => {
                                     if (expense.uid === userInfo.uid) {
                                       return (
                                         <tr key={expense.transaction_id} className='table-row'>
-                                          <td className='table-data'>{expense.date}</td>
+                                          <td className='table-data'>{expense.date.toString()}</td>
                                           <td className='table-data'>{expense.seller}</td>
                                           <td className='table-data'>{expense.amount}</td>
                                           <td className='table-data'>{expense.category}</td>

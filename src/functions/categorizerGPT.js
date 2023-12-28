@@ -38,7 +38,7 @@ async function categorizerGPT(listOfObjects) {
 	temperature: 0.3
   });
   console.log(completion)
-  const gptOutput = completion.choices[0].message.content*/
+  const gptOutput = completion.choices[0].message.content */
 
   const gptOutput="```json\n{\n  \"TRES CUOTAS PREC MP*MERCADO LIBRE\": \"E-commerce\",\n  \"Spotify P26C38BB67\": \"Streaming service\",\n  \"MERPAGO*ENEL\": \"Utilities\",\n  \"MERPAGO*MOVISTARHOGAR COM\": \"Telecommunications\",\n  \"MERPAGO*AGUASANDINAS\": \"Utilities\",\n  \"MERPAGO*CLAROTELEFONA\": \"Telecommunications\",\n  \"MERPAGO*TIENDACITROLA\": \"Retail\",\n  \"CECILIA ZUNIGA ESCUDERO\": \"Small business\",\n  \"PHARMACOSTA\": \"Pharmacy\",\n  \"LIB NACIONAL COSTANERA\": \"Bookstore\",\n  \"AMAZON.COM\": \"E-commerce\",\n  \"EMPORIO BAKERY\": \"Bakery\",\n  \"ALMACEN\": \"Convenience store\",\n  \"CRUZ VERDE CV 167\": \"Pharmacy\",\n  \"PAPACHECOS LASTARRIA\": \"Restaurant\",\n  \"MERPAGO*ROSA DE LAS MERC\": \"Retail\",\n  \"LIPIGAS OPL-RM-MTORRES\": \"Gas supplier\",\n  \"ALANIS Y RANDI\": \"Small business\",\n  \"LONCHERA SPA\": \"Restaurant\",\n  \"TOTTUS BUIN\": \"Supermarket\",\n  \"MERPAGO*BELOW\": \"Retail\",\n  \"CENTRO VETERINARIO V SALU\": \"Veterinary clinic\",\n  \"BOTILLERIA SEBASTIAN\": \"Liquor store\",\n  \"CARNES LOS ANDINOS\": \"Butcher shop\",\n  \"TIENDA DE CONVENIENCIA\": \"Convenience store\",\n  \"MERPAGO*BIPQR\": \"Transportation\",\n  \"FULLTEX\": \"Retail\",\n  \"TOTTUS LA FLORIDA DE 3 4\": \"Supermarket\",\n  \"OZ SPA\": \"Spa\",\n  \"DOS CUOTAS PRECI SPARTA INTERNET\": \"Internet service provider\"\n}\n```"
   
@@ -55,7 +55,6 @@ async function categorizerGPT(listOfObjects) {
 
   const transactionsWithCategories = addCategoriesToTransactions(listOfSellers, jsonOutput);
 
-  
 
  return transactionsWithCategories
 }
