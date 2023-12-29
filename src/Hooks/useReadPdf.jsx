@@ -98,7 +98,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
             desc = description.substring(0, 25);
           } 
 
-          const montoTotal = convertCurrencyStringToInt(monto)
+          const montoTotal =  convertCurrencyStringToInt(monto)
 
 
           const objetoJson = {
@@ -115,7 +115,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
 
     });
 
-    const resultWithCategories=categorizerGPT(resultado)
+    const resultWithCategories= categorizerGPT(resultado)
 
 
     return resultWithCategories;
@@ -160,13 +160,10 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
               return fechas[indexModifed] + ' ' + sublista.trim();
           });
           const stringsArray= resultado.slice(1);
-          const transactionList=procesarLista(stringsArray)
+          const transactionList= await procesarLista(stringsArray)
 
-          transactionList.then(result =>{
-
-            setPdfExtracted(JSON.stringify(result));
-            setJsonTransactions(JSON.stringify(result))
-          })
+          setPdfExtracted(JSON.stringify(transactionList));
+          setJsonTransactions(JSON.stringify(transactionList));
           
           
         }

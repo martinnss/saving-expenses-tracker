@@ -44,11 +44,11 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         category: row.category ? row.category : "TBD",
                     };
                 });
-
+                console.log("json array to firebase: ", jsonDataArray.length )
                 // upload to firestore
                 jsonDataArray.forEach((element, index) => {
 
-                    console.log("subida a firebase desactivada")/*
+                    console.log("subida a firebase desactivada")
                     addDoc(transactionCollectionRef, {
                         transaction_id: element.transaction_id,
                         uid: element.uid,
@@ -60,7 +60,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         installment_amount: element.installment_amount,
                         category: element.category ,
                         date: element.date
-                    }) */
+                    }) 
                 });
 
                 // Set the JSON data state
