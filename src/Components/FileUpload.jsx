@@ -8,6 +8,8 @@ import useReadPdf from '../Hooks/useReadPdf.jsx'
 
 import '../Styles/FileUpload.css'
 
+let count =0
+
 const FileUpload = () => {
 
     const userInfo = useGetUserInfo()
@@ -17,13 +19,16 @@ const FileUpload = () => {
 
 
     const handleFileChange = (event) => {
+        count++
+        console.log("file change renders: ", count)
         const file = event.target.files[0];
-        setSelectedFile(file);
+        const pdfBlob = URL.createObjectURL(file)
+        setSelectedFile(pdfBlob);
     };
 
     //read and category the pdf
     const transactionsWithCategories = useReadPdf({
-        pdfUrl: selectedFile ? URL.createObjectURL(selectedFile) : '',
+        pdfUrl: selectedFile ? selectedFile : '',
         bank: 'Santander',
         setJsonTransactions: setJsonTransactions,
         jsonTransactions:jsonTransactions
@@ -32,7 +37,7 @@ const FileUpload = () => {
 
     
     //add the transactions to firestore
-    const { jsonData, handleFileChange: handleFileChangeHook } = useAddTransactions({
+    const { jsonData } = useAddTransactions({
         updatedCacheFlag: updatedCacheFlag,
         setUpdatedCacheFlag: setUpdatedCacheFlag,
         jsonInput: transactionsWithCategories

@@ -15,6 +15,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
     const transactionCollectionRef = collection(db, 'transactions') //db a la que queremos enviar la data
 
     const userInfo = useGetUserInfo()
+    let count = 0;
 
     useEffect(() => {
         if (jsonInput !== ""){
@@ -30,7 +31,6 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
 
 
                 const jsonDataArray = transactionJSON.slice(1).map((row) => {
-                    console.log(row)
                     return {
                         transaction_id: generateUniqueId(),
                         uid: userInfo.uid,
@@ -44,11 +44,13 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         category: row.category ? row.category : "TBD",
                     };
                 });
-                console.log("json array to firebase: ", jsonDataArray.length )
+                count++;
+                console.log("component render number: ",count);
                 // upload to firestore
                 jsonDataArray.forEach((element, index) => {
 
-                    console.log("subida a firebase desactivada")
+
+                    
                     addDoc(transactionCollectionRef, {
                         transaction_id: element.transaction_id,
                         uid: element.uid,
@@ -74,8 +76,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
 
 
     return {
-        jsonData,
-        updatedCacheFlag
+        jsonData
     };
 };
 

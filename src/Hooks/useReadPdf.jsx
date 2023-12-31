@@ -9,8 +9,12 @@ import convertCurrencyStringToInt from '../functions/convertCurrencyStringToInt'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+
+let count = 0;
+
 const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => {
   const [pdfExtracted, setPdfExtracted] = useState('');
+  const [countPdf, setCountPdf] = useState(true);
 
   async function concatenatePdfText(pdfDoc) {
     // Initialize variable to store concatenated text
@@ -123,6 +127,7 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
 
 
 
+
   useEffect(() => {
 
     const handleTextExtraction = async () => {
@@ -135,6 +140,10 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         const pdfDoc = await pdfjs.getDocument(pdfUrl).promise;
         
         const fullText = await concatenatePdfText(pdfDoc);
+
+
+
+        // console.log("pdfs actualizados: ", countPdf)
 
 
           if (bank==='Santander') {
@@ -159,6 +168,9 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
               const indexModifed = index - 1
               return fechas[indexModifed] + ' ' + sublista.trim();
           });
+
+
+
           const stringsArray= resultado.slice(1);
           const transactionList= await procesarLista(stringsArray)
 
@@ -180,6 +192,10 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         //URL.revokeObjectURL(pdfUrl);
       }
     };
+
+    count++;
+    console.log(pdfUrl)
+    console.log("usereadpdf render number: ",count);
 
     handleTextExtraction();
     // Cleanup function when component unmounts or when pdfUrl changes
