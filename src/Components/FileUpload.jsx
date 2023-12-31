@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import useAddTransactions from '../Hooks/useAddTransactions.jsx'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import { useGetUserInfo } from "../Hooks/useGetUserInfo";
@@ -10,7 +10,7 @@ import '../Styles/FileUpload.css'
 
 let count =0
 
-const FileUpload = () => {
+const FileUpload = ({ openPopup })=> {
 
     const userInfo = useGetUserInfo()
     const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
@@ -53,6 +53,16 @@ const FileUpload = () => {
     });
 
     const latestExpenses = expenses.slice(0, 5);
+
+    useEffect(() => {
+        if (selectedFile !== null){
+            openPopup();
+        }
+
+        if (transactionsWithCategories && transactionsWithCategories.length > 0) {
+          openPopup();
+        }
+      }, [transactionsWithCategories,selectedFile]);
 
     return (
         <div className="content">

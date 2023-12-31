@@ -8,8 +8,15 @@ import FileUpload  from '../Components/FileUpload';
 import ExpenseHistory from '../Components/ExpenseHistory'
 import ExpenseSummary from '../Components/ExpenseSummary'
 import TrackerSidebar from '../Components/TrackerSidebar';
+import Popup from '../Components/Popup'
 
 const Tracker = () => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const openPopup = () => {
+    setShowPopup(!showPopup);
+  };
+  
   const userInfo = useGetUserInfo()
   console.log(userInfo)
 
@@ -33,10 +40,15 @@ const Tracker = () => {
         {mobileSidebar && < TrackerSidebar className="sidebar-mobile" setActiveLinkCallback={setActiveLink}/>}
       </div>
       <div>
-        {activeLink === 'FileUpload' && <FileUpload />}
+        {activeLink === 'FileUpload' && <FileUpload  openPopup={openPopup}/>}
         {activeLink === 'ExpenseHistory' && <ExpenseHistory />}
         {activeLink === 'ExpenseSummary' && <ExpenseSummary />}
       </div>
+      {showPopup && (
+        <div className="popup-background">
+          <Popup onClose={() => setShowPopup(false)} />
+        </div>
+      )}
     </div>
   );
   }
