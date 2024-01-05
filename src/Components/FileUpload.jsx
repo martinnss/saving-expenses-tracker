@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useRef} from 'react'
 import useAddTransactions from '../Hooks/useAddTransactions.jsx'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import { useGetUserInfo } from "../Hooks/useGetUserInfo";
@@ -16,20 +16,26 @@ const FileUpload = ({ openPopup })=> {
     const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
     const [selectedFile, setSelectedFile] = useState(null);
     const [jsonTransactions, setJsonTransactions] = useState("")
+    const [hasPassword, setHasPassword] = useState(false);
+    const [password, setPassword] = useState('');
+    const [nombreArchivo, setNombreArchivo] = useState('Selecciona un archivo');
+    const [bank, setBank] = useState("");
+
 
 
     const handleFileChange = (event) => {
-        count++
-        console.log("file change renders: ", count)
         const file = event.target.files[0];
         const pdfBlob = URL.createObjectURL(file)
+
         setSelectedFile(pdfBlob);
+        setNombreArchivo(file.name || 'Selecciona un archivo');
     };
 
     //read and category the pdf
     const transactionsWithCategories = useReadPdf({
         pdfUrl: selectedFile ? selectedFile : '',
-        bank: 'Santander',
+        bank: bank,
+        pdfPassword:password,
         setJsonTransactions: setJsonTransactions,
         jsonTransactions:jsonTransactions
     });
@@ -42,6 +48,30 @@ const FileUpload = ({ openPopup })=> {
         setUpdatedCacheFlag: setUpdatedCacheFlag,
         jsonInput: transactionsWithCategories
     });
+
+    const inputArchivoRef = useRef(null);
+    const manejarClickBoton = () => {
+        inputArchivoRef.current.click(); // Simula el clic en el input de archivo
+      };
+    
+    function cambiarTextoInputFile() {
+        // Crear un nuevo elemento de entrada de archivo
+        var nuevoInputFile = document.createElement('input');
+        nuevoInputFile.type = 'file';
+      
+        // Reemplazar el antiguo elemento con el nuevo
+        document.getElementById('inputFile').parentNode.replaceChild(nuevoInputFile, document.getElementById('inputFile'));
+      
+        // Actualizar el id para futuras referencias
+        nuevoInputFile.id = 'inputFile';
+      
+        // Simular un clic en el nuevo elemento
+        nuevoInputFile.click();
+      }
+
+    const handleChooseBank = (event) => {
+        setBank(event.target.value);
+    };
     
 
 
@@ -90,9 +120,47 @@ const FileUpload = ({ openPopup })=> {
                 </div>
             </div>
             <div className="main-content">
-                <span className='fileupload-title'>File Upload</span>
+                <h1 className='fileupload-title'>File Upload</h1>
                 <div className="file-upload">
-                    <input type="file" accept=".pdf" onChange={handleFileChange} />
+                    <h3>Ingresa tu Estado de Cuenta</h3>
+                    <p>Sube el PDF de tu TC para comenzar a ahorrar</p>
+                    <select value={bank} onChange={handleChooseBank}>
+                        <option value="">Selecciona un banco</option>
+                        <option value="santander">Banco Santander</option>
+                        <option value="chile">Banco de Chile</option>
+                    </select>
+                    <div className="has-password">
+                        <p>¿Tu archivo tiene contraseña?</p>
+                        <input
+                            type="checkbox"
+                            checked={hasPassword}
+                            onChange={() => setHasPassword(!hasPassword)}
+                        />
+                    </div>
+                    {hasPassword && (
+                        <div>
+                        <label htmlFor="password">Ingresa la contraseña aquí:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Contraseña"
+                        />
+                        </div>
+                    )}
+
+
+                    <button onClick={manejarClickBoton}>Seleccionar Archivo</button>
+                    <input
+                        type="file"
+                        ref={inputArchivoRef}
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                    />
+                    <p>{nombreArchivo}</p>
+                    
                 </div>
                 <div className="expenses-table">
                     <table className="expenses-table">

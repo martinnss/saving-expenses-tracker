@@ -45,6 +45,9 @@
   padding: 0.7rem;
   margin-top: 0.5rem;
 }
+.has-password{
+  display: flex ;
+}
 
 .file-input {
   display: block;

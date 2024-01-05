@@ -25,6 +25,7 @@ function addCategoriesToTransactions(transactions, categoryObject) {
 async function categorizerGPT(listOfObjects) {
 
   const listOfSellers = listOfObjects
+  console.log(listOfObjects)
 
   // Utiliza el método map para obtener un array de todas las descripciones
   const descriptions = listOfSellers.map(objeto => objeto.desc);

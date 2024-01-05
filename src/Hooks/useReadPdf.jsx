@@ -12,7 +12,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 let count = 0;
 
-const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => {
+const useReadPdf = ({ pdfUrl,pdfPassword , bank, setJsonTransactions, jsonTransactions}) => {
   const [pdfExtracted, setPdfExtracted] = useState('');
   const [countPdf, setCountPdf] = useState(true);
 
@@ -137,8 +137,18 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         return;
       }
       try {
-        const pdfDoc = await pdfjs.getDocument(pdfUrl).promise;
-        
+        let pdfDoc = ""
+        try {
+            pdfDoc = await pdfjs.getDocument({
+            url:pdfUrl,
+            password: pdfPassword }).promise;
+        } catch (error){
+          console.log("contraseña", error)
+        }
+
+        ////////////////////////////////////////// no pasa para abajo
+
+
         const fullText = await concatenatePdfText(pdfDoc);
 
 
@@ -146,7 +156,8 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         // console.log("pdfs actualizados: ", countPdf)
 
 
-          if (bank==='Santander') {
+          if (bank==='Banco Santander') {
+            console.log("santander")
           // Step 2: Identify the start and end indices of the table
           const startIndex = fullText.indexOf('2.PERÍODO ACTUAL');
           const endIndex = fullText.indexOf('3. CARGOS, COMISIONES, IMPUESTOS Y ABONOS');
@@ -170,9 +181,10 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
           });
 
 
-
+          console.log(resultado)
           const stringsArray= resultado.slice(1);
           const transactionList= await procesarLista(stringsArray)
+
 
           setPdfExtracted(JSON.stringify(transactionList));
           setJsonTransactions(JSON.stringify(transactionList));
@@ -181,8 +193,8 @@ const useReadPdf = ({ pdfUrl , bank, setJsonTransactions, jsonTransactions}) => 
         }
 
 
-        else if (bank==='BancoDeChile'){
-          console.log('chile')
+        else if (bank==='Banco de Chile'){
+          console.log('chile:', fullText)
         }
 
       } catch (error) {
