@@ -127,7 +127,7 @@ const FileUpload = ({ openPopup })=> {
                     <select value={bank} onChange={handleChooseBank}>
                         <option value="">Selecciona un banco</option>
                         <option value="santander">Banco Santander</option>
-                        <option value="chile">Banco de Chile</option>
+                        <option value="bancodechile">Banco de Chile</option>
                     </select>
                     <div className="has-password">
                         <p>¿Tu archivo tiene contraseña?</p>

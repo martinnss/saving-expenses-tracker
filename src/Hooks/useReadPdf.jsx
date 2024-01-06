@@ -6,15 +6,15 @@ import verifySaleOriginDeferredSantander from '../functions/verifySaleOriginDefe
 
 import categorizerGPT from '../functions/categorizerGPT';
 import convertCurrencyStringToInt from '../functions/convertCurrencyStringToInt'
+import verifySaleOriginBancodeChile from '../functions/verifySaleOriginBancodeChile';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
-let count = 0;
 
 const useReadPdf = ({ pdfUrl,pdfPassword , bank, setJsonTransactions, jsonTransactions}) => {
   const [pdfExtracted, setPdfExtracted] = useState('');
-  const [countPdf, setCountPdf] = useState(true);
+  const [pdfGrossText, setPdfGrossText] = useState(null)
 
   async function concatenatePdfText(pdfDoc) {
     // Initialize variable to store concatenated text
@@ -136,28 +136,26 @@ const useReadPdf = ({ pdfUrl,pdfPassword , bank, setJsonTransactions, jsonTransa
         setJsonTransactions("")
         return;
       }
-      try {
-        let pdfDoc = ""
-        try {
-            pdfDoc = await pdfjs.getDocument({
-            url:pdfUrl,
-            password: pdfPassword }).promise;
-        } catch (error){
-          console.log("contraseña", error)
-        }
 
-        ////////////////////////////////////////// no pasa para abajo
+      try {
+
+
+        const pdfDoc = await pdfjs.getDocument({
+            url: pdfUrl,
+            password: pdfPassword ? pdfPassword : undefined
+        }).promise;
+
 
 
         const fullText = await concatenatePdfText(pdfDoc);
 
 
 
-        // console.log("pdfs actualizados: ", countPdf)
+        console.log(bank)
 
 
-          if (bank==='Banco Santander') {
-            console.log("santander")
+          if (bank==='santander') {
+
           // Step 2: Identify the start and end indices of the table
           const startIndex = fullText.indexOf('2.PERÍODO ACTUAL');
           const endIndex = fullText.indexOf('3. CARGOS, COMISIONES, IMPUESTOS Y ABONOS');
@@ -193,8 +191,10 @@ const useReadPdf = ({ pdfUrl,pdfPassword , bank, setJsonTransactions, jsonTransa
         }
 
 
-        else if (bank==='Banco de Chile'){
+        else if (bank==='bancodechile'){
           console.log('chile:', fullText)
+
+          const transactionList= verifySaleOriginBancodeChile(fullText)
         }
 
       } catch (error) {
@@ -205,9 +205,6 @@ const useReadPdf = ({ pdfUrl,pdfPassword , bank, setJsonTransactions, jsonTransa
       }
     };
 
-    count++;
-    console.log(pdfUrl)
-    console.log("usereadpdf render number: ",count);
 
     handleTextExtraction();
     // Cleanup function when component unmounts or when pdfUrl changes
