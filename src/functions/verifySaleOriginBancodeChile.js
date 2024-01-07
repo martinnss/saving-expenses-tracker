@@ -79,10 +79,9 @@ function verifySaleOriginBancodeChile (fullText){
         const preFiltered = filteredArrayWithourDollar.slice(0,7)
         
 
-        let result = []
+        let finalResult = []
 
         if ( (!isNaN(Number(filteredArrayWithourDollar[7])) && filteredArrayWithourDollar[7].length === 1 ) || filteredArrayWithourDollar[7].includes("TOTAL")) {
-
             const indexOfD = filteredArrayWithourDollar.findIndex(element => element === "D");
             const placeOfBuyD = filteredArrayWithourDollar.slice(indexOfD+1)
 
@@ -90,26 +89,44 @@ function verifySaleOriginBancodeChile (fullText){
             const placeOfBuy = filteredArrayWithourDollar.slice(indexOfMensual+1)
 
             if(indexOfD===-1){
-                result = preFiltered.concat(placeOfBuy)
+                finalResult = preFiltered.concat(placeOfBuy)
             } else if (indexOfMensual===-1){
-                result = preFiltered.concat(placeOfBuyD)
+                finalResult = preFiltered.concat(placeOfBuyD)
             }
 
         } else {
-            result = filteredArrayWithourDollar
+            finalResult = filteredArrayWithourDollar
         }
-
 
         //Ajustar result en los lugares de compra y desp ajustar [fecha, lugarOperacion, monto, desc1, preciocuota, numCuota, desc2]
         //para que todo pueda seguir el mismo flujo y no sea necesario seguir modificando
+        const indexOfC = finalResult.findIndex(element => element === "C");
+        let cityRestante = []
+
+        if( indexOfC!==-1){
+            const preC = finalResult.slice(0,indexOfC)
+            const restanteCityElemento = finalResult.slice(indexOfC+1).join(" ")
+            
+            cityRestante = restanteCityElemento
+
+            finalResult = preC
+        } else {
+            finalResult = finalResult
+        }
 
 
+        if (finalResult.length >8){
+            const preJoint = finalResult.slice(0,7)
+            const preJointCity = finalResult.slice(7).join(" ")
 
+            finalResult = preJoint.concat(preJointCity)
+        }
 
         
-        console.log("result",result)
+        
+        console.log("result",finalResult)
 
-        const listOfStrings = result
+        const listOfStrings = finalResult
         
         /* put pud de verify sale origin
                 0
@@ -171,7 +188,10 @@ function verifySaleOriginBancodeChile (fullText){
 
 
         });
-    
+
+    // al final ajustar la ciudad 
+
+
     console.log(resultado)
     //const resultWithCategories= categorizerGPT(resultado)
 
