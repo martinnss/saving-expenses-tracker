@@ -44,7 +44,7 @@ const useReadPdf = ({ pdfUrl,pdfPassword , bank, setJsonTransactions, jsonTransa
 
       if (isDeferredPayment){
         const listOfStrings = verifySaleOriginDeferredSantander(stringCleanTwo)
-
+        console.log("post verifySaleOriginDeferredSantander", listOfStrings)
 
         const [fecha, lugarOperacion, monto, desc1, preciocuota, numCuota, desc2] = listOfStrings
 

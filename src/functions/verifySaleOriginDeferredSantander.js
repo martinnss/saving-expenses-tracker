@@ -9,7 +9,6 @@ function verifySaleOriginDeferredSantander(inputString){
 
 
 
-    // If something is between the patterns, add "found it!" between them
     let resultString = inputString;
 
     // concatenate everything after the cost
