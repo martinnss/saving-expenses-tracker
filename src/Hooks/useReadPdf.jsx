@@ -192,9 +192,13 @@ const useReadPdf = ({ pdfUrl,pdfPassword , bank, setJsonTransactions, jsonTransa
 
 
         else if (bank==='bancodechile'){
-          console.log('chile:', fullText)
 
-          const transactionList= verifySaleOriginBancodeChile(fullText)
+          const transactionList= await verifySaleOriginBancodeChile(fullText)
+
+          console.log("final: ",transactionList)
+
+          setPdfExtracted(JSON.stringify(transactionList));
+          setJsonTransactions(JSON.stringify(transactionList));
         }
 
       } catch (error) {

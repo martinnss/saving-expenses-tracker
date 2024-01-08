@@ -1,5 +1,5 @@
 import convertCurrencyStringToInt from "./convertCurrencyStringToInt";
-import verifySaleOriginDeferredSantander from "./verifySaleOriginDeferredSantander";
+import categorizerGPT from "./categorizerGPT";
 
 
 function verifySaleOriginBancodeChile (fullText){
@@ -53,6 +53,7 @@ function verifySaleOriginBancodeChile (fullText){
 
     const resultado = [];
 
+
     stringList.forEach((string) => {
 
         const wordsArray = string.split(/\s+/);
@@ -77,7 +78,10 @@ function verifySaleOriginBancodeChile (fullText){
         
 
         const preFiltered = filteredArrayWithourDollar.slice(0,7)
-        
+
+        if (typeof filteredArrayWithourDollar[7] === 'undefined') {
+            filteredArrayWithourDollar[7] = "No aplica";
+        }
 
         let finalResult = []
 
@@ -124,34 +128,11 @@ function verifySaleOriginBancodeChile (fullText){
 
         
         
-        console.log("result",finalResult)
 
         const listOfStrings = finalResult
-        
-        /* put pud de verify sale origin
-                0
-        : 
-        "20/11/23"
-        1
-        : 
-        "$112.491"
-        2
-        : 
-        "$112.491"
-        3
-        : 
-        "0,00 % DOS CUOTAS PRECI "
-        4
-        : 
-        "56.245"
-        5
-        : 
-        "02/02"
-        6
-        : 
-        "SPARTA INTERNET" */
+  
 
-        const [fecha, lugarOperacion, monto, desc1, preciocuota, numCuota, desc2] = listOfStrings
+        const [fecha, bancoChileTransactionId,desc2 , montoSinIntereses,monto, numCuota, preciocuota,lugarOperacion] = listOfStrings
 
         const [day, month, year] = fecha.split('/');
 
@@ -161,6 +142,7 @@ function verifySaleOriginBancodeChile (fullText){
         } 
         // Create a new Date object using the components
         const dateObject = new Date(`${actualYear}-${month}-${day}`);
+
 
         const montoTotal = convertCurrencyStringToInt(monto)
         const valorCuota = convertCurrencyStringToInt(preciocuota)
@@ -175,28 +157,27 @@ function verifySaleOriginBancodeChile (fullText){
         } 
 
         const objetoJson = {
-            dateObject,
-            lugarOperacion:"Pago en Cuotas",
-            montoTotal,
-            desc,
-            valorCuota,
-            numCuota,
+            dateObject: dateObject || new Date(),
+            lugarOperacion: lugarOperacion || "Sin Info",
+            montoTotal: montoTotal || 0,
+            desc: desc || "Sin Info",
+            valorCuota: valorCuota || 0,
+            numCuota: numCuota || "Sin Info",
         } 
         
         
         resultado.push(objetoJson);
 
-
         });
 
-    // al final ajustar la ciudad 
 
 
-    console.log(resultado)
-    //const resultWithCategories= categorizerGPT(resultado)
+    console.log("resultado final", resultado)
+
+    const resultWithCategories= categorizerGPT(resultado)
 
 
-    //return resultWithCategories;
+    return resultWithCategories;
 }
 
 export default verifySaleOriginBancodeChile
