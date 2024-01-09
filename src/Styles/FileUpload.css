@@ -38,12 +38,27 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
-
-.file-upload {
+.file-upload-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.file-upload{
   border: 2px dashed #ccc;
   border-radius: 8px;
   padding: 0.7rem;
   margin-top: 0.5rem;
+  width: 50%;
+}
+.file-upload >p {
+  margin-top: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.file-upload-box{
+  margin-bottom: 1rem;
+}
+.file-upload-innerbox{
+  margin-top: 1rem;
 }
 .has-password{
   display: flex ;

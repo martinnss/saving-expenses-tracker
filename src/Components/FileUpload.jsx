@@ -121,46 +121,53 @@ const FileUpload = ({ openPopup })=> {
             </div>
             <div className="main-content">
                 <h1 className='fileupload-title'>File Upload</h1>
-                <div className="file-upload">
-                    <h3>Ingresa tu Estado de Cuenta</h3>
-                    <p>Sube el PDF de tu TC para comenzar a ahorrar</p>
-                    <select value={bank} onChange={handleChooseBank}>
-                        <option value="">Selecciona un banco</option>
-                        <option value="santander">Banco Santander</option>
-                        <option value="bancodechile">Banco de Chile</option>
-                    </select>
-                    <div className="has-password">
-                        <p>¿Tu archivo tiene contraseña?</p>
-                        <input
-                            type="checkbox"
-                            checked={hasPassword}
-                            onChange={() => setHasPassword(!hasPassword)}
-                        />
-                    </div>
-                    {hasPassword && (
-                        <div>
-                        <label htmlFor="password">Ingresa la contraseña aquí:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Contraseña"
-                        />
+                <div  className="file-upload-container">
+                    <div className="file-upload">
+                        <h3>Ingresa tu Estado de Cuenta</h3>
+                        <p>Sube el PDF de tu TC para comenzar a ahorrar</p>
+                        <div className='file-upload-box'>
+                            <strong><p>Selecciona tu banco</p></strong>
+                            <select value={bank} onChange={handleChooseBank}>
+                                <option value="santander">Banco Santander</option>
+                                <option value="bancodechile">Banco de Chile</option>
+                            </select>
                         </div>
-                    )}
+                        <div className='file-upload-box'>
+                            <div className="has-password">
+                                <strong><p>¿Tu archivo tiene contraseña?</p></strong>
+                                <input
+                                    type="checkbox"
+                                    checked={hasPassword}
+                                    onChange={() => setHasPassword(!hasPassword)}
+                                />
+                            </div>
+                            {hasPassword && (
+                                <div className='file-upload-innerbox'>
+                                <strong><p>Contraseña del archivo</p></strong>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Contraseña"
+                                />
+                                </div>
+                            )}
+                        </div>                  
 
 
-                    <button onClick={manejarClickBoton}>Seleccionar Archivo</button>
-                    <input
-                        type="file"
-                        ref={inputArchivoRef}
-                        style={{ display: 'none' }}
-                        onChange={handleFileChange}
-                    />
-                    <p>{nombreArchivo}</p>
-                    
+
+                        <button onClick={manejarClickBoton}>Seleccionar Archivo</button>
+                        <input
+                            type="file"
+                            ref={inputArchivoRef}
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
+                        <p>{nombreArchivo}</p>
+                        
+                    </div>
                 </div>
                 <div className="expenses-table">
                     <table className="expenses-table">
