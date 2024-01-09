@@ -88,6 +88,8 @@ header{
   }
   .frase1 > h2 {
     font-size: 2.5rem;
+    color: #0473ea;
+    font-weight: bolder;
   }
   .frase1 > p{
     font-size: 1.6rem;
@@ -108,10 +110,23 @@ header{
     margin-top: 2.5rem;
   }
   
-  footer {
-    background-color: #333;
-    padding: 20px;
+  .footer {
+    background-color: #0473ea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    color: #fff;
   }
-  
+
+
+  .footer-contact{
+    color: white;
+  }
+
+  .footer-section {
+      margin-bottom: 20px;
+  }
+
+  .footer-bottom {
+      margin-top: 20px;
+  }

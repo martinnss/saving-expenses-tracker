@@ -36,7 +36,7 @@ nav ul li a {
 .btn {
   display: inline-block;
   padding: 15px 35px;
-  background-color: #5a8c72;
+  background-color: #0473ea;
   color: #fafafa;
   text-decoration: none;
   font-size: 1.12rem;
@@ -46,7 +46,7 @@ nav ul li a {
 .btn-sm {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #5a8c72;
+  background-color: #0473ea;
   color: #fafafa;
   text-decoration: none;
   font-size: 1rem;
@@ -57,11 +57,11 @@ nav ul li a {
   display: inline-block;
   padding: 10px 20px;
   background-color: #fafafa;
-  color: #5a8c72;
+  color: #0473ea;
   text-decoration: none;
   font-size: 1rem;
   border-radius: 30px;
-  border: 1px solid #5a8c72;
+  border: 1px solid #0473ea;
 }
 .none{
   display: 'none';

@@ -19,8 +19,8 @@ const Home = () => {
 
         <section id="inicio">
             <div className="hero">
-                <h1>Toma decisiones informadas y ahorra tiempo</h1>
-                <p>Maximiza la eficacia de tus reuniones gracias a resúmenes automáticos impulsados por IA</p>
+                <h1>Ahorra sin Preocupaciones </h1>
+                <p>Automatiza tus Ahorros <br />   Olvídate de Compartir tus Contraseñas Bancarias </p>
                 <button className='btn'>Pruébalo gratis</button>
             </div>
             <img src="https://images.blush.design/QRUjydH8GToOwKBwQPoe?w=920&auto=compress&cs=srgb" alt="two womans in a meeting" />
@@ -30,27 +30,24 @@ const Home = () => {
             <div className="frase1">
                 <h2>Enfocate en lo importante</h2>
                 <p>
-                Libérate de la carga de tomar notas y asegúrate de capturar cada detalle relevante. 
+                ¡Libérate de la carga de tener que armar un excel para llevar tus ahorros! 
                 </p>
                 <p>
-                Gracias a Resumia, solo necesitas grabar tu reunión y <strong> nosotros nos encargaremos de proporcionarte un resumen</strong> organizado que destacará los puntos más importantes discutidos.
+                Gracias a XXXXXXXX, , tu gestión financiera será más sencilla. Registra tus gastos y obtén un panorama claro con un <strong>resumen de tus principales categorías de gastos</strong>
+                </p>
+                <br />
+                <p>
+                    ¡Controla tu dinero de manera inteligente!
                 </p>
             </div>
         </section>
 
-        <section id="how-it-works">
-            <div className="how-it-works">
-                <h2>How it works?</h2>
-                <p>
-                Pantallazos que expliquen como se usa
-                </p>
-            </div>
-        </section>
+
 
         <section id="users">
             <div className="users">
                 <h2>Perfecto para...</h2>
-                <p><strong>¡Todos!</strong> Con Resumia, puedes resumir tus reuniones, entrevistas, charlas o cualquier tipo de encuentro, sin importar la industria o el ámbito en el que te desenvuelvas</p>
+                <p><strong>¡Todos!</strong> Con XXXXXXXX, puedes traer tus ahorros de los ultimos meses y tener una visión clara de inmediato y sin esperar!</p>
                 <p className='just-emojis' style={{ fontSize: '32px' }}>👩‍⚕️👨‍🔧👩‍🍳👩‍🎓👨‍💼👩‍🔬👨‍🎨👩‍✈️👨‍🚀👩‍⚖️👨‍🚒👩‍🏭👨‍🌾👩‍🔧👨‍⚕️</p>
 
             </div>
@@ -58,9 +55,15 @@ const Home = () => {
         </section>
 
         <footer>
-        <div className="container">
-            <p>Derechos de Autor &copy; 2023 Tu Startup</p>
-        </div>
+            <div className="footer">
+                <div class="footer-section contact">
+                        <h2 className='footer-contact'>Contacto</h2>
+                        <p className='footer-contact'>info@tustartup.com</p>
+                </div>
+                <div className="footer-bottom">
+                    <p className='footer-contact'>&copy; 2023 XXXXXX. Todos los derechos reservados.</p>
+                </div>
+            </div>
         </footer>
     </body>
     );
