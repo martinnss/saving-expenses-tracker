@@ -20,7 +20,6 @@ const ExpenseHistory = () => {
 
   const handleEndDateChange = (newValue) => {
     setEndDate(newValue)
-
     const endDate=newValue
   };
 
@@ -38,6 +37,12 @@ const ExpenseHistory = () => {
     await updateExpenseType(transactionId, newType);
   };
 
+
+
+
+
+
+  
 
   return (
     <div className='content'>
@@ -97,7 +102,7 @@ const ExpenseHistory = () => {
                         <tr key={expense.transaction_id} className='table-row'>
                           <td className='table-data'>{expense.date.toLocaleString()}</td>
                           <td className='table-data'>{expense.seller}</td>
-                          <td className='table-data'>{expense.amount}</td>
+                          <td className='table-data'>{expense.installment_amount}</td>
                           <td className='table-data'>{expense.category}</td>
                         </tr>
                       );

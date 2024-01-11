@@ -40,7 +40,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         seller: row.desc ? row.desc : "TBD",
                         amount: row.montoTotal ? row.montoTotal : 0,
                         num_installments: row.numCuota ? row.numCuota : "NA" ,
-                        installment_amount: row.valorCuota ? row.valorCuota : "NA" ,
+                        installment_amount: row.valorCuota ? row.valorCuota : 0 ,
                         category: row.category ? row.category : "TBD",
                     };
                 });

@@ -8,36 +8,19 @@ import useLocalCache from '../Hooks/useLocalCache';
 const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
   
 
-    if (startDateFilter !== null) {
-      const newStartDateFilter =startDateFilter.$d
-
-      startDateFilter = Timestamp.fromDate(newStartDateFilter)
-      
-    } else {
-      const defaultStartDate =new Date('2022-01-01');
-
-      startDateFilter = Timestamp.fromDate(defaultStartDate)
-    }
-
-
-
-    if (endDateFilter !== null) {
-      const newEndDateFilter = endDateFilter.$d
-
-      endDateFilter=Timestamp.fromDate(newEndDateFilter)
-
-    } else {
-      const defaultEndDate =new Date();
-
-      endDateFilter =  Timestamp.fromDate(defaultEndDate)
-    }
 
 
     const userInfo = useGetUserInfo()
 
     const [expenses, setExpenses] = useState([]);
 
+    const fechaDesdeTimestamp = startDateFilter !== null
+    ? new Date(startDateFilter.$d)
+    : new Date("2023-01-01T00:00:00Z");
 
+    const fechaHastaTimestamp = endDateFilter !== null 
+    ? new Date(endDateFilter.$d)
+    : new Date();
 
     const transactionCollectionRef = collection(db, 'transactions') //db a la que le queremos hacer un get
 
@@ -47,8 +30,8 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
         const q = query(
           transactionCollectionRef,
           where('uid', '==', userInfo.uid),
-          where('date', '>=', startDateFilter),
-          where('date', '<=', endDateFilter),
+          where('date', '>=', Timestamp.fromDate(fechaDesdeTimestamp)),
+          where('date', '<=', Timestamp.fromDate(fechaHastaTimestamp)),
           orderBy('date', 'desc')
         );
 
@@ -81,13 +64,11 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
     
 
     const [myData, setMyData] = useLocalCache('miClave', {});
-    const [categories, setCategories] = useLocalCache('categories',{})
 
     useEffect(() => {
         const fetchData = async () => {
             if (userInfo) {
-                const cacheData = localStorage.getItem('miClave');
-                console.log(dataUpToDate)
+
                 if (dataUpToDate===false){
                   console.log('actualizando por datos nuevos');
 
@@ -96,9 +77,35 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
                   setMyData(newExpenses);
                   console.log("expenses seteadas",newExpenses)
 
-                } else if (Object.keys(cacheData).length > 2) {
-                    console.log('leyendo cache');
-                    setExpenses(myData)
+                } else if (myData.length > 2) {
+                  const listaFiltrada = [];
+                  
+
+                  // Itera la lista de objetos
+                  for (const objeto of myData) 
+                  { 
+                    
+                    const fechaObjeto = new Date(objeto.date);
+                    // Paso 1: Convertir cadena de fecha a objeto Date
+                    const fechaCadena = new Date(fechaObjeto);
+                    console.log(fechaCadena, startDateFilter, endDateFilter)
+                    
+
+                    console.log(fechaCadena, fechaDesdeTimestamp, fechaHastaTimestamp)
+                    // Compara la fecha del objeto con el rango especificado
+                    if (fechaCadena.getTime() >= fechaDesdeTimestamp.getTime() && fechaCadena.getTime() <= fechaHastaTimestamp.getTime()) {
+                      // Agrega el objeto a la lista filtrada si cumple con el rango
+                      listaFiltrada.push(objeto);
+                    }
+                  }
+
+                    console.log('leyendo cache', listaFiltrada);
+                    if (listaFiltrada.length >0 ){
+                      setExpenses(listaFiltrada)
+                    } else {
+                      setExpenses(myData)
+                    }
+                    
                 } else {
                     console.log('leyendo firebase');
     
@@ -111,7 +118,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
         };
     
         fetchData();
-    }, [userInfo, dataUpToDate]); // Dependencia actualizada
+    }, [userInfo, dataUpToDate, startDateFilter, endDateFilter]); // Dependencia actualizada
     
     // Agregamos un efecto para observar cambios en myData
     useEffect(() => {
