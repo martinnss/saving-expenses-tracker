@@ -35,9 +35,9 @@ async function categorizerGPT(listOfObjects) {
 
 
 
-  /*
+  
   const completion = await openai.chat.completions.create({
-    messages: [{"role": "system", "content": 'Identify the precise business category associated with a given seller name, with a specific emphasis on establishments located in Chile. If the provided name appears to be a personal name, classify it as a "small business." Generate ajson ready to parse in javascript containing "seller" : "category" for every single seller'},
+    messages: [{"role": "system", "content": 'Identify a category associated with a given seller name. If the provided name appears to be a personal name, classify it as a "small business." Generate ajson ready to parse in javascript containing "seller" : "category" for every single seller'},
         {"role": "user", "content": textOfSellers}],
     model: "gpt-3.5-turbo-1106",
     response_format: { type: "json_object" },
@@ -45,8 +45,8 @@ async function categorizerGPT(listOfObjects) {
   });
 
   const gptOutput = completion.choices[0].message.content 
-  const jsonString = gptOutput*/
-
+  const jsonString = gptOutput
+/*
 
   
   const jsonString=`
@@ -95,7 +95,7 @@ async function categorizerGPT(listOfObjects) {
     "RIPLEY PLAZA OESTE TASA INT. 0,00%": "Retail",
     "JUMBO EL LLANO TASA INT. 0,00%": "Supermarket"
   }
-  `
+  `*/
   // Log the extracted JSON string for debugging
   console.log(jsonString)
   // Parse JSON

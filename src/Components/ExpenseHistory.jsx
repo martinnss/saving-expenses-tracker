@@ -9,6 +9,13 @@ const ExpenseHistory = () => {
   
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastExpense = currentPage * itemsPerPage;
+  const indexOfFirstExpense = indexOfLastExpense - itemsPerPage;
+
 
 
   const handleStartDateChange = (newValue) => {
@@ -39,7 +46,9 @@ const ExpenseHistory = () => {
 
 
 
-
+  const currentExpenses = expenses 
+    .filter((expense) => expense.uid === userInfo.uid)
+    .slice(indexOfFirstExpense, indexOfLastExpense);
 
 
   
@@ -95,24 +104,36 @@ const ExpenseHistory = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {
-                  expenses.map((expense) => {
-                    if (expense.uid === userInfo.uid) {
-                      return (
-                        <tr key={expense.transaction_id} className='table-row'>
-                          <td className='table-data'>{expense.date.toLocaleString()}</td>
-                          <td className='table-data'>{expense.seller}</td>
-                          <td className='table-data'>{expense.installment_amount}</td>
-                          <td className='table-data'>{expense.category}</td>
-                        </tr>
-                      );
-                    } else {
-                      return null; // Omitir las filas que no cumplen con la condición
-                    }
-                  })
-                }
-                </tbody>
+                {currentExpenses.map((expense) => (
+                  <tr key={expense.transaction_id} className='table-row'>
+                    <td className='table-data'>{expense.date.toLocaleString()}</td>
+                    <td className='table-data'>{expense.seller}</td>
+                    <td className='table-data'>{expense.installment_amount}</td>
+                    <td className='table-data'>{expense.category}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
+            <div>
+              <button
+                onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+
+              <button
+                onClick={() =>
+                  setCurrentPage(currentPage < Math.ceil(expenses.length / itemsPerPage) ? currentPage + 1 : currentPage)
+                }
+                disabled={currentPage === Math.ceil(expenses.length / itemsPerPage)}
+              >
+                Next
+              </button>
+              <span style={{ margin: '0 10px' }}>
+                Page {currentPage} / {Math.ceil(expenses.length / itemsPerPage)}
+              </span>
+            </div>
         </div>
       </div>
     </div>

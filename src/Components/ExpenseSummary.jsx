@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import useGetExpenses from '../Hooks/useGetExpenses';
 import { useGetUserInfo } from '../Hooks/useGetUserInfo';
 import BasicDatePicker from './BasicDatePicker';
+import ExpensesSummaryTable from './ExpensesSummaryTable';
 import Chart from 'chart.js/auto';
+import generatePastelColor from '../functions/generatePastelColor'
+import '../Styles/ExpenseSumary.css'
+
 
 const ExpenseSummary = () => {
   const [startDate, setStartDate] = useState(null);
@@ -42,6 +46,7 @@ const ExpenseSummary = () => {
 
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+  const [expensesTable, setExpensesTable] = useState({})
 
   useEffect(() => {
     // Filtrar las expenses por el UID del usuario
@@ -55,20 +60,25 @@ const ExpenseSummary = () => {
       categorySums[category] = (categorySums[category] || 0) + amount;
     });
 
+  // Step 1: Extract and Pair Data
+  const pairedData = Object.keys(categorySums).map(label => ({
+    label,
+    sum: categorySums[label],
+  }));
+
+  // Step 2: Sort the Array
+  pairedData.sort((a, b) => b.sum - a.sum);
+
     // Configurar datos para el gráfico de torta
     const data = {
-      labels: Object.keys(categorySums),
+      labels: pairedData.map(item => item.label),
       datasets: [{
-        data: Object.values(categorySums),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.7)',
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 206, 86, 0.7)',
-          // ... Puedes agregar más colores según sea necesario
-        ],
+        data: pairedData.map(item => item.sum),
+        backgroundColor: pairedData.map(() => generatePastelColor()),
       }],
     };
-
+    console.log(data)
+    setExpensesTable(data)
     // Configurar opciones del gráfico
     const options = {
       responsive: true,
@@ -90,11 +100,7 @@ const ExpenseSummary = () => {
   }, [expenses]);
 
 
-
-
-
-
-
+  console.log(Object.keys(expensesTable).length)
 
 
   return (
@@ -109,9 +115,22 @@ const ExpenseSummary = () => {
             <BasicDatePicker onChangeDate={handleEndDateChange} isEnd={true} isStartDate={startDate} />
           </div>
         </div>
-      <div className="expenses-chart">
-        <canvas ref={chartRef}></canvas>
+
+      <div className='summary-content'>
+        <div className="expenses-chart">
+          <canvas ref={chartRef}></canvas>
+        </div>
+
+        <div>
+          <h2>Your Expenses Table</h2>
+          {Object.keys(expensesTable).length && (
+            <ExpensesSummaryTable data={expensesTable} />
+          )}
+        </div>
       </div>
+
+
+
     </div>
   );
 };

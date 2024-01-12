@@ -88,10 +88,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
                     const fechaObjeto = new Date(objeto.date);
                     // Paso 1: Convertir cadena de fecha a objeto Date
                     const fechaCadena = new Date(fechaObjeto);
-                    console.log(fechaCadena, startDateFilter, endDateFilter)
-                    
 
-                    console.log(fechaCadena, fechaDesdeTimestamp, fechaHastaTimestamp)
                     // Compara la fecha del objeto con el rango especificado
                     if (fechaCadena.getTime() >= fechaDesdeTimestamp.getTime() && fechaCadena.getTime() <= fechaHastaTimestamp.getTime()) {
                       // Agrega el objeto a la lista filtrada si cumple con el rango
@@ -99,7 +96,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
                     }
                   }
 
-                    console.log('leyendo cache', listaFiltrada);
+
                     if (listaFiltrada.length >0 ){
                       setExpenses(listaFiltrada)
                     } else {
@@ -120,11 +117,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
         fetchData();
     }, [userInfo, dataUpToDate, startDateFilter, endDateFilter]); // Dependencia actualizada
     
-    // Agregamos un efecto para observar cambios en myData
-    useEffect(() => {
-        console.log('myData actualizado:', myData);
-    }, [myData]);
-    
+
 
 
       const updateExpenseType = async (transactionId, newType) => {

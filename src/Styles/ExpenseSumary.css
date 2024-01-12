@@ -1,0 +1,7 @@
+.summary-content {
+    display: flex;
+}
+
+.summary-content > div {
+    flex: 1;
+}
