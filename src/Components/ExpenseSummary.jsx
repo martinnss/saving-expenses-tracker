@@ -7,6 +7,10 @@ import Chart from 'chart.js/auto';
 import generatePastelColor from '../functions/generatePastelColor'
 import '../Styles/ExpenseSumary.css'
 
+import GmailAuthTest from './GmailAuthTest';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+
 
 const ExpenseSummary = () => {
   const [startDate, setStartDate] = useState(null);
@@ -128,8 +132,9 @@ const ExpenseSummary = () => {
           )}
         </div>
       </div>
-
-
+      <GoogleOAuthProvider clientId="640576926117-qrjdh5uc3j0h998cd04f1rot4k1hff97.apps.googleusercontent.com">
+        <GmailAuthTest />
+      </GoogleOAuthProvider>
 
     </div>
   );
