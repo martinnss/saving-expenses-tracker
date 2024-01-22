@@ -19,6 +19,9 @@ p, ul, li, form, input, textarea, button , span{
   box-sizing: border-box;
   font-family: DM Sans;
 }
+button{
+  font-weight: 500;
+}
 nav ul {
   list-style: none;
 }
@@ -31,6 +34,12 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   color: #333;
+}
+header{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #f1f1f1; /* Puedes personalizar el color de fondo según tus preferencias */
 }
 
 .btn {

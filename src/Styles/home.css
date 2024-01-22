@@ -131,7 +131,10 @@ header{
     font-size: 1.3rem;
     margin-top: 2.5rem;
   }
-  
+  #users > button{
+    width: 20%;
+  }
+
   .footer {
     background-color: #0473ea;
     display: flex;
@@ -156,11 +159,45 @@ header{
 
   
 @media only screen and (max-width: 820px) {
+  .header{
+    margin: 0px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 100%;
+    justify-content:space-around;
+  }
+  .login {
+    width: 10rem;
+    display: flex;
+  }
+  .login > p {
+    width: 35%;
+    margin-right: 1rem;
+  }
+  .login > button {
+    width: 60%;
+    margin-right: 1rem;
+  }
+  .logo > img{
+    display: none;
+  }
   #inicio {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     margin: 0rem;
+}
+#inicio > img {
+  margin-top: 0rem;
+  margin-left: 0rem;
+  height: 18rem;
+  width: 18rem;
+}
+
+#users > button{
+  width: 50%;
 }
 
 .hero {
