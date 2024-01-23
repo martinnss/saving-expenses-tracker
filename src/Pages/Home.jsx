@@ -1,8 +1,18 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import '../Styles/home.css'
 
 
 const Home = () => {
+    const navigate = useNavigate();
+
+    const navigateToSignup = () => {
+        navigate('/signup');
+    };
+    const navigateToLogin = () => {
+        navigate('/login');
+    };
+
     return (
     <body>
         <header>
@@ -12,8 +22,8 @@ const Home = () => {
                     <h1 className='logo-text'>Walleton</h1>
                 </div>
                 <div className="login">
-                    <p>Iniciar sesión</p>
-                    <button className='btn-sm'>Empezar</button>
+                    <p onClick={navigateToLogin}>Iniciar sesión</p>
+                    <button className='btn-sm' onClick={navigateToSignup} >Empezar</button>
                 </div>
             </div>
         </header>
@@ -22,7 +32,7 @@ const Home = () => {
             <div className="hero">
                 <h1>Ahorra sin Preocupaciones </h1>
                 <p>Obtén un control total de tus gastos  <br />   Olvídate de Compartir tus Contraseñas Bancarias </p>
-                <button className='btn'>Pruébalo gratis</button>
+                <button className='btn' onClick={navigateToSignup}>Pruébalo gratis</button>
             </div>
             <img src="https://firebasestorage.googleapis.com/v0/b/saving-expenses-tracker.appspot.com/o/logos%2Fahorroavion.png?alt=media&token=7a310763-a7e8-4640-9d6b-474fc461394f" alt="happy woman above a plane happy" />
         </section>
@@ -55,7 +65,7 @@ const Home = () => {
                 <p className='just-emojis' style={{ fontSize: '32px' }}>👩‍⚕️👨‍🔧👩‍🍳👩‍🎓👨‍💼👩‍🔬👨‍🎨👩‍✈️👨‍🚀👩‍⚖️👨‍🚒👩‍🏭👨‍🌾👩‍🔧👨‍⚕️</p>
 
             </div>
-            <button className='btn'>Pruébalo gratis</button>
+            <button className='btn' onClick={navigateToSignup}>Pruébalo gratis</button>
         </section>
 
         <footer>

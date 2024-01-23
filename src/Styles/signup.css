@@ -47,3 +47,22 @@
     background-color: #0056b3;
   }
   
+
+  #logo-login{
+    display: flex;
+  }
+  .headerlogin{
+    margin-left: 0px;
+    margin-right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .btn-google{
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  

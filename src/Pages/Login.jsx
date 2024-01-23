@@ -34,11 +34,20 @@ const Login = () => {
       }
 return (
     <div className="login-container">
+        <header>
+        <div className="header headerlogin">
+            <div className="logo" id='logo'>
+                <img id='logo-login' src="https://firebasestorage.googleapis.com/v0/b/saving-expenses-tracker.appspot.com/o/logos%2Foutput-onlinepngtools%20(1).png?alt=media&token=3cc14b4a-0b1f-4fd8-8bd1-b54a2861b3ef" alt="walleton logo, a pig" />
+                <h1 className='logo-text'>Walleton</h1>
+            </div>
+        </div>
+        </header>
         <div className="login-box">
             <h2>Iniciar Sesión</h2>
             <form>
+            <button type="button" onClick={loginWithGoogle} className='login-with-google-btn btn-google'>Acceder con Google</button> <br />
             <div className="form-group">
-                <label htmlFor="username">Correo Electronico</label>
+                <label htmlFor="username">Correo Electrónico</label>
                 <input 
                     type="text" 
                     id="username" 
@@ -58,7 +67,7 @@ return (
                 />
             </div>
             <button type="submit" onClick={login}>Ingresar</button>
-            <button type="button" onClick={loginWithGoogle}>Iniciar Sesión con Google</button>
+            
             </form>
         </div>
     </div>

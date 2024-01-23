@@ -58,10 +58,22 @@ function Signup() {
 
   return (
     <div className="signup-container">
-      <h1>Signup</h1>
+        <header>
+        <div className="header">
+            <div className="logo" id='logo'>
+                <img id='logo-login' src="https://firebasestorage.googleapis.com/v0/b/saving-expenses-tracker.appspot.com/o/logos%2Foutput-onlinepngtools%20(1).png?alt=media&token=3cc14b4a-0b1f-4fd8-8bd1-b54a2861b3ef" alt="walleton logo, a pig" />
+                <h1 className='logo-text'>Walleton</h1>
+            </div>
+        </div>
+        </header>
+      <h1>Regístrate</h1>
+      <p>Obtén un control total de tus gastos ¡Ahora! </p> <br />
       <form id='signup-form' >
+        <button className='login-with-google-btn btn-google' onClick={signInWithGoogle}> Registrarse con Google </button> 
+        <br />
+
         <div className="form-group">
-          <label>Email</label>
+          <label>Correo Electrónico</label>
           <input
             type="email"
             placeholder="Enter your email"
@@ -71,7 +83,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <label>Contraseña</label>
           <input
             type="password"
             placeholder="Enter your password"
@@ -81,7 +93,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label>Name</label>
+          <label>Nombre</label>
           <input
             type="text"
             placeholder="Enter your name"
@@ -91,7 +103,6 @@ function Signup() {
           />
         </div>
         <button type="submit" onClick={signIn}>Sign In</button>
-        <button className='signup-with-google-btn' onClick={signInWithGoogle}> Sign in With Google </button>
       </form>
     </div>
   );

@@ -24,3 +24,10 @@
     margin-bottom: 15px;
   }
   
+  #logo-login{
+    display: flex;
+  }
+  .headerlogin{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
