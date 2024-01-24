@@ -40,8 +40,19 @@
 
 /* Adjust the breakpoint based on your design needs */
 @media only screen and (max-width: 768px) {
+  .container{
+    height: auto;
+  }
+  .headerlogin{
+    position: fixed;
+    left: 0;
+    right: 0;
+    justify-content: left;
+    padding-top: 0px;
+  }
   .mobile-header {
     display: block;
+    margin-bottom: 3rem;
   }
   .menu-sidebar {
     display: none; /* Hide the sidebar on smaller screens */
@@ -49,7 +60,9 @@
   .sidebar-mobile{
     display: block;
   }
-
+  .tracker-pages{
+    margin-top: 2rem;
+  }
   .container{
     grid-template-columns: auto;
     grid-template-rows: 3rem auto;
@@ -58,6 +71,7 @@
   }
   .hamburger-icon {
     display: block; /* Display the hamburger icon on smaller screens */
+
   }
 
   /* Add any additional styling for the mobile menu */
@@ -69,6 +83,7 @@
   }
   .hamburger-menu-icon{
     height: 3rem;
+    width: 3rem;
   }
 }
 
