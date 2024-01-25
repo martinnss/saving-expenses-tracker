@@ -6,16 +6,18 @@ import ExpensesSummaryTable from './ExpensesSummaryTable';
 import Chart from 'chart.js/auto';
 import generatePastelColor from '../functions/generatePastelColor'
 import '../Styles/ExpenseSumary.css'
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 
 import GmailAuthTest from './GmailAuthTest';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
 
 
 const ExpenseSummary = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
+  
 
   const handleStartDateChange = (newValue) => {
     setStartDate(newValue)
@@ -49,8 +51,12 @@ const ExpenseSummary = () => {
 
 
   const chartRef = useRef(null);
+  const totalRef = useRef(null);
+
   const chartInstance = useRef(null);
   const [expensesTable, setExpensesTable] = useState({})
+
+
 
   useEffect(() => {
     // Filtrar las expenses por el UID del usuario
@@ -58,10 +64,13 @@ const ExpenseSummary = () => {
 
     // Calcular las sumas de installment_amount por categoría
     const categorySums = {};
+
+
     userExpenses.forEach(expense => {
       const category = expense.category;
       const amount = parseFloat(expense.installment_amount);
       categorySums[category] = (categorySums[category] || 0) + amount;
+
     });
 
   // Step 1: Extract and Pair Data
@@ -80,24 +89,27 @@ const ExpenseSummary = () => {
         data: pairedData.map(item => item.sum),
         backgroundColor: pairedData.map(() => generatePastelColor()),
       }],
+      total: pairedData.reduce((total, item) => total + item.sum, 0)
     };
-    console.log(data)
+
     setExpensesTable(data)
     // Configurar opciones del gráfico
     const options = {
       responsive: true,
       maintainAspectRatio: false,
     };
-    
+
+
     // Crear o actualizar el gráfico de torta
     if (chartInstance.current) {
       // Si el gráfico ya existe, destrúyelo antes de crear uno nuevo
       chartInstance.current.destroy();
     }
 
+
     const ctx = chartRef.current.getContext('2d');
     chartInstance.current = new Chart(ctx, {
-      type: 'pie',
+      type: 'doughnut',
       data: data,
       options: options,
     });
@@ -105,6 +117,7 @@ const ExpenseSummary = () => {
 
 
   console.log(Object.keys(expensesTable).length)
+  console.log( expensesTable.total)
 
 
   return (
@@ -121,12 +134,18 @@ const ExpenseSummary = () => {
         </div>
 
       <div className='summary-content'>
-        <div className="expenses-chart">
-          <canvas ref={chartRef}></canvas>
+        <div className='chart'>
+          <div className="expenses-chart">
+            <canvas ref={chartRef}></canvas>
+          </div>
+          <h2>Total:{expensesTable.total ? expensesTable.total.toLocaleString('es-CL', {
+              style: 'currency',
+              currency: 'CLP',
+            }) : 0}
+          </h2>
         </div>
-
-        <div>
-          <h2>Your Expenses Table</h2>
+        <div className='expenses-table'>
+          
           {Object.keys(expensesTable).length && (
             <ExpensesSummaryTable data={expensesTable} />
           )}
