@@ -43,16 +43,38 @@
   justify-content: center;
   align-items: center;
 }
+
+.file-upload-options {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+
 .file-upload{
   border: 2px dashed #ccc;
   border-radius: 8px;
   padding: 0.7rem;
   margin-top: 0.5rem;
-  width: 50%;
+  width: 25rem;
+  height: 22rem;
+  position: relative;
+}
+.file-upload >*{
+  width: 100%;
+}
+.file-upload > p > ol{
+  margin-left: 20px;
+}
+.file-upload > p > ol> li{
+  margin-bottom: 5px;
 }
 .file-upload >p {
   margin-top: 0.8rem;
   margin-bottom: 1.5rem;
+}
+.file-upload:nth-child(4) {
+  margin-bottom: 0px;
 }
 .file-upload-box{
   margin-bottom: 1rem;
@@ -114,4 +136,45 @@
   padding: 1rem;
   margin-top: 1rem;
   text-align: center;
+}
+
+.google-get-data-container{
+  display: flex;
+  justify-content: center;
+}
+.google-get-data{
+  position: absolute;
+  bottom: 1.5rem;
+  width: 17rem;
+}
+.seleccionar-archivos-file-container{
+  display: flex;
+  justify-content: center;
+}
+.seleccionar-archivos-file{
+  position: absolute;
+  bottom: 1.5rem;
+  width: 17rem;
+}
+
+
+
+@media only screen and (max-width: 820px) {
+  .file-upload-options {
+      display: flex;
+      flex-direction: column;
+      margin-top: 2rem;
+      justify-content:flex-start;
+      width: 21rem;
+  }
+  .file-upload-container{
+    height: 25rem;
+    margin-bottom: 3rem;
+  }
+  .file-upload{
+    height: 100%;
+  }
+  
+
+  
 }

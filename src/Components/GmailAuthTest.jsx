@@ -1,10 +1,8 @@
 import React from 'react'
-import { GoogleLogin,GoogleOAuthProvider ,hasGrantedAnyScopeGoogle, useGoogleLogin} from '@react-oauth/google';
+import {  useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 
-const apiKey = "AIzaSyC5jWZUbwLdyYjRLhGoeovU6aJxEChHfvY"
-const clientId = "640576926117-qrjdh5uc3j0h998cd04f1rot4k1hff97.apps.googleusercontent.com"
-const clientSecret = "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"
+
 
 const GmailAuthTest = () => {
 
@@ -51,32 +49,16 @@ const GmailAuthTest = () => {
 
             const decodedString = base64UrlDecode(base64Data);
 
-            console.log(decodedString)
+            console.log(decodedString) 
 
           },
       
     });
 
   return (
-    <div>
-        <GoogleLogin
-            onSuccess={credentialResponse => {
-                console.log(credentialResponse.credential);
-                const hasAccess = hasGrantedAnyScopeGoogle(
-                    credentialResponse.credential,
-                    'https://www.googleapis.com/auth/gmail.readonly',
-                  );
-
-                console.log(hasAccess)
-            }}
-            onError={() => {
-                console.log('Login Failed');
-            }}
-            />
-
-        <button onClick={() => login()}>Sign in with Google 🚀</button>;
-
-</div>
+    <div className='google-get-data-container'>
+        <button className='google-get-data' onClick={() => login()}>Sign in with Google 🚀</button>
+    </div>
   )
 }
 

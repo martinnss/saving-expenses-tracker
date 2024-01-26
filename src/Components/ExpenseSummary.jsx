@@ -9,8 +9,7 @@ import '../Styles/ExpenseSumary.css'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
-import GmailAuthTest from './GmailAuthTest';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 
 const ExpenseSummary = () => {
@@ -121,7 +120,30 @@ const ExpenseSummary = () => {
 
 
   return (
-    <div>
+    <div className='content'>
+          <div className="fileupload-header">
+                <div className="fileupload-header-content">
+                    <span className="page-title">Dashboard</span>
+                    <span className="back-button">
+                    <div class="icon-container">
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="back-icon"
+                        >
+                            <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                    </div>
+                        <span className="back-text">Resumen de mis Finanzas</span>
+                    </span>
+                </div>
+            </div>
         <div className="time-picker-container">
           <div className="time-picker-component">
             <p className='subtitle'>From:</p>
@@ -151,9 +173,6 @@ const ExpenseSummary = () => {
           )}
         </div>
       </div>
-      <GoogleOAuthProvider clientId="640576926117-qrjdh5uc3j0h998cd04f1rot4k1hff97.apps.googleusercontent.com">
-        <GmailAuthTest />
-      </GoogleOAuthProvider>
 
     </div>
   );
