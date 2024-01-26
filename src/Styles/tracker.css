@@ -39,7 +39,7 @@
 }
 
 /* Adjust the breakpoint based on your design needs */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 820px) {
   .container{
     height: auto;
   }
@@ -49,6 +49,11 @@
     right: 0;
     justify-content: left;
     padding-top: 0px;
+    z-index: 2;
+    background-color: #f2f2f2;
+  }
+  .hamburger-icon{
+    z-index: 2;
   }
   .mobile-header {
     display: block;

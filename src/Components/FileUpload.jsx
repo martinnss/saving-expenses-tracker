@@ -198,10 +198,10 @@ const FileUpload = ({ openPopup })=> {
 
                 </div>
                 
-                <div className="expenses-table">
+                <div className="expenses-table-div">
                     <table className="expenses-table">
                         <caption className="table-caption">
-                            Recent Expenses
+                            Gastos Recientes
                         </caption>
                         <thead>
                             <tr className="table-row">

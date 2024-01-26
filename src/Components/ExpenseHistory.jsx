@@ -90,7 +90,7 @@ const ExpenseHistory = () => {
             <BasicDatePicker onChangeDate={handleEndDateChange} isEnd={true} isStartDate={startDate} />
           </div>
         </div>
-        <div className="expenses-table">
+        <div className="expenses-table-div">
             <table className="expenses-table">
                 <caption className="table-caption">
                     Recent Expenses
@@ -114,24 +114,26 @@ const ExpenseHistory = () => {
                 ))}
               </tbody>
             </table>
-            <div>
+            <div className='table-buttons'>
               <button
+                className='table-btn'
                 onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
                 disabled={currentPage === 1}
               >
-                Previous
+                Anterior
               </button>
 
               <button
+                className='table-btn'
                 onClick={() =>
                   setCurrentPage(currentPage < Math.ceil(expenses.length / itemsPerPage) ? currentPage + 1 : currentPage)
                 }
                 disabled={currentPage === Math.ceil(expenses.length / itemsPerPage)}
               >
-                Next
+                Siguiente
               </button>
               <span style={{ margin: '0 10px' }}>
-                Page {currentPage} / {Math.ceil(expenses.length / itemsPerPage)}
+                Página {currentPage} / {Math.ceil(expenses.length / itemsPerPage)}
               </span>
             </div>
         </div>

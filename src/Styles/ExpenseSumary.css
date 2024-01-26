@@ -15,7 +15,8 @@
 }
 .expenses-table {
     border: 0px;
-  }
+    overflow-x:auto;
+}
   .expenses-table > table {
     margin: 0 auto;
 }
@@ -35,5 +36,6 @@
     .chart {
         height: 2000rem;
     }
+    
     
 }
