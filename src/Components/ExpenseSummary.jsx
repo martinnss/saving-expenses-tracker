@@ -115,9 +115,7 @@ const ExpenseSummary = () => {
   }, [expenses]);
 
 
-  console.log(Object.keys(expensesTable).length)
-  console.log( expensesTable.total)
-
+  
 
   return (
     <div className='content'>
