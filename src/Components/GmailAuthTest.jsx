@@ -42,14 +42,43 @@ const GmailAuthTest = () => {
 
                 for (let i = 0; i < allMessages.length; i++) {
                   const messageId = allMessages[i].id;
-                  console.log(messageId)
+
                   const userEmailData = await axios
                     .get(`https://gmail.googleapis.com/gmail/v1/users/${userInfo.email}/messages/${messageId}?format=full`, {
                       headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
                     })
                     .then(res => res.data);
+
+                  const headers = userEmailData.payload.headers;
+
+                  const fromHeader = headers.find(header => header.name.toLowerCase() === 'from');
+
+                  const fromHeaderValue = fromHeader ? fromHeader.value : null;
+
+                  // Utilizar una expresión regular para extraer el correo electrónico
+                  const emailRegex = /<([^>]+)>/;
+                  const match = fromHeaderValue.match(emailRegex);
+
+
+                  const emailFrom = match ? match[1] : null;
+
+                  //particularidades para cada banco
+                  const rawDataEmail =userEmailData.payload.parts[0].body.data
+
+                  const decodedString = base64UrlDecode(rawDataEmail);
+                  
+                    // if decodedString es un html entonces que use cheerio si no que continue
+                    //extraer texto del html usando cheerio
+
+                    
                   console.log(userEmailData)
+                  console.log(decodedString)
+                  console.log(emailFrom)
+
                   userEmailDataArray.push(userEmailData);
+
+                  let emailContent = ""
+
                 }
                 console.log(userEmailDataArray)
             })
@@ -64,17 +93,6 @@ const GmailAuthTest = () => {
               headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
             })
             .then(res => res.data);
-
-            console.log(userEmailData);
-
-            const base64Data  = userEmailData.payload.parts[0].body.data 
-            //const base64Data = userEmailData.payload.body.data
-
-            // los bancos tienen cierto formato, asi que acá se deben colocar los formatos que aplican a cada banco
-
-            const decodedString = base64UrlDecode(base64Data);
-
-            console.log(decodedString) 
 
           },
       

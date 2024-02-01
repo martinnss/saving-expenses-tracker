@@ -133,7 +133,6 @@ const FileUpload = ({ openPopup })=> {
                             <p >
                                 <ol>
                                     <li>Conecta tu cuenta de Gmail con Walleton</li>
-                                    <li>Autoriza los permisos</li>
                                     <li>Déjanos el resto a nosotros😎</li>
                                 </ol>
                             </p>

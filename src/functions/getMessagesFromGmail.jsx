@@ -2,11 +2,27 @@ import axios from 'axios';
 
 async function fetchMessages(userInfo, token) {
     try {
-        const response = await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${userInfo.email}/messages?q=from:enviodigital@bancochile.cl`, {
+        const today = new Date();
+        const fromDate = new Date(today);
+        fromDate.setDate(today.getDate() - 60); // Resta 60 días a la fecha actual
+    
+        // Formatea las fechas en el formato YYYY-MM-DD para usarlas en la URL
+        const formattedToday = today.toISOString().split('T')[0];
+        const formattedFromDate = fromDate.toISOString().split('T')[0];
+    
+        const senders = ['enviodigital@bancochile.cl', 'no-reply@spotify.com']
+
+        const fromFilter = senders.map(sender => `from:${sender}`).join('|');
+
+        const url = `https://gmail.googleapis.com/gmail/v1/users/${userInfo.email}/messages?q=${fromFilter} after:${formattedFromDate} before:${formattedToday}`;
+
+
+        const response = await axios.get(url, {
             headers: { Authorization: `Bearer ${token}` },
         });
 
         const messages = response.data.messages;
+        console.log(response)
         const nextPageToken = response.data.nextPageToken;
 
         return { messages, nextPageToken };
