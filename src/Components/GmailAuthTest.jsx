@@ -2,7 +2,7 @@ import React from 'react'
 import {  useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 import getAllMessages from '../functions/getMessagesFromGmail'
-
+import categorizerGPTEmails from '../functions/categorizerGPTEmails';
 
 const GmailAuthTest = () => {
 
@@ -12,6 +12,7 @@ const GmailAuthTest = () => {
         const utf8String = decodeURIComponent(escape(decodedData));
         return utf8String;
     }
+
 
     const login = useGoogleLogin({
         scope: "https://www.googleapis.com/auth/gmail.readonly",
@@ -31,12 +32,14 @@ const GmailAuthTest = () => {
               })
               .then(res => res.data);
 
-            console.log(userEmail);
 
             // Call the function and handle the result appropriately in your React component
             getAllMessages(userInfo, tokenResponse.access_token)
             .then( async allMessages => {
-                console.log(allMessages);
+
+              //si threadid está en caché, entonces que lo omita
+              console.log(allMessages)
+
 
                 const userEmailDataArray = [];
 
@@ -67,20 +70,76 @@ const GmailAuthTest = () => {
 
                   const decodedString = base64UrlDecode(rawDataEmail);
                   
-                    // if decodedString es un html entonces que use cheerio si no que continue
-                    //extraer texto del html usando cheerio
 
-                    
-                  console.log(userEmailData)
-                  console.log(decodedString)
-                  console.log(emailFrom)
 
-                  userEmailDataArray.push(userEmailData);
+                  const parser = new DOMParser();
+                  const doc = parser.parseFromString(decodedString, 'text/html');
+                  const emailText = doc.body.textContent;
+                  const emailTextFull = emailText.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+                  userEmailData.emailFrom = emailFrom
+                  userEmailData.emailFullText = emailTextFull
+                  
+                  //bchile
+                  if (emailFrom ==="enviodigital@bancochile.cl"){
+                    const inicio = userEmailData.snippet.indexOf("Te informamos que se ha") + "Te informamos que se ha".length;
+                    const fin = userEmailData.snippet.indexOf("Revisa Saldos");
 
-                  let emailContent = ""
+                    // Verifica si los índices son válidos
+                    if (inicio >= 0 && fin >= 0 && fin > inicio) {
+                      // Acorta el string desde el índice de inicio hasta el índice de fin
+                      const stringAcortado = userEmailData.snippet.substring(inicio, fin).trim();
+                      userEmailData.snippet = stringAcortado
+                    } else {
+                      userEmailData.snippet =""
+                    }
+                  }
 
+                  //bci
+                  if (emailFrom ==="martin.olivarest@utem.cl"){
+                    //extraer data de la tabla
+                    //traer los table rows y asignarselos
+                    //https://chat.openai.com/c/3ff2d53d-22b8-420e-9db3-64c38d2aa21b
+                    //'martin.olivarest@utem.cl'
+
+                  }
+                  // solo para Bchile
+                  
+                  if (userEmailData.snippet !== "") {
+                    // Agregar userEmailData al array solo si la condición se cumple
+                    userEmailDataArray.push(userEmailData);
+                  }
+
+                  
                 }
-                console.log(userEmailDataArray)
+
+                const transactionsArray = [];
+
+                for (let i = 0; i < userEmailDataArray.length; i++) {
+                  const  transaction = userEmailDataArray[i];
+
+
+                  if (transaction.emailFrom ==="enviodigital@bancochile.cl")
+                  console.log(transaction)
+              
+                  //Crear objeto transctions extrayendo la data de cada mensaje.
+                  // todo lo anterior con el formato para enviar a firebase 
+
+                  /*
+                  transaction_id: generateUniqueId(),
+                  uid: userInfo.uid,
+                  uploadedAt: serverTimestamp(),
+                  date: row.dateObject ? new Date(row.dateObject) : serverTimestamp(),
+                  transaction_location: row.lugarOperacion ? row.lugarOperacion : "TBD",
+                  seller: row.desc ? row.desc : "TBD",
+                  amount: row.montoTotal ? row.montoTotal : 0,
+                  num_installments: row.numCuota ? row.numCuota : "NA" ,
+                  installment_amount: row.valorCuota ? row.valorCuota : 0 ,
+                  category: row.category ? row.category : "TBD",*/
+              }
+
+                const categorizedEmails = categorizerGPTEmails(userEmailDataArray)
+
+
             })
             .catch(error => {
                 // Handle any errors that might occur during the process

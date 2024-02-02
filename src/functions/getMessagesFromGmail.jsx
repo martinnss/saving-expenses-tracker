@@ -10,7 +10,7 @@ async function fetchMessages(userInfo, token) {
         const formattedToday = today.toISOString().split('T')[0];
         const formattedFromDate = fromDate.toISOString().split('T')[0];
     
-        const senders = ['enviodigital@bancochile.cl', 'no-reply@spotify.com']
+        const senders = ['enviodigital@bancochile.cl']      /////////////////////////// agregar emails de bancos
 
         const fromFilter = senders.map(sender => `from:${sender}`).join('|');
 
