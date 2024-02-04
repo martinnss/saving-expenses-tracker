@@ -118,20 +118,53 @@ const GmailAuthTest = () => {
                   const  transaction = userEmailDataArray[i];
 
 
-                  if (transaction.emailFrom ==="enviodigital@bancochile.cl")
+                  if (transaction.emailFrom ==="enviodigital@bancochile.cl"){
+                    let cost = ""
+                    let seller = ""
+                    let date = ""
+
+      
+                    const snippet = transaction.snippet;
+
+
+                    // cost
+                    const patron = /\$([0-9,.]+)/;
+                    const result = snippet.match(patron);
+                    if (result) {
+                      cost = result[1];
+                      console.log("Número extraído:", cost);
+                    } 
+
+                    //seller
+                    const mayusList = snippet.match(/\b[A-Z]+\b/g) ? snippet.match(/\b[A-Z]+\b/g) : ["TBD"] ;
+                    
+                    if (mayusList[0] ==="US"){
+                      seller = mayusList.slice(1).join(' ');
+                    } else {
+                      seller = mayusList.join(' ');
+                    }
+                    console.log(seller)
+
+                    //date
+                    const patronFechaHora = /(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2})/;
+                    date = snippet.match(patronFechaHora)[1];
+
+                    console.log(date)
+
+                  }
                   console.log(transaction)
               
                   //Crear objeto transctions extrayendo la data de cada mensaje.
                   // todo lo anterior con el formato para enviar a firebase 
 
                   /*
-                  transaction_id: generateUniqueId(),
-                  uid: userInfo.uid,
-                  uploadedAt: serverTimestamp(),
+                  transaction_id: generateUniqueId(), ///////////////////////listo
+                  uid: userInfo.uid, ///////////////////////listo
+                  uploadedAt: serverTimestamp(), ///////////////////////listo
                   date: row.dateObject ? new Date(row.dateObject) : serverTimestamp(),
                   transaction_location: row.lugarOperacion ? row.lugarOperacion : "TBD",
-                  seller: row.desc ? row.desc : "TBD",
-                  amount: row.montoTotal ? row.montoTotal : 0,
+                  seller: row.desc ? row.desc : "TBD", ///////////////////////listo
+                  amount: row.montoTotal ? row.montoTotal : 0, 
                   num_installments: row.numCuota ? row.numCuota : "NA" ,
                   installment_amount: row.valorCuota ? row.valorCuota : 0 ,
                   category: row.category ? row.category : "TBD",*/
