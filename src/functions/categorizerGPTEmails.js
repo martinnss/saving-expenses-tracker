@@ -38,6 +38,14 @@ async function categorizerGPTEmails(listOfObjects) {
 
   console.log(textOfSellers)
 
+  //nueva opcion
+  /* traer cada object.seller de los datos enteriores
+  const listOfSellers = listOfObjects
+
+  const descriptions = listOfSellers.map(objeto => objeto.desc);
+  
+  // Usa el método join para unir las descripciones con comas
+  const textOfSellers = descriptions.join(', ');*/
 
 
 
