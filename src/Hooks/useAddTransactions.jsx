@@ -23,14 +23,16 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
             const generateUniqueId = () => {
                 return uuidv4();
             };
-
+            
             const transactionJSON =JSON.parse(jsonInput)
+            console.log(transactionJSON)
 
 
             if (transactionJSON.length > 0) {
 
 
                 const jsonDataArray = transactionJSON.slice(1).map((row) => {
+                    console.log(row)
                     return {
                         transaction_id: generateUniqueId(),
                         uid: userInfo.uid,
@@ -50,7 +52,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                 jsonDataArray.forEach((element, index) => {
 
 
-                    /*
+                    
                     addDoc(transactionCollectionRef, {
                         transaction_id: element.transaction_id,
                         uid: element.uid,
@@ -62,7 +64,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         installment_amount: element.installment_amount,
                         category: element.category ,
                         date: element.date
-                    }) */
+                    }) 
                 });
 
                 // Set the JSON data state

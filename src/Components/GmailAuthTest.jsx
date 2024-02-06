@@ -1,10 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {  useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 import getAllMessages from '../functions/getMessagesFromGmail'
 import categorizerGPTEmails from '../functions/categorizerGPTEmails';
+import useAddTransactions from '../Hooks/useAddTransactions.jsx';
 
 const GmailAuthTest = () => {
+  const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
+  const [transactionsWithCategories, setTransactionsWithCategories] = useState("");
 
     function base64UrlDecode(base64Url) {
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -37,8 +40,9 @@ const GmailAuthTest = () => {
             getAllMessages(userInfo, tokenResponse.access_token)
             .then( async allMessages => {
 
-              //si threadid está en caché, entonces que lo omita
-              console.log(allMessages)
+              if (allMessages.includes(undefined)) {
+                throw new Error('No elements from Gmail');
+              }
 
 
                 const userEmailDataArray = [];
@@ -143,34 +147,43 @@ const GmailAuthTest = () => {
                     } else {
                       seller = mayusList.join(' ');
                     }
-                    console.log(seller)
 
                     //date
                     const patronFechaHora = /(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2})/;
                     date = snippet.match(patronFechaHora)[1];
+                    date = date.replace(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/, '$3-$2-$1T$4:$5:00.000Z');
 
-                    console.log(date)
+                    transaction.dateObject = date
+                    transaction.desc = seller
+                    transaction.montoTotal = cost
+                    transaction.valorCuota = cost
+
+                    const propertiesToDelete = ['labelIds', 'payload'];
+                    // Loop through the properties to delete
+                    propertiesToDelete.forEach(property => {
+                      // Check if the property exists in the object before deleting
+                      if (transaction.hasOwnProperty(property)) {
+                        // Use the delete operator to remove the specified property
+                        delete transaction[property];
+                      }
+                    });
+                    transactionsArray.push(transaction)
 
                   }
-                  console.log(transaction)
+                  console.log(transactionsArray)
               
-                  //Crear objeto transctions extrayendo la data de cada mensaje.
-                  // todo lo anterior con el formato para enviar a firebase 
-
-                  /*
-                  transaction_id: generateUniqueId(), ///////////////////////listo
-                  uid: userInfo.uid, ///////////////////////listo
-                  uploadedAt: serverTimestamp(), ///////////////////////listo
-                  date: row.dateObject ? new Date(row.dateObject) : serverTimestamp(),
-                  transaction_location: row.lugarOperacion ? row.lugarOperacion : "TBD",
-                  seller: row.desc ? row.desc : "TBD", ///////////////////////listo
-                  amount: row.montoTotal ? row.montoTotal : 0, 
-                  num_installments: row.numCuota ? row.numCuota : "NA" ,
-                  installment_amount: row.valorCuota ? row.valorCuota : 0 ,
-                  category: row.category ? row.category : "TBD",*/
               }
 
-                const categorizedEmails = categorizerGPTEmails(userEmailDataArray)
+                const transactionsWithCategories = categorizerGPTEmails(transactionsArray)
+                
+                transactionsWithCategories.then((result) => {
+                  const jsonResult =JSON.stringify(result);
+
+                  setTransactionsWithCategories(jsonResult)
+                })
+
+
+
 
 
             })
@@ -189,6 +202,14 @@ const GmailAuthTest = () => {
           },
       
     });
+    //add the transactions to firestore
+    
+    const { jsonData } = useAddTransactions({
+      updatedCacheFlag: updatedCacheFlag,
+      setUpdatedCacheFlag: setUpdatedCacheFlag,
+      jsonInput: transactionsWithCategories
+    }); 
+
 
   return (
     <div className='google-get-data-container'>

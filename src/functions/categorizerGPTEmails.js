@@ -27,29 +27,15 @@ function addCategoriesToTransactions(transactions, categoryObject) {
 async function categorizerGPTEmails(listOfObjects) {
 
   const listOfSellers = listOfObjects
-
   // Utiliza el método map para obtener un array de todas las descripciones
-  const descriptions = listOfSellers.map(objeto => objeto.snippet);
+  const descriptions = listOfSellers.map(objeto => objeto.desc);
   
-  console.log(descriptions)
 
   // Usa el método join para unir las descripciones con comas
   const textOfSellers = descriptions.join(', ');
 
-  console.log(textOfSellers)
-
-  //nueva opcion
-  /* traer cada object.seller de los datos enteriores
-  const listOfSellers = listOfObjects
-
-  const descriptions = listOfSellers.map(objeto => objeto.desc);
-  
-  // Usa el método join para unir las descripciones con comas
-  const textOfSellers = descriptions.join(', ');*/
 
 
-
-  /*
   const completion = await openai.chat.completions.create({
     messages: [{"role": "system", "content": 'Identify a category associated with a given seller name. If the provided name appears to be a personal name, classify it as a "small business." Generate ajson ready to parse in javascript containing "seller" : "category" for every single seller'},
         {"role": "user", "content": textOfSellers}],
@@ -62,7 +48,6 @@ async function categorizerGPTEmails(listOfObjects) {
   const jsonString = gptOutput
 
   // Log the extracted JSON string for debugging
-  console.log(jsonString)
   // Parse JSON
   const jsonOutput = JSON.parse(jsonString);
 
@@ -71,8 +56,8 @@ async function categorizerGPTEmails(listOfObjects) {
 
   const transactionsWithCategories = addCategoriesToTransactions(listOfSellers, jsonOutput);
 
-*/
- return textOfSellers
+  
+  return transactionsWithCategories
 }
 
 export default categorizerGPTEmails
