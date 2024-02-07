@@ -144,8 +144,23 @@ const GmailAuthTest = () => {
                     
                     if (mayusList[0] ==="US"){
                       seller = mayusList.slice(1).join(' ');
+                      
+                      
+                      transaction.currency = "USD"
+
+                      const costUSDNumber = parseFloat(cost.replace(',', '.'));
+                      transaction.montoTotal = costUSDNumber*900
+                      transaction.amount_original = costUSDNumber
+
                     } else {
                       seller = mayusList.join(' ');
+                      
+                      
+                      transaction.currency = "CLP"
+                      
+                      const costCLPNumber = parseFloat(cost.replace('.',''));
+                      transaction.montoTotal = costCLPNumber
+                      transaction.amount_original = costCLPNumber
                     }
 
                     //date
@@ -155,7 +170,6 @@ const GmailAuthTest = () => {
 
                     transaction.dateObject = date
                     transaction.desc = seller
-                    transaction.montoTotal = cost
                     transaction.valorCuota = cost
 
                     const propertiesToDelete = ['labelIds', 'payload'];
@@ -168,6 +182,7 @@ const GmailAuthTest = () => {
                       }
                     });
                     transactionsArray.push(transaction)
+                    console.log(transaction)
 
                   }
                   console.log(transactionsArray)

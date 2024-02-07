@@ -44,6 +44,8 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         num_installments: row.numCuota ? row.numCuota : "NA" ,
                         installment_amount: row.valorCuota ? row.valorCuota : 0 ,
                         category: row.category ? row.category : "TBD",
+                        currency: row.currency ? row.currency : "TBD",
+                        amount_original: row.amount_original ? row.amount_original : 0
                     };
                 });
 
@@ -63,7 +65,9 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         num_installments: element.num_installments,
                         installment_amount: element.installment_amount,
                         category: element.category ,
-                        date: element.date
+                        date: element.date,
+                        currency: element.currency,
+                        amount_original: element.amount_original
                     }) 
                 });
 
