@@ -67,7 +67,7 @@ const ExpenseSummary = () => {
 
     userExpenses.forEach(expense => {
       const category = expense.category;
-      const amount = parseFloat(expense.installment_amount);
+      const amount = parseFloat(expense.amount);
       categorySums[category] = (categorySums[category] || 0) + amount;
 
     });

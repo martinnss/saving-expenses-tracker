@@ -55,21 +55,6 @@ const FileUpload = ({ openPopup })=> {
     const manejarClickBoton = () => {
         inputArchivoRef.current.click(); // Simula el clic en el input de archivo
       };
-    
-    function cambiarTextoInputFile() {
-        // Crear un nuevo elemento de entrada de archivo
-        var nuevoInputFile = document.createElement('input');
-        nuevoInputFile.type = 'file';
-      
-        // Reemplazar el antiguo elemento con el nuevo
-        document.getElementById('inputFile').parentNode.replaceChild(nuevoInputFile, document.getElementById('inputFile'));
-      
-        // Actualizar el id para futuras referencias
-        nuevoInputFile.id = 'inputFile';
-      
-        // Simular un clic en el nuevo elemento
-        nuevoInputFile.click();
-      }
 
     const handleChooseBank = (event) => {
         setBank(event.target.value);
@@ -78,7 +63,7 @@ const FileUpload = ({ openPopup })=> {
 
 
     
-    const { expenses, updateExpenseType } = useGetExpenses({
+    const { expenses } = useGetExpenses({
         startDateFilter: null,
         endDateFilter: null,
         dataUpToDate: updatedCacheFlag
@@ -86,6 +71,7 @@ const FileUpload = ({ openPopup })=> {
 
     const latestExpenses = expenses.slice(0, 5);
 
+    // ver popop para que funcione para la otra cosa xd
     useEffect(() => {
         if (selectedFile !== null){
             openPopup();

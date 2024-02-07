@@ -3,6 +3,8 @@ import { db } from "../config/firebase";
 import {collection, getDocs, updateDoc, where, orderBy,query, Timestamp} from "firebase/firestore"
 import { useGetUserInfo } from "./useGetUserInfo";
 import useLocalCache from '../Hooks/useLocalCache';
+import encryptData from '../functions/encryptData'
+import decryptData from '../functions/decryptData'
 
 
 const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
@@ -63,7 +65,7 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
 
     
 
-    const [myData, setMyData] = useLocalCache('miClave', {});
+    const [myData, setMyData] = useLocalCache('transactions', {});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,16 +75,19 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
                   console.log('actualizando por datos nuevos');
 
                   const newExpenses = await getExpenses();
+                  const encryptCache = encryptData(newExpenses)
 
-                  setMyData(newExpenses);
+                  setMyData(encryptCache);
                   console.log("expenses seteadas",newExpenses)
 
                 } else if (myData.length > 2) {
                   const listaFiltrada = [];
                   
+                  // decrypt
+                  const decryptedData = decryptData(myData)
 
                   // Itera la lista de objetos
-                  for (const objeto of myData) 
+                  for (const objeto of decryptedData) 
                   { 
                     
                     const fechaObjeto = new Date(objeto.date);
@@ -109,7 +114,11 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
                     // Suponiendo que getExpenses es una función asincrónica
                     const newExpenses = await getExpenses();
 
-                    setMyData(newExpenses);
+                    const encryptCache = encryptData(newExpenses)
+
+                    
+ 
+                    setMyData(encryptCache);
                 }
             }
         };
@@ -120,27 +129,10 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
 
 
 
-      const updateExpenseType = async (transactionId, newType) => {
-        try {
-          const transactionDocRef = collection(db, 'transactions', transactionId);
-    
-          await updateDoc(transactionDocRef, { type: newType });
-    
-          // Actualiza el estado con la nueva información
-          setExpenses((prevExpenses) =>
-            prevExpenses.map((expense) =>
-              expense.transaction_id === transactionId
-                ? { ...expense, type: newType }
-                : expense
-            )
-          );
-        } catch (error) {
-          console.error("Error updating expense type:", error);
-        }
-      };
+
     
 
-      return { expenses, updateExpenseType };
+      return { expenses };
 }
 
 export default useGetExpenses

@@ -32,7 +32,7 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
 
 
                 const jsonDataArray = transactionJSON.slice(1).map((row) => {
-                    console.log(row)
+                    console.log(row, userInfo.uid)
                     return {
                         transaction_id: generateUniqueId(),
                         uid: userInfo.uid,

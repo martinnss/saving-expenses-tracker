@@ -33,16 +33,13 @@ const ExpenseHistory = () => {
 
   const userInfo = useGetUserInfo()
 
-  const { expenses, updateExpenseType } = useGetExpenses({
+  const { expenses } = useGetExpenses({
     startDateFilter: startDate,
     endDateFilter: endDate,
     dataUpToDate:true,
   });      
 
-  const handleTypeChange = async (transactionId, newType) => {
-    // Llama a la función para actualizar el tipo de gasto
-    await updateExpenseType(transactionId, newType);
-  };
+
 
 
 
@@ -108,7 +105,7 @@ const ExpenseHistory = () => {
                   <tr key={expense.transaction_id} className='table-row'>
                     <td className='table-data'>{expense.date.toLocaleString()}</td>
                     <td className='table-data'>{expense.seller}</td>
-                    <td className='table-data'>{expense.installment_amount}</td>
+                    <td className='table-data'>{expense.amount}</td>
                     <td className='table-data'>{expense.category}</td>
                   </tr>
                 ))}

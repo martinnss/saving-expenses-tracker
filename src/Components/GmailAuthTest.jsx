@@ -218,6 +218,16 @@ const GmailAuthTest = () => {
       
     });
     //add the transactions to firestore
+
+
+
+    // el problema de estar subiendo las transacciones en este componente es que no se 
+    // actualiza el flag dentro de fileUpload y no se actualiza el caché
+
+
+
+
+
     
     const { jsonData } = useAddTransactions({
       updatedCacheFlag: updatedCacheFlag,
