@@ -70,8 +70,9 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
     useEffect(() => {
         const fetchData = async () => {
             if (userInfo) {
+              console.log(dataUpToDate)
 
-                if (dataUpToDate===false){
+                if (dataUpToDate===false ){
                   console.log('actualizando por datos nuevos');
 
                   const newExpenses = await getExpenses();
@@ -119,7 +120,9 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
                     
  
                     setMyData(encryptCache);
+
                 }
+
             }
         };
     

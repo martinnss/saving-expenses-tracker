@@ -3,7 +3,9 @@ import {  useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 import getAllMessages from '../functions/getMessagesFromGmail'
 import categorizerGPTEmails from '../functions/categorizerGPTEmails';
+
 import useAddTransactions from '../Hooks/useAddTransactions.jsx';
+import useGetExpenses from '../Hooks/useGetExpenses.jsx';
 
 const GmailAuthTest = () => {
   const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
@@ -233,7 +235,16 @@ const GmailAuthTest = () => {
       updatedCacheFlag: updatedCacheFlag,
       setUpdatedCacheFlag: setUpdatedCacheFlag,
       jsonInput: transactionsWithCategories
-    }); 
+    });
+
+    // json por si no encuentra data
+
+
+    const { expenses } = useGetExpenses({
+      startDateFilter: null,
+      endDateFilter: null,
+      dataUpToDate: updatedCacheFlag
+  }); 
 
 
   return (
