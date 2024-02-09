@@ -71,7 +71,7 @@ const FileUpload = ({ openPopup })=> {
 
     const latestExpenses = expenses.slice(0, 5);
 
-    // ver popop para que funcione para la otra cosa xd
+    // popup pdf
     useEffect(() => {
         if (selectedFile !== null){
             openPopup();
@@ -81,6 +81,9 @@ const FileUpload = ({ openPopup })=> {
           openPopup();
         }
       }, [transactionsWithCategories,selectedFile]);
+
+    // popup mail
+
 
     return (
         <div className="content">
@@ -124,7 +127,7 @@ const FileUpload = ({ openPopup })=> {
                             </p>
                             <div >
                                 <GoogleOAuthProvider clientId="640576926117-qrjdh5uc3j0h998cd04f1rot4k1hff97.apps.googleusercontent.com">
-                                    <GmailAuthTest />
+                                    <GmailAuthTest triggerPopup={openPopup} />
                                 </GoogleOAuthProvider>
                             </div>
                         </div>

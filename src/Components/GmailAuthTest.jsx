@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {  useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 import getAllMessages from '../functions/getMessagesFromGmail'
@@ -7,9 +7,10 @@ import categorizerGPTEmails from '../functions/categorizerGPTEmails';
 import useAddTransactions from '../Hooks/useAddTransactions.jsx';
 import useGetExpenses from '../Hooks/useGetExpenses.jsx';
 
-const GmailAuthTest = () => {
+const GmailAuthTest = (props) => {
   const [updatedCacheFlag, setUpdatedCacheFlag] = useState(true);
   const [transactionsWithCategories, setTransactionsWithCategories] = useState("");
+  const [openPopup, setOpenPopup] = useState(null);
 
     function base64UrlDecode(base64Url) {
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -20,10 +21,12 @@ const GmailAuthTest = () => {
 
 
     const login = useGoogleLogin({
+      
         scope: "https://www.googleapis.com/auth/gmail.readonly",
         onSuccess: async tokenResponse => {
 
-
+          
+          setOpenPopup(true)
             // fetching userinfo can be done on the client or the server
             const userInfo = await axios
                 .get('https://www.googleapis.com/oauth2/v3/userinfo', {
@@ -215,6 +218,7 @@ const GmailAuthTest = () => {
               headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
             })
             .then(res => res.data);
+            
 
           },
       
@@ -237,19 +241,32 @@ const GmailAuthTest = () => {
       jsonInput: transactionsWithCategories
     });
 
-    // json por si no encuentra data
+    useEffect(() => {
+      // Esta función se ejecutará cuando TuComponente se monte o haya cambios en alguna dependencia
+      if(openPopup !==null){
+        if(openPopup === true) {
+          props.triggerPopup()
+        }
+      }
+      if(jsonData !==null){
+        props.triggerPopup()
+      }
+      
+    }, [openPopup,jsonData]);
 
+    
 
     const { expenses } = useGetExpenses({
       startDateFilter: null,
       endDateFilter: null,
       dataUpToDate: updatedCacheFlag
   }); 
+  
 
-
+  
   return (
     <div className='google-get-data-container'>
-        <button className='google-get-data' onClick={() => login()}>Sign in with Google 🚀</button>
+        <button className='google-get-data' onClick={() => login()} >Sign in with Google 🚀</button>
     </div>
   )
 }
