@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import BasicDatePicker from './BasicDatePicker.jsx'
 import { useGetUserInfo } from "../Hooks/useGetUserInfo";
+import formatDate from "../functions/formatDate.js"
 
 import '../Styles/ExpenseHistory.css'
 
@@ -71,12 +72,12 @@ const ExpenseHistory = () => {
                       <path d="m9 18 6-6-6-6"></path>
                   </svg>
               </div>
-                  <span className="back-text">Expense History</span>
+                  <span className="back-text">Historial de Gastos</span>
               </span>
           </div>
       </div>
       <div className="main-content">
-      <span className='content-title'>Expense History</span>
+      <span className='content-title'>Historial de Gastos</span>
         <div className="time-picker-container">
           <div className="time-picker-component">
             <p className='subtitle'>From:</p>
@@ -94,18 +95,22 @@ const ExpenseHistory = () => {
                 </caption>
                 <thead>
                     <tr className="table-row">
-                    <th className="table-header">Date</th>
-                    <th className="table-header">Description</th>
-                    <th className="table-header">Amount</th>
-                    <th className="table-header">Category</th>
+                    <th className="table-header">Fecha</th>
+                    <th className="table-header">Descripción</th>
+                    <th className="table-header">Monto</th>
+                    <th className="table-header">Categoría</th>
                     </tr>
                 </thead>
                 <tbody>
                 {currentExpenses.map((expense) => (
                   <tr key={expense.transaction_id} className='table-row'>
-                    <td className='table-data'>{expense.date.toLocaleString()}</td>
+                    <td className='table-data'>{formatDate(expense.date.toLocaleString())}</td>
                     <td className='table-data'>{expense.seller}</td>
-                    <td className='table-data'>{expense.amount}</td>
+                    <td className='table-data'>{expense.amount.toLocaleString('es-CL', {
+                                                style: 'currency',
+                                                currency: 'CLP',
+                                              })} 
+                    </td>
                     <td className='table-data'>{expense.category}</td>
                   </tr>
                 ))}

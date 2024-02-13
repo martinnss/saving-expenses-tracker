@@ -138,10 +138,11 @@ const ExpenseSummary = () => {
                             <path d="m9 18 6-6-6-6"></path>
                         </svg>
                     </div>
-                        <span className="back-text">Resumen de mis Finanzas</span>
+                        <span className="back-text">Resumen</span>
                     </span>
                 </div>
             </div>
+            <span className='content-title'>Resumen de mis Finanzas</span>
         <div className="time-picker-container">
           <div className="time-picker-component">
             <p className='subtitle'>From:</p>

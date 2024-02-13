@@ -17,6 +17,10 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
     const userInfo = useGetUserInfo()
     let count = 0;
 
+    const capitalizeFirstLetter = (str) => {
+        return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+
     useEffect(() => {
         if (jsonInput !== ""){
 
@@ -39,11 +43,11 @@ const useAddTransactions = ({updatedCacheFlag, setUpdatedCacheFlag, hasInputData
                         uploadedAt: serverTimestamp(),
                         date: row.dateObject ? new Date(row.dateObject) : serverTimestamp(),
                         transaction_location: row.lugarOperacion ? row.lugarOperacion : "TBD",
-                        seller: row.desc ? row.desc : "TBD",
+                        seller: row.desc ? capitalizeFirstLetter(row.desc) : "TBD",
                         amount: row.montoTotal ? row.montoTotal : 0,
                         num_installments: row.numCuota ? row.numCuota : "NA" ,
                         installment_amount: row.valorCuota ? row.valorCuota : 0 ,
-                        category: row.category ? row.category : "TBD",
+                        category: row.category ? capitalizeFirstLetter(row.category) : "TBD",
                         currency: row.currency ? row.currency : "TBD",
                         amount_original: row.amount_original ? row.amount_original : 0
                     };

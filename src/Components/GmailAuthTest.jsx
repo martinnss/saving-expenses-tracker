@@ -105,11 +105,10 @@ const GmailAuthTest = (props) => {
 
                   //bci
                   if (emailFrom ==="martin.olivarest@utem.cl"){
-                    //extraer data de la tabla
-                    //traer los table rows y asignarselos
-                    //https://chat.openai.com/c/3ff2d53d-22b8-420e-9db3-64c38d2aa21b
-                    //'martin.olivarest@utem.cl'
+                  
 
+
+                    
                   }
                   // solo para Bchile
                   

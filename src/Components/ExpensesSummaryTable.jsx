@@ -25,7 +25,11 @@ const ExpensesSummaryTable = ({ data }) => {
                   ></div>
                 </td>
                 <td>{label}</td>
-                <td>{data.datasets[0].data[index]}</td>
+                <td>{data.datasets[0].data[index].toLocaleString('es-CL', {
+                                                                        style: 'currency',
+                                                                        currency: 'CLP',
+                                                                        })}
+                </td>
               </tr>
             ))}
           </tbody>

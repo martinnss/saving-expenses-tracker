@@ -4,6 +4,7 @@ import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import { useGetUserInfo } from "../Hooks/useGetUserInfo";
 import GmailAuthTest from './GmailAuthTest';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import formatDate from '../functions/formatDate.js';
 
 import useReadPdf from '../Hooks/useReadPdf.jsx'
 
@@ -106,7 +107,7 @@ const FileUpload = ({ openPopup })=> {
                             <path d="m9 18 6-6-6-6"></path>
                         </svg>
                     </div>
-                        <span className="back-text">Obtener mis Gastos</span>
+                    <span className="back-text">Obtener mis Gastos</span>
                     </span>
                 </div>
             </div>
@@ -193,10 +194,10 @@ const FileUpload = ({ openPopup })=> {
                         </caption>
                         <thead>
                             <tr className="table-row">
-                            <th className="table-header">Date</th>
-                            <th className="table-header">Description</th>
-                            <th className="table-header">Amount</th>
-                            <th className="table-header">Category</th>
+                            <th className="table-header">Fecha</th>
+                            <th className="table-header">Descripción</th>
+                            <th className="table-header">Monto</th>
+                            <th className="table-header">Categoría</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -205,9 +206,13 @@ const FileUpload = ({ openPopup })=> {
                                     if (expense.uid === userInfo.uid) {
                                       return (
                                         <tr key={expense.transaction_id} className='table-row'>
-                                          <td className='table-data'>{expense.date.toString()}</td>
+                                          <td className='table-data'>{formatDate(expense.date.toLocaleString())}</td>
                                           <td className='table-data'>{expense.seller}</td>
-                                          <td className='table-data'>{expense.amount}</td>
+                                          <td className='table-data'>{expense.amount.toLocaleString('es-CL', {
+                                                                        style: 'currency',
+                                                                        currency: 'CLP',
+                                                                        })}
+                                        </td>
                                           <td className='table-data'>{expense.category}</td>
                                         </tr>
                                       );
