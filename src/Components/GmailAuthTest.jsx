@@ -265,7 +265,7 @@ const GmailAuthTest = (props) => {
   
   return (
     <div className='google-get-data-container'>
-        <button className='google-get-data' onClick={() => login()} >Sign in with Google 🚀</button>
+        <button className='google-get-data' onClick={() => login()} >Obtener mis gastos 🚀</button>
     </div>
   )
 }

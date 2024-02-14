@@ -43,21 +43,42 @@
   justify-content: center;
   align-items: center;
 }
+.file-upload-container >div {
+  position: sticky;
+  top: 0;
+  background-color: white; /* Puedes ajustar el color de fondo según tus preferencias */
+  z-index: 1; /* Asegura que el h3 esté por encima del resto del contenido */
+}
 
 .file-upload-options {
   display: flex;
   justify-content: space-evenly;
+  height: 25rem;
+}
+.expanded {
+  height: 23rem; /* Cambia la altura automática cuando se expande */
+  overflow: visible; /* Hace visible el contenido que se desborda */
+}
+.file-upload-subtitle{
+  display: flex;
+  justify-content: space-between;
+
+}
+.icon {
+  height: 2rem;
+}
+.icon path {
+  fill: var(--blue);
 }
 
-
-
 .file-upload{
-  border: 2px dashed #ccc;
+  border: 2px dashed #007bff;
   border-radius: 8px;
   padding: 0.7rem;
   margin-top: 0.5rem;
   width: 25rem;
-  height: 22rem;
+  min-height: 0px;
+  max-height: 25rem;
   position: relative;
 }
 .file-upload >*{

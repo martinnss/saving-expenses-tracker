@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import '../Styles/TrackerSidebar.css'
+import Logout from './Logout';
 
 
 const TrackerSidebar = ({ setActiveLinkCallback }) => {
@@ -87,8 +88,10 @@ const TrackerSidebar = ({ setActiveLinkCallback }) => {
                     </p>
                     </nav>
                 </div>
+                <Logout />
                 </div>
             </div>
+            
         </div>
     )
 }

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap');
 
+:root{
+  --blue:#0473ea
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -41,7 +45,7 @@ header{
   width: 100%;
   background-color: #f1f1f1; /* Puedes personalizar el color de fondo según tus preferencias */
 }
-
+var
 .btn {
   display: inline-block;
   padding: 15px 35px;
@@ -80,7 +84,21 @@ header{
   font-size: 1rem;
   font-weight: bold;
 }
+.hide {
+  display: none;
+}
 
+#very-small-btn{
+  font-size: 0.8rem;
+  background-color: #757575;
+  padding: 3px 10px;
+  
+  width: auto;
+  height: auto;
+
+  align-self: flex-end;
+  margin-bottom: 20px;
+}
 
 .login-with-google-btn {
   transition: background-color .3s, box-shadow .3s;
