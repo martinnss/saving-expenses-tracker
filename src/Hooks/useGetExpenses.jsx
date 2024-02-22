@@ -1,10 +1,10 @@
 import React ,{useEffect, useState } from 'react'
 import { db } from "../config/firebase";
 import {collection, getDocs, updateDoc, where, orderBy,query, Timestamp} from "firebase/firestore"
-import { useGetUserInfo } from "./useGetUserInfo";
-import useLocalCache from '../Hooks/useLocalCache';
-import encryptData from '../functions/encryptData'
-import decryptData from '../functions/decryptData'
+import { useGetUserInfo } from "./useGetUserInfo.jsx";
+import useLocalCache from '../Hooks/useLocalCache.jsx';
+import encryptData from '../functions/encryptData.js'
+import decryptData from '../functions/decryptData.js'
 
 
 const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {

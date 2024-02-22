@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useGetExpenses from '../Hooks/useGetExpenses';
-import { useGetUserInfo } from '../Hooks/useGetUserInfo';
-import BasicDatePicker from './BasicDatePicker';
-import ExpensesSummaryTable from './ExpensesSummaryTable';
+import useGetExpenses from '../Hooks/useGetExpenses.jsx';
+import { useGetUserInfo } from '../Hooks/useGetUserInfo.jsx';
+import BasicDatePicker from './BasicDatePicker.jsx';
+import ExpensesSummaryTable from './ExpensesSummaryTable.jsx';
 import Chart from 'chart.js/auto';
-import generatePastelColor from '../functions/generatePastelColor'
+import generatePastelColor from '../functions/generatePastelColor.js'
 import '../Styles/ExpenseSumary.css'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 

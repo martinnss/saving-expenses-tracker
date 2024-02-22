@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Home from '../Pages/Home';
-import Signup from '../Pages/Signup';
-import Tracker from '../Pages/Tracker';
-import Login from '../Pages/Login';
+import Home from '../Pages/Home.jsx';
+import Signup from '../Pages/Signup.jsx';
+import Tracker from '../Pages/Tracker.jsx';
+import Login from '../Pages/Login.jsx';
 
 
 

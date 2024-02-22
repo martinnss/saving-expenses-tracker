@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { pdfjs } from 'react-pdf';
 
-import verifySaleOriginSantander from '../functions/verifySaleOriginSantander';
-import verifySaleOriginDeferredSantander from '../functions/verifySaleOriginDeferredSantander';
+import verifySaleOriginSantander from '../functions/verifySaleOriginSantander.js';
+import verifySaleOriginDeferredSantander from '../functions/verifySaleOriginDeferredSantander.js';
 
-import categorizerGPT from '../functions/categorizerGPT';
-import convertCurrencyStringToInt from '../functions/convertCurrencyStringToInt'
-import verifySaleOriginBancodeChile from '../functions/verifySaleOriginBancodeChile';
+import categorizerGPT from '../functions/categorizerGPT.js';
+import convertCurrencyStringToInt from '../functions/convertCurrencyStringToInt.js'
+import verifySaleOriginBancodeChile from '../functions/verifySaleOriginBancodeChile.js';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 

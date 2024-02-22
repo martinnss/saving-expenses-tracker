@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../Styles/TrackerSidebar.css'
-import Logout from './Logout';
+import Logout from './Logout.jsx';
 
 
 const TrackerSidebar = ({ setActiveLinkCallback }) => {

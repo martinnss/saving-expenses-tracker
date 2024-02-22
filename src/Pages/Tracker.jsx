@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { useGetUserInfo } from "../Hooks/useGetUserInfo";
+import { useGetUserInfo } from "../Hooks/useGetUserInfo.jsx";
 
 import '../Styles/tracker.css'
 import HambugerMenuIcon from "../Assets/icons/hamburger-menu-icon.png"
 
-import FileUpload  from '../Components/FileUpload';
-import ExpenseHistory from '../Components/ExpenseHistory'
-import ExpenseSummary from '../Components/ExpenseSummary'
-import TrackerSidebar from '../Components/TrackerSidebar';
-import Popup from '../Components/Popup'
+import FileUpload  from '../Components/FileUpload.jsx';
+import ExpenseHistory from '../Components/ExpenseHistory.jsx'
+import ExpenseSummary from '../Components/ExpenseSummary.jsx'
+import TrackerSidebar from '../Components/TrackerSidebar.jsx';
+import Popup from '../Components/Popup.jsx'
 
 const Tracker = () => {
   const [showPopup, setShowPopup] = useState(false);

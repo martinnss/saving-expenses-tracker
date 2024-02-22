@@ -4,6 +4,12 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider} from 'firebase/auth'
 import { getFirestore} from'firebase/firestore'
 
+
+/*
+get firebase-keys
+*/
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyDJ2eNBvcW2kUJ6YyOnIkkYLK_nxfHvt4M",
   authDomain: "saving-expenses-tracker.firebaseapp.com",
@@ -14,10 +20,17 @@ const firebaseConfig = {
   measurementId: "G-0SQLDDDEB7"
 };
 
+console.log(firebaseConfig)
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+console.log(app)
 
 const analytics = getAnalytics(app);
+
 export const provider = new GoogleAuthProvider()
 export const auth = getAuth(app)
+console.log(auth,"--------",typeof auth)
 export const db = getFirestore(app)
+
+console.log(db)

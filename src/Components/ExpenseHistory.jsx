@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
 import BasicDatePicker from './BasicDatePicker.jsx'
-import { useGetUserInfo } from "../Hooks/useGetUserInfo";
+import { useGetUserInfo } from "../Hooks/useGetUserInfo.jsx";
 import formatDate from "../functions/formatDate.js"
 
 import '../Styles/ExpenseHistory.css'

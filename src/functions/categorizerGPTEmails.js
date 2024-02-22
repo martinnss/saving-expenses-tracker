@@ -33,22 +33,10 @@ async function categorizerGPTEmails(listOfObjects) {
 
   console.log(textOfSellers)
 
-  /*
-  const openai = new OpenAI({
-    apiKey: process.env.REACT_APP_OPENAI_KEY,
-  });
 
-  const completion = await openai.chat.completions.create({
-    messages: [{"role": "system", "content": 'Identify a category associated with a given seller name. If the provided name appears to be a personal name, classify it as a "small business." Generate ajson ready to parse in javascript containing "seller" : "category" for every single seller'},
-        {"role": "user", "content": textOfSellers}],
-    model: "gpt-3.5-turbo-1106",
-    response_format: { type: "json_object" },
-	  temperature: 0.4
-  });
-  */
   try {
     // Realizar el llamado a la ruta de Express
-    const response = await fetch('https://saving-backend-3ngcl3pz5-martinnss.vercel.app/get-category', {
+    const response = await fetch('https://saving-backend.vercel.app/get-category', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {  useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
-import getAllMessages from '../functions/getMessagesFromGmail'
-import categorizerGPTEmails from '../functions/categorizerGPTEmails';
+import getAllMessages from '../functions/getMessagesFromGmail.jsx'
+import categorizerGPTEmails from '../functions/categorizerGPTEmails.js';
 
 import useAddTransactions from '../Hooks/useAddTransactions.jsx';
 import useGetExpenses from '../Hooks/useGetExpenses.jsx';

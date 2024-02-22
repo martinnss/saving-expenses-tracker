@@ -4,7 +4,7 @@ import '../Styles/signup.css';
 import { auth , provider} from '../config/firebase'; 
 import { createUserWithEmailAndPassword , signInWithPopup, updateProfile } from 'firebase/auth'
 
-import { useAddUser } from '../Hooks/useAddUser';
+import { useAddUser } from '../Hooks/useAddUser.jsx';
 
 
 

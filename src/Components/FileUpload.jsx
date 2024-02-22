@@ -1,8 +1,8 @@
 import React,{useState, useEffect, useRef} from 'react'
 import useAddTransactions from '../Hooks/useAddTransactions.jsx'
 import useGetExpenses from '../Hooks/useGetExpenses.jsx'
-import { useGetUserInfo } from "../Hooks/useGetUserInfo";
-import GmailAuthTest from './GmailAuthTest';
+import { useGetUserInfo } from "../Hooks/useGetUserInfo.jsx";
+import GmailAuthTest from './GmailAuthTest.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import formatDate from '../functions/formatDate.js';
 
