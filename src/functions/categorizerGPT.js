@@ -1,11 +1,4 @@
 
-import OpenAI from "openai";
-import apiKey from "./keys";
-
-
-
-let count = 0
-
 // Function to add categories to transactions
 function addCategoriesToTransactions(transactions, categoryObject) {
   return transactions.map(transaction => {

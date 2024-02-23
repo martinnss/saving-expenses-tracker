@@ -20,17 +20,15 @@ const firebaseConfig = {
   measurementId: "G-0SQLDDDEB7"
 };
 
-console.log(firebaseConfig)
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-console.log(app)
 
 const analytics = getAnalytics(app);
 
 export const provider = new GoogleAuthProvider()
 export const auth = getAuth(app)
-console.log(auth,"--------",typeof auth)
+console.log(auth)
 export const db = getFirestore(app)
 
 console.log(db)

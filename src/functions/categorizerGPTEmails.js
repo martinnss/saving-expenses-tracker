@@ -1,10 +1,3 @@
-import OpenAI from "openai";
-import apiKey from "./keys";
-
-
-
-
-
 
 // Function to add categories to transactions
 function addCategoriesToTransactions(transactions, categoryObject) {
@@ -27,11 +20,11 @@ async function categorizerGPTEmails(listOfObjects) {
   // Utiliza el método map para obtener un array de todas las descripciones
   const descriptions = listOfSellers.map(objeto => objeto.desc);
   
-  console.log(descriptions)
+
   // Usa el método join para unir las descripciones con comas
   const textOfSellers = descriptions.join('| ');
 
-  console.log(textOfSellers)
+
 
 
   try {

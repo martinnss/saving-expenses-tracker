@@ -14,7 +14,15 @@ const Login = () => {
         e.preventDefault()
 
         try{
-            await signInWithEmailAndPassword(auth, email, password)
+            //await signInWithEmailAndPassword(auth, email, password)
+
+            const loginWithEmailAndPassword = await fetch('http://localhost:8000/login-with-email-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email:email, password:password }),
+            });
 
             navigate('/Tracker');
         } catch (error) {
@@ -25,7 +33,14 @@ const Login = () => {
     
     const loginWithGoogle = async () => {
         try {
-            await signInWithPopup(auth, provider)
+            //await signInWithPopup(auth, provider)
+
+            const loginWithPopup = await fetch('http://localhost:8000/login-with-popup', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
 
             navigate("/Tracker")   
         } catch (error){
