@@ -4,11 +4,11 @@ const ExpensesSummaryTable = ({ data }) => {
     return (
         <table>
           <thead>
-            <tr>
-              <th></th> {/* Empty cell for the colored circle */}
-              <th>Categorias</th>
-              <th>Totales</th>
-            </tr>
+              <tr>
+                  <th></th>
+                  <th>Categorias</th>
+                  <th>Totales</th>
+              </tr>
           </thead>
           <tbody>
             {data.labels.map((label, index) => (

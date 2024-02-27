@@ -3,6 +3,10 @@ import {useNavigate} from "react-router-dom";
 import { auth , provider} from '../config/firebase'; 
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+
 import '../Styles/login.css'
 
 const Login = () => {
@@ -15,16 +19,18 @@ const Login = () => {
 
         try{
             //await signInWithEmailAndPassword(auth, email, password)
-
-            const loginWithEmailAndPassword = await fetch('http://localhost:8000/login-with-email-password', {
+            
+            const loginWithEmailAndPassword = await fetch('http://localhost:8000/login-with-credentials', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email:email, password:password }),
             });
-
-            navigate('/Tracker');
+            console.log(loginWithEmailAndPassword)
+            if (loginWithEmailAndPassword.status === 200) {
+                navigate('/Tracker');
+            }
         } catch (error) {
             console.log("login error:", error)
         }

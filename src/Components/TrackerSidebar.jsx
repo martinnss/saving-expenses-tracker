@@ -82,10 +82,10 @@ const TrackerSidebar = ({ setActiveLinkCallback }) => {
                         </svg>
                         Mi Historial
                     </p>
-                    <p className='menu-item'>
+                    <div className='menu-item'>
                         Spending Forecast
                         <p className='coming-soon'>Coming Soon</p>
-                    </p>
+                    </div>
                     </nav>
                 </div>
                 <Logout />

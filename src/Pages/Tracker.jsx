@@ -17,7 +17,7 @@ const Tracker = () => {
     setShowPopup(!showPopup);
   };
   
-  const userInfo = useGetUserInfo()
+  const userInfo =  useGetUserInfo()
   console.log(userInfo)
 
   const [activeLink, setActiveLink] = useState('ExpenseSummary');   // cambiar para dejar como summary por defecto

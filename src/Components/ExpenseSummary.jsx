@@ -123,7 +123,7 @@ const ExpenseSummary = () => {
                 <div className="fileupload-header-content">
                     <span className="page-title">Dashboard</span>
                     <span className="back-button">
-                    <div class="icon-container">
+                    <div className="icon-container">
                         <svg
                             width="24"
                             height="24"
