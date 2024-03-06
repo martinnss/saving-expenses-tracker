@@ -18,41 +18,27 @@ const Login = () => {
         e.preventDefault()
 
         try{
-            //await signInWithEmailAndPassword(auth, email, password)
-            
-            const loginWithEmailAndPassword = await fetch('http://localhost:8000/login-with-credentials', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email:email, password:password }),
-            });
-            console.log(loginWithEmailAndPassword)
-            if (loginWithEmailAndPassword.status === 200) {
-                navigate('/Tracker');
-            }
+            await signInWithEmailAndPassword(auth, email, password)
+
+            navigate('/Tracker');
         } catch (error) {
             console.log("login error:", error)
         }
     }
 
     
-    const loginWithGoogle = async () => {
+    const loginWithGoogle = async (e) => {
+        e.preventDefault()
+        
         try {
-            //await signInWithPopup(auth, provider)
-
-            const loginWithPopup = await fetch('http://localhost:8000/login-with-popup', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            await signInWithPopup(auth, provider)
 
             navigate("/Tracker")   
         } catch (error){
             console.log("google login error:")
         }
       }
+      
 return (
     <div className="login-container">
         <header>
