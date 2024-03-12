@@ -1,7 +1,8 @@
 import React ,{useEffect, useState } from 'react'
 import { db } from "../config/firebase";
-import {collection, getDocs, updateDoc, where, orderBy,query, Timestamp} from "firebase/firestore"
+import {collection, getDocs, updateDoc, where, orderBy,query, Timestamp, FieldPath} from "firebase/firestore"
 import { useGetUserInfo } from "./useGetUserInfo.jsx";
+import { getAuth } from "firebase/auth";
 import useLocalCache from '../Hooks/useLocalCache.jsx';
 import encryptData from '../functions/encryptData.js'
 import decryptData from '../functions/decryptData.js'
@@ -10,7 +11,11 @@ import decryptData from '../functions/decryptData.js'
 const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
   
 
+        // Handle any errors here
 
+        const auth = getAuth();
+
+        const currentUser = auth.currentUser;
 
     const userInfo = useGetUserInfo()
 
@@ -31,13 +36,14 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
 
         const q = query(
           transactionCollectionRef,
-          where('uid', '==', userInfo.uid),
+          where(FieldPath.documentId(), '==', currentUser.uid),
           where('date', '>=', Timestamp.fromDate(fechaDesdeTimestamp)),
           where('date', '<=', Timestamp.fromDate(fechaHastaTimestamp)),
           orderBy('date', 'desc')
         );
-
+        console.log(q)
         const querySnapshot = await getDocs(q);
+        console.log(querySnapshot)
         const expensesData = querySnapshot.docs.map((doc) => doc.data());
 
         
@@ -57,7 +63,17 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
         return fixedExpensesData
 
       } catch (error) {
-        // Handle any errors here
+
+        if (currentUser) {
+          // User is signed in
+          console.log("User is signed in:", currentUser.uid);
+          console.log(userInfo)
+          // You can access user information like currentUser.uid, currentUser.email, etc.
+        } else {
+          // No user is signed in
+          console.log("No user is signed in");
+        }
+
         console.error("Error fetching expenses:", error);
       }
     };
