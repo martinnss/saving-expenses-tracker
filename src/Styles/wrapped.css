@@ -1,0 +1,183 @@
+.wrapped-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  .navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .nav-button {
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .nav-button.active {
+    background: linear-gradient(135deg, #FF6B6B, #45B7D1);
+    color: white;
+  }
+  .main-cards{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .stat-title {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  .chart-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .personality-card {
+    background: linear-gradient(135deg, #FF6B6B22, #45B7D122);
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+  }
+  .personality-badge {
+    font-size: 2rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: white;
+    border-radius: 0.5rem;
+    display: inline-block;
+  }
+  .personality-description {
+    color: #666;
+    font-size: 1.1rem;
+  }
+  .insight-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .seller-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .seller-rank {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #45B7D1;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  .seller-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(to right, #FF6B6B, #45B7D1);
+    transition: width 0.3s ease;
+  }
+  .button_wrapped {
+    position: relative;
+    height: 4rem;
+    width: 19rem;
+    padding: 0.75rem;
+    background-color: rgb(0, 2, 110);
+    border-radius: 0.5rem;
+    border: 1px solid rgb(75, 75, 75);
+    overflow: hidden;
+    
+    /* Text styles */
+    text-align: left;
+    font-weight: bold;
+    font-size: 1rem;
+    color: rgb(249, 250, 251);
+
+    cursor: pointer;
+    
+    /* Transition settings */
+    transition-duration: 500ms;
+  }
+  
+  .button_wrapped::before {
+    content: '';
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    right: 0.25rem;
+    top: 0.25rem;
+    z-index: 10;
+    background-color: rgb(72, 100, 238);
+    border-radius: 9999px;
+    filter: blur(8px);
+    transition-duration: 500ms;
+  }
+  
+  .button_wrapped::after {
+    content: '';
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    right: 2rem;
+    top: 0.75rem;
+    z-index: 10;
+    background-color: rgb(170, 253, 164);
+    border-radius: 9999px;
+    filter: blur(8px);
+    transition-duration: 500ms;
+  }
+  
+  .button_wrapped:hover {
+    color: rgb(4, 27, 60);
+    background-color: rgb(227, 227, 227);
+    transition-duration: 500ms;
+    border: none;
+  }
+  
+  .button_wrapped:hover::before {
+    right: 3rem;
+    bottom: -2rem;
+    filter: blur(20px);
+    background-color: rgb(194, 219, 255);
+    box-shadow: 20px 20px 20px 30px  rgb(72, 100, 238);
+  }
+  
+  .button_wrapped:hover::after {
+    right: -2rem;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
