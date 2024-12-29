@@ -36,7 +36,6 @@ const useGetExpenses = ({startDateFilter, endDateFilter, dataUpToDate}) => {
 
         const q = query(
           transactionCollectionRef,
-          where(FieldPath.documentId(), '==', currentUser.uid),
           where('date', '>=', Timestamp.fromDate(fechaDesdeTimestamp)),
           where('date', '<=', Timestamp.fromDate(fechaHastaTimestamp)),
           orderBy('date', 'desc')
