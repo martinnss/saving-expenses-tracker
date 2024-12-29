@@ -23,8 +23,12 @@
   }
   .main-cards{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
   }
   .stat-card {
     background: white;

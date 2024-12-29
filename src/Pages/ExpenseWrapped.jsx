@@ -32,7 +32,10 @@ const ExpenseWrapped = () => {
 
   // Calculate monthly spending
   const monthlySpending = expenses.reduce((acc, curr) => {
-    const month = new Date(curr.date).getMonth();
+    const [yearAbbr, actualMonth] = curr.month.split("-").map(Number); 
+    const year = 2000 + yearAbbr;
+
+    const month = new Date(year, actualMonth - 1).getMonth();
     acc[month] = (acc[month] || 0) + curr.monto_cuota;
     return acc;
   }, {});
@@ -42,10 +45,20 @@ const ExpenseWrapped = () => {
     amount: monthlySpending[index] || 0
   }));
 
+  const formatYAxis = (tick) => {
+    if (tick >= 1000000) {
+      return `${(tick / 1000000).toFixed(1)}M`;
+    } else if  (tick >= 100000){
+      return `${(tick / 1000).toFixed(0)}K`;
+    }
+    return tick;
+  };
+  
   // Calculate spending patterns
   const avgSpending = totalSpent / expenses.length;
   const maxTransaction = Math.max(...expenses.map(d => d.monto_total));
-  const minTransaction = Math.min(...expenses.map(d => d.monto_cuota));
+
+  
   
   // Calculate seller performance
   const sellerStats = expenses.reduce((acc, curr) => {
@@ -56,6 +69,7 @@ const ExpenseWrapped = () => {
     acc[curr.seller].transactions += 1;
     return acc;
   }, {});
+  
 
   const topSellers = Object.entries(sellerStats)
     .map(([name, stats]) => ({
@@ -65,13 +79,25 @@ const ExpenseWrapped = () => {
       avgPerSale: stats.total / stats.transactions
     }))
     .sort((a, b) => b.total - a.total);
-
+  
   const cityData = Object.entries(
     expenses.reduce((acc, curr) => {
       acc[curr.city] = (acc[curr.city] || 0) + curr.monto_cuota;
       return acc;
     }, {})
   ).map(([city, total]) => ({ name: city, value: total }));
+
+
+  const categoryData = Object.entries(
+    expenses.reduce((acc, curr) => {
+      if (!acc[curr.Category]) {
+        acc[curr.Category] = { total: 0, count: 0 }; // Initialize total and count
+      }
+      acc[curr.Category].total += curr.monto_cuota;
+      acc[curr.Category].count += 1; // Increment count for each occurrence
+      return acc;
+    }, {})
+  ).map(([Category, { total, count }]) => ({ name: Category, value: total, count }));
 
   const sections = [
     {
@@ -110,9 +136,9 @@ const ExpenseWrapped = () => {
               <LineChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
-                <YAxis />
+                <YAxis tickFormatter={formatYAxis} />
                 <Tooltip />
-                <Line type="monotone" dataKey="amount" stroke="#FF6B6B" strokeWidth={2} />
+                <Line type="monotone" dataKey="amount" stroke=" rgb(0, 2, 110)" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -127,11 +153,11 @@ const ExpenseWrapped = () => {
           <div className="personality-card">
             <h3 className="text-2xl font-bold mb-4">You're a...</h3>
             <div className="personality-badge">
-              {avgInstallment > 500 ? "💎 Luxury Lover" : "🦊 Smart Saver"}
+              {avgInstallment > 500 ? "🛫 Travel Lover" : "🦊 Smart Saver"}
             </div>
             <p className="personality-description">
               {avgInstallment > 500 
-                ? "You appreciate the finer things in life and aren't afraid to invest in quality!"
+                ? "You’ve got a passport full of stamps🛂 Who needs savings when you can have memories?!"
                 : "You're savvy with your money and know how to make it work for you!"}
             </p>
           </div>
@@ -140,8 +166,8 @@ const ExpenseWrapped = () => {
             <div className="insight-card">
               <h4 className="text-lg font-bold mb-2">Shopping Habits</h4>
               <ul className="space-y-2">
-                <li>• Average spend per transaction: ${avgSpending.toFixed(0)}</li>
-                <li>• Most active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][0]]}</li>
+                <li>Most active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][1].toLocaleString()}</li>
+                <li>Most active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][1].toLocaleString()}</li>
               </ul>
             </div>
 
@@ -153,6 +179,24 @@ const ExpenseWrapped = () => {
                 <li>• Or {Math.floor(totalSpent / 50)} fancy meals 🍽️</li>
               </ul>
             </div>
+          </div>
+          <div className="seller-stats">
+            <h3>Top 5 Categories</h3>
+            {categoryData
+              .sort((a, b) => b.value - a.value)  
+              .slice(0, 5)  
+              .map((category, index) => (
+                <div key={category.name} className="seller-card">
+                  <div className="seller-rank">{index + 1}</div>
+                  <div className="seller-info">
+                    <h4 className="font-bold">{category.name}</h4>
+                    <p className="text-sm text-gray-600">
+                      ${category.value.toLocaleString()} in {category.count} sales
+                    </p>
+                    <div className="seller-progress" style={{ width: `${(category.value / categoryData[0].value) * 100}%` }} />
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       )
@@ -188,17 +232,19 @@ const ExpenseWrapped = () => {
 
             <div className="seller-stats">
               <h3 className="text-xl font-bold mb-4">Top Sellers</h3>
-              {topSellers.map((seller, index) => (
-                <div key={seller.name} className="seller-card">
-                  <div className="seller-rank">{index + 1}</div>
-                  <div className="seller-info">
-                    <h4 className="font-bold">{seller.name}</h4>
-                    <p className="text-sm text-gray-600">
-                      ${seller.total.toLocaleString()} in {seller.transactions} sales
-                    </p>
-                    <div className="seller-progress" style={{ width: `${(seller.total / topSellers[0].total) * 100}%` }} />
-                  </div>
-                </div>
+              {topSellers.sort((a, b) => b.value - a.value)  
+                          .slice(0, 5)
+                          .map((seller, index) => (
+                          <div key={seller.name} className="seller-card">
+                            <div className="seller-rank">{index + 1}</div>
+                            <div className="seller-info">
+                              <h4 className="font-bold">{seller.name}</h4>
+                              <p className="text-sm text-gray-600">
+                                ${seller.total.toLocaleString()} in {seller.transactions} sales
+                              </p>
+                              <div className="seller-progress" style={{ width: `${(seller.total / topSellers[0].total) * 100}%` }} />
+                            </div>
+                          </div>
               ))}
             </div>
           </div>
