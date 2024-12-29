@@ -6,9 +6,7 @@
 /.vscode
 .pnp.js
 
-*.jpg
-*.jpeg
-*.png
+
 ¡.gif
 
 # testing
