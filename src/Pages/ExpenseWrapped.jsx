@@ -5,7 +5,7 @@ import '../Styles/wrapped.css'
 
 import expenses from './output.json'
 
-const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD'];
+const COLORS = ['#eb83e4', '#4bd6cc', '#36b5d2', '#70d6a6', '#ccb456','#be5c49'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const ExpenseWrapped = () => {
@@ -87,6 +87,21 @@ const ExpenseWrapped = () => {
     }, {})
   ).map(([city, total]) => ({ name: city, value: total }));
 
+  const formatValue = (value) => `${(value / 1_000_000).toFixed(1)}M`;
+
+  const top5WithOthers = (data) => {
+    const sortedData = [...data].sort((a, b) => b.value - a.value);
+    const top5 = sortedData.slice(0, 5);
+    const othersValue = sortedData.slice(5).reduce((acc, item) => acc + item.value, 0);
+  
+    if (othersValue > 0) {
+      top5.push({ name: "Others", value: othersValue });
+    }
+  
+    return top5;
+  };
+  
+  const formattedCityData = top5WithOthers(cityData);
 
   const categoryData = Object.entries(
     expenses.reduce((acc, curr) => {
@@ -167,16 +182,16 @@ const ExpenseWrapped = () => {
               <h4 className="text-lg font-bold mb-2">Shopping Habits</h4>
               <ul className="space-y-2">
                 <li>Most active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][1].toLocaleString()}</li>
-                <li>Most active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][1].toLocaleString()}</li>
+                <li>Least active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => a[1] - b[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => a[1] - b[1])[0][1].toLocaleString()}</li>
               </ul>
             </div>
 
             <div className="insight-card">
               <h4 className="text-lg font-bold mb-2">Fun Facts</h4>
               <ul className="space-y-2">
-                <li>• You could buy {Math.floor(totalSpent / 1000)} concert tickets! 🎵</li>
-                <li>• That's {Math.floor(totalSpent / 5)} coffee cups ☕</li>
-                <li>• Or {Math.floor(totalSpent / 50)} fancy meals 🍽️</li>
+                <li>You could buy {((totalSpent/114000000000)*100).toFixed(3)}% of a Airbus a321🛫</li>
+                <li>That's {Math.floor(totalSpent / 10000)} pasteles de choclo🌽 </li>
+                <li>Or {Math.floor(totalSpent / 6000)} piscolas 🥂</li>
               </ul>
             </div>
           </div>
@@ -210,24 +225,26 @@ const ExpenseWrapped = () => {
             <div className="chart-container">
               <h3 className="text-xl font-bold mb-4">Spending by City</h3>
               <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={cityData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => `${name}: $${value}`}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {cityData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
+  <PieChart>
+    <Pie
+      data={formattedCityData}
+      cx="50%"
+      cy="50%"
+      label={({ name }) => `${name}`}
+      labelLine={false}
+      outerRadius={40}
+      innerRadius={30}
+      fill="#8884d8"
+      dataKey="value"
+      labelStyle={{ fontSize: '8px' }}  
+    >
+      {formattedCityData.map((entry, index) => (
+        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+      ))}
+    </Pie>
+    <Tooltip formatter={(value) => formatValue(value)} />
+  </PieChart>
+</ResponsiveContainer>
             </div>
 
             <div className="seller-stats">
@@ -257,12 +274,13 @@ const ExpenseWrapped = () => {
     <div className="wrapped-container">      
     <div className="text-center">
       <h1 className="text-4xl font-bold mb-2" style={{ 
-        background: 'linear-gradient(135deg, #000f80, #42719f)', 
+        background: 'linear-gradient(135deg, #000f80,  rgb(21, 188, 9))', 
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        fontWeight:'bolder',
+        fontWeight:'1000',
+        fontSize:'2.75rem'
       }}>
-        Your 2024 Expenses Wrapped! 
+        2024 Expenses Wrapped! 
       </h1>
       <p className="">Let's dive into your spending adventure!</p>
     </div>
@@ -287,7 +305,7 @@ const ExpenseWrapped = () => {
     </div>
 
     <div className="">
-      <p>💫 Made with love by <a href="https://www.linkedin.com/in/martin-olivares-tapia/">Martin Olivares</a> </p>
+      <p>💫 Made with 💙 by <a href="https://www.linkedin.com/in/martin-olivares-tapia/">Martin Olivares</a> </p>
     </div>
 
   </div>

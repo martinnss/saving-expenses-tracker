@@ -7,7 +7,7 @@
   .navigation {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.5rem;
     margin: 2rem 0;
   }
   .nav-button {
@@ -51,7 +51,7 @@
   }
   .chart-container {
     background: white;
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
@@ -78,6 +78,7 @@
     padding: 1.5rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem 0px;
   }
   .seller-card {
     background: white;
@@ -93,7 +94,7 @@
     right: 0.5rem;
     width: 1.5rem;
     height: 1.5rem;
-    background: #45B7D1;
+    background:  rgb(26, 53, 190);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -107,14 +108,14 @@
     bottom: 0;
     left: 0;
     height: 4px;
-    background: linear-gradient(to right, #FF6B6B, #45B7D1);
+    background: linear-gradient(to right,  rgb(26, 53, 190),  rgb(17, 180, 5));
     transition: width 0.3s ease;
   }
   .button_wrapped {
     position: relative;
     height: 4rem;
     width: 19rem;
-    padding: 0.75rem;
+    padding: 0.25rem;
     background-color: rgb(0, 2, 110);
     border-radius: 0.5rem;
     border: 1px solid rgb(75, 75, 75);
@@ -123,7 +124,7 @@
     /* Text styles */
     text-align: left;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 13px;
     color: rgb(249, 250, 251);
 
     cursor: pointer;
@@ -135,24 +136,24 @@
   .button_wrapped::before {
     content: '';
     position: absolute;
-    width: 3rem;
-    height: 3rem;
+    width: 1.5rem;
+    height: 1.5rem;
     right: 0.25rem;
-    top: 0.25rem;
+    top: 2rem;
     z-index: 10;
     background-color: rgb(72, 100, 238);
     border-radius: 9999px;
-    filter: blur(8px);
+    filter: blur(5px);
     transition-duration: 500ms;
   }
   
   .button_wrapped::after {
     content: '';
     position: absolute;
-    width: 5rem;
-    height: 5rem;
-    right: 2rem;
-    top: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    right: 0rem;
+    top: 3rem;
     z-index: 10;
     background-color: rgb(170, 253, 164);
     border-radius: 9999px;
@@ -170,7 +171,7 @@
   .button_wrapped:hover::before {
     right: 3rem;
     bottom: -2rem;
-    filter: blur(20px);
+    filter: blur(30px);
     background-color: rgb(194, 219, 255);
     box-shadow: 20px 20px 20px 30px  rgb(72, 100, 238);
   }
