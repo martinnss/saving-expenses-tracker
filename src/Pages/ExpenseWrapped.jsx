@@ -3,8 +3,17 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pi
 import { TrendingUp, MapPin, Calendar, CreditCard, Award, ShoppingBag } from 'lucide-react';
 import '../Styles/wrapped.css'
 
-import expenses from './output.json'
+import expesesPreProcess from './output.json'
+const anonymizer = Math.random() * (1.5 - 0.75) + 0.75;
 
+// Apply the anonymizer to the monto_total and monto_cuota properties
+const expenses = expesesPreProcess.map(expense => {
+  return {
+    ...expense,
+    monto_total: expense.monto_total * anonymizer,
+    monto_cuota: expense.monto_cuota * anonymizer
+  };
+});
 const COLORS = ['#eb83e4', '#4bd6cc', '#36b5d2', '#70d6a6', '#ccb456','#be5c49'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -56,7 +65,7 @@ const ExpenseWrapped = () => {
   
   // Calculate spending patterns
   const avgSpending = totalSpent / expenses.length;
-  const maxTransaction = Math.max(...expenses.map(d => d.monto_total));
+  const maxTransaction = Math.max(...expenses.map(d => d.monto_total)).toLocaleString('es-CL',{maximumFractionDigits: 0});
 
   
   
@@ -122,7 +131,7 @@ const ExpenseWrapped = () => {
         <div className="">
           <div className="text-center animate-fade-in">
             <h2 className="">
-              ${animateNumber.toLocaleString()} <p style={{fontSize: '15px'}} > This year</p>
+              ${animateNumber.toLocaleString('es-CL',{maximumFractionDigits: 0})} <p style={{fontSize: '15px'}} > This year</p>
             </h2>
             <p className="">Total Spent in 2024</p>
           </div>
