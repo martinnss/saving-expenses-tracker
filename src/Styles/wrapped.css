@@ -161,14 +161,16 @@
     transition-duration: 500ms;
   }
   
-  .button_wrapped:hover {
+  .button_wrapped:hover,
+  .button_wrapped.active {
     color: rgb(4, 27, 60);
     background-color: rgb(227, 227, 227);
     transition-duration: 500ms;
     border: none;
   }
   
-  .button_wrapped:hover::before {
+  .button_wrapped:hover::before,
+  .button_wrapped.active::before {
     right: 3rem;
     bottom: -2rem;
     filter: blur(30px);
@@ -176,7 +178,8 @@
     box-shadow: 20px 20px 20px 30px  rgb(72, 100, 238);
   }
   
-  .button_wrapped:hover::after {
+  .button_wrapped:hover::after,
+  .button_wrapped.active::after {
     right: -2rem;
   }
   @keyframes fadeIn {
