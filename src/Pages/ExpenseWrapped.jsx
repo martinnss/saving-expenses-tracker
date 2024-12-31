@@ -190,8 +190,8 @@ const ExpenseWrapped = () => {
             <div className="insight-card">
               <h4 className="text-lg font-bold mb-2">Shopping Habits</h4>
               <ul className="space-y-2">
-                <li>Most active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][1].toLocaleString()}</li>
-                <li>Least active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => a[1] - b[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => a[1] - b[1])[0][1].toLocaleString()}</li>
+                <li>Most active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => b[1] - a[1])[0][1].toLocaleString('es-CL',{maximumFractionDigits: 0})}</li>
+                <li>Least active month: {MONTHS[Object.entries(monthlySpending).sort((a, b) => a[1] - b[1])[0][0]]} - ${Object.entries(monthlySpending).sort((a, b) => a[1] - b[1])[0][1].toLocaleString('es-CL',{maximumFractionDigits: 0})}</li>
               </ul>
             </div>
 
@@ -215,7 +215,7 @@ const ExpenseWrapped = () => {
                   <div className="seller-info">
                     <h4 className="font-bold">{category.name}</h4>
                     <p className="text-sm text-gray-600">
-                      ${category.value.toLocaleString()} in {category.count} sales
+                      ${category.value.toLocaleString('es-CL',{maximumFractionDigits: 0})} in {category.count} sales
                     </p>
                     <div className="seller-progress" style={{ width: `${(category.value / categoryData[0].value) * 100}%` }} />
                   </div>
@@ -266,7 +266,7 @@ const ExpenseWrapped = () => {
                             <div className="seller-info">
                               <h4 className="font-bold">{seller.name}</h4>
                               <p className="text-sm text-gray-600">
-                                ${seller.total.toLocaleString()} in {seller.transactions} sales
+                                ${seller.total.toLocaleString('es-CL',{maximumFractionDigits: 0})} in {seller.transactions} sales
                               </p>
                               <div className="seller-progress" style={{ width: `${(seller.total / topSellers[0].total) * 100}%` }} />
                             </div>
