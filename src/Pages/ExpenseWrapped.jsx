@@ -3,9 +3,9 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pi
 import { TrendingUp, MapPin, Calendar, CreditCard, Award, ShoppingBag } from 'lucide-react';
 import '../Styles/wrapped.css'
 
-import expesesPreProcess from './output.json'
-const anonymizer = Math.random() * (1.5 - 0.75) + 0.75;
-
+import expesesPreProcess from './expenses_all_2025-01.json'
+//const anonymizer = Math.random() * (1.5 - 0.75) + 0.75;
+const anonymizer = 1
 // Apply the anonymizer to the monto_total and monto_cuota properties
 const expenses = expesesPreProcess.map(expense => {
   return {
